@@ -1,0 +1,76 @@
+import React from 'react'
+import { useDispatch } from 'react-redux'
+
+import Image from 'next/image'
+
+import { Box, Button, Typography, Select, MenuItem, SelectChangeEvent } from '@mui/material'
+
+import { changeQuantity, removeFromCart } from '@/slices/cartSlice'
+
+interface CartItemProps {
+    item: CartItem
+}
+
+const CartItem: React.FC<CartItemProps> = ({ item }) => {
+    const { pizza, quantity } = item
+
+    const dispatch = useDispatch()
+
+    const handleRemoveFromCart = () => dispatch(removeFromCart(pizza.id))
+
+    const handleQuantityChange = (event: SelectChangeEvent<number>) =>
+        dispatch(changeQuantity({ pizzaId: pizza.id, quantity: +event.target.value }))
+
+    return (
+        <Box sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            bgcolor: '#F7F0F0',
+            borderRadius: '20px',
+            height: '100px',
+            m: 3,
+            p: 2
+        }}>
+            <Image src={pizza.imageUrl} alt="Cart item" width={60} height={60} />
+
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <Typography variant="body1">
+                    {pizza.name}
+                </Typography>
+
+                <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                    <Button
+                        onClick={handleRemoveFromCart}
+                        sx={{ fontSize: '0.8rem', minWidth: '30px', height: '30px', color: 'grey' }}
+                    >
+                        X
+                    </Button>
+
+                    <Select
+                        value={quantity}
+                        onChange={handleQuantityChange}
+                        sx={{ height: '30px' }}
+                        SelectDisplayProps={{ style: { fontSize: '0.8rem' } }}
+                    >
+                        {[...Array(10).keys()].map(value =>
+                            <MenuItem
+                                key={value}
+                                value={value + 1}
+                                sx={{ fontSize: '0.8rem' }}
+                            >
+                                {value + 1}
+                            </MenuItem>
+                        )}
+                    </Select>
+                </Box>
+            </Box>
+
+            <Typography variant="body1">
+                $ {pizza.price}
+            </Typography>
+        </Box>
+    )
+}
+
+export default CartItem
