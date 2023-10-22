@@ -23,7 +23,11 @@ const PizzaSelection: FC<PizzaSelectionProps> = ({ initialPizzas }) => {
 
     return (
         <Box sx={{ m: 3 }}>
-            <Typography variant="h6" component="h1" sx={{ fontFamily: 'Open Sans', fontWeight: 500, mt: 2, mb: 2 }}>
+            <Typography variant="h6" component="h1" sx={{
+                fontFamily: 'Open Sans',
+                mt: 2,
+                mb: 2
+            }}>
                 Seleziona la pizza da ordinare
             </Typography>
 

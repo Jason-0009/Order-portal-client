@@ -24,25 +24,48 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
     return (
         <Box sx={{
             display: 'flex',
-            flexDirection: 'row',
             alignItems: 'center',
             bgcolor: '#F7F0F0',
             borderRadius: '20px',
             height: '100px',
-            m: 3,
+            mx: 3,
+            my: 1,
             p: 2
         }}>
             <Image src={pizza.imageUrl} alt="Cart item" width={60} height={60} />
 
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Typography variant="body1">
-                    {pizza.name}
-                </Typography>
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                flexGrow: 1,
+                ml: 0.5
+            }}>
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    p: 0.5
+                }}>
+                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                        {pizza.name}
+                    </Typography>
 
-                <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                    <Typography variant="body2" sx={{ fontSize: '0.8em'}}>
+                        €{pizza.price}
+                    </Typography>
+                </Box>
+
+                <Box display="flex" flexDirection="row">
                     <Button
                         onClick={handleRemoveFromCart}
-                        sx={{ fontSize: '0.8rem', minWidth: '30px', height: '30px', color: 'grey' }}
+                        sx={{
+                            fontSize: '0.8em',
+                            minWidth: '20px',
+                            height: '30px',
+                            color: 'grey',
+                            mr: 1
+                        }}
                     >
                         X
                     </Button>
@@ -51,13 +74,13 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
                         value={quantity}
                         onChange={handleQuantityChange}
                         sx={{ height: '30px' }}
-                        SelectDisplayProps={{ style: { fontSize: '0.8rem' } }}
+                        SelectDisplayProps={{ style: { fontSize: '0.8em' } }}
                     >
                         {[...Array(10).keys()].map(value =>
                             <MenuItem
                                 key={value}
                                 value={value + 1}
-                                sx={{ fontSize: '0.8rem' }}
+                                sx={{ fontSize: '0.8em' }}
                             >
                                 {value + 1}
                             </MenuItem>
@@ -65,10 +88,6 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
                     </Select>
                 </Box>
             </Box>
-
-            <Typography variant="body1">
-                $ {pizza.price}
-            </Typography>
         </Box>
     )
 }

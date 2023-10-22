@@ -5,9 +5,10 @@ import LocalPizzaIcon from '@mui/icons-material/LocalPizza'
 
 const Header: FC = () => {
     return (
-        <AppBar position="static" color="primary">
+        <AppBar position="relative" color="primary">
             <Toolbar>
                 <LocalPizzaIcon />
+                
                 <Typography variant="h6" sx={{ fontFamily: 'Train One', textTransform: 'uppercase' }}>
                     Awesome Pizza
                 </Typography>
