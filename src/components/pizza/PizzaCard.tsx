@@ -31,7 +31,7 @@ const PizzaCard: FC<PizzaCardProps> = ({ pizza }) => {
                     image={pizza.imageUrl}
                     component="img"
                     alt={`Pizza ${pizza.name.toLowerCase()}`}
-                    sx={{ height: '120px', width: '120px' }}
+                    sx={{ height: '150px', width: '150px' }}
                 />
 
                 <Typography variant="h6" component="div" sx={{
