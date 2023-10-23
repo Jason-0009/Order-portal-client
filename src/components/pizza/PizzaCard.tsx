@@ -45,7 +45,7 @@ const PizzaCard: FC<PizzaCardProps> = ({ pizza }) => {
                 <Divider sx={{ width: '50%', mb: 1 }} />
 
                 <Typography variant="body2" color="text.secondary" sx={{
-                    fontSize: '0.7em',
+                    fontSize: '0.8em',
                     textAlign: 'center',
                     minHeight: '3em',
                     mb: 1

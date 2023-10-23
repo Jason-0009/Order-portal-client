@@ -3,8 +3,9 @@ import { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import {
-    Button, Dialog, DialogActions,
-    DialogContent, DialogContentText, DialogTitle
+    Dialog, DialogTitle,
+    DialogContent, DialogContentText,
+    Typography, Button, DialogActions
 } from '@mui/material'
 
 import { RootState } from '@/store'
@@ -22,14 +23,24 @@ const ConfirmOrderModal: FC = () => {
     const handleClose = () => dispatch(closeConfirmOrderModal())
 
     return (
-        <Dialog open={isOpen} onClose={handleClose}>
+        <Dialog open={isOpen} onClose={handleClose} PaperProps={{
+            sx: {
+                pt: 1,
+                pb: 3,
+                pl: 2,
+                pr: 3,
+                borderRadius: '15px'
+            }
+        }}>
             <DialogTitle sx={{ fontWeight: 600 }}>
                 Vuoi confermare il tuo ordine?
             </DialogTitle>
 
             <DialogContent>
                 <DialogContentText sx={{ fontSize: '0.9em' }}>
-                    L'ordine andrà ad ammontare a €{totalPrice}.
+                    L'ordine andrà ad ammontare a <Typography component="span" sx={{ fontSize: '0.9em', fontWeight: 'bold' }}>
+                        €{totalPrice}
+                    </Typography>.
                 </DialogContentText>
             </DialogContent>
 
