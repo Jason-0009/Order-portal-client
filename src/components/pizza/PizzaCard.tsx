@@ -47,10 +47,9 @@ const PizzaCard: FC<PizzaCardProps> = ({ pizza }) => {
                 <Typography variant="body2" color="text.secondary" sx={{
                     fontSize: '0.8em',
                     textAlign: 'center',
-                    minHeight: '3em',
-                    mb: 1
+                    minHeight: '5em'
                 }}>
-                    {ingredients.join(', ')}
+                    {ingredients.join(', ') + '.'}
                 </Typography>
 
                 <Box display="flex" alignItems="center">

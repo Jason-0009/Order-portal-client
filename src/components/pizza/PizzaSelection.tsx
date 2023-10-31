@@ -1,6 +1,9 @@
-import { FC, useState, useEffect, ChangeEvent } from 'react'
+import { FC, useState, useEffect } from 'react'
+
 import { Box, Typography, Divider, Grid, Pagination } from '@mui/material'
+
 import fetchPizzas from '@/api/fetchPizzas'
+
 import PizzaCard from '@/components/pizza/PizzaCard'
 
 type PizzaSelectionProps = {
@@ -13,9 +16,9 @@ const PizzaSelection: FC<PizzaSelectionProps> = ({ initialPizzas }) => {
 
     useEffect(() => {
         const fetchAndSetPizzas = async () => {
-            const pizzas = await fetchPizzas(currentPage - 1)
+            const { content } = await fetchPizzas(currentPage - 1)
 
-            setCurrentPizzas(pizzas.content)
+            setCurrentPizzas(content)
         }
 
         fetchAndSetPizzas()

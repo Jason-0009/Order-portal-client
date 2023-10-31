@@ -32,7 +32,7 @@ const Index: FC<IndexProps> = ({ initialPizzas }) => {
   )
 }
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const initialPizzas = await fetchPizzas(0)
 
   return { props: { initialPizzas } }

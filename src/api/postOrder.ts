@@ -1,6 +1,6 @@
-import axios, { AxiosRequestConfig } from 'axios'
+import axios, { AxiosResponse, AxiosRequestConfig } from 'axios'
 
-const postOrder = async (order: CartItem): Promise<void> => {
+const postOrder = async (order: Order): Promise<AxiosResponse<any, any>> => {
     const config: AxiosRequestConfig = {
         method: 'post',
         url: `${process.env.API_URL}/orders`,
@@ -8,7 +8,9 @@ const postOrder = async (order: CartItem): Promise<void> => {
     }
 
     try {
-        await axios(config)
+        const response = await axios(config)
+
+        return response
     } catch (error) {
         throw error
     }

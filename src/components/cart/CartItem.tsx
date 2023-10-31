@@ -1,4 +1,4 @@
-import React from 'react'
+import { FC } from 'react'
 import { useDispatch } from 'react-redux'
 
 import Image from 'next/image'
@@ -7,11 +7,11 @@ import { Box, Button, Typography, Select, MenuItem, SelectChangeEvent } from '@m
 
 import { changeQuantity, removeFromCart } from '@/slices/cartSlice'
 
-interface CartItemProps {
+type CartItemProps = {
     item: CartItem
 }
 
-const CartItem: React.FC<CartItemProps> = ({ item }) => {
+const CartItem: FC<CartItemProps> = ({ item }) => {
     const { pizza, quantity } = item
 
     const dispatch = useDispatch()
@@ -63,7 +63,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
                             fontSize: '0.8em',
                             minWidth: '20px',
                             height: '30px',
-                            color: 'grey',
+                            color: 'grey.500',
                             mr: 1
                         }}
                     >
