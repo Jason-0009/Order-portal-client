@@ -18,6 +18,9 @@ import { clearCart } from '@/slices/cartSlice'
 import postOrder from '@/api/postOrder'
 
 import OrderState from '@/types/order/OrderState.enum'
+import Order from '@/types/order/Order.type'
+
+import getCustomerId from '@/utils/getCustomerId'
 
 const createOrder = (cart: CartItem[], totalPrice: number): Order => ({
     date: new Date(),
@@ -26,7 +29,9 @@ const createOrder = (cart: CartItem[], totalPrice: number): Order => ({
     items: cart.map(item => ({
         pizzaId: item.pizza.id,
         quantity: item.quantity
-    }))
+    })),
+    // TODO: send the hashed customer Id
+    customerId: getCustomerId()
 })
 
 const ConfirmOrderModal: FC = () => {

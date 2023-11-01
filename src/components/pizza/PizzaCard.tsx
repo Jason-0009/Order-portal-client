@@ -14,9 +14,8 @@ type PizzaCardProps = {
 const PizzaCard: FC<PizzaCardProps> = ({ pizza }) => {
     const dispatch = useDispatch()
 
-    const ingredients = pizza.ingredients.map((ingredient, index) =>
-        index === 0 ? ingredient : ingredient.toLowerCase()
-    )
+    const ingredients = pizza.ingredients.map((ingredient, index) => index === 0 ?
+        ingredient : ingredient.toLowerCase())
 
     const handleAddToCart = () => dispatch(addToCart({ pizza, quantity: 1 }))
 
@@ -49,7 +48,7 @@ const PizzaCard: FC<PizzaCardProps> = ({ pizza }) => {
                     textAlign: 'center',
                     minHeight: '5em'
                 }}>
-                    {ingredients.join(', ') + '.'}
+                    {ingredients.join(', ')}.
                 </Typography>
 
                 <Box display="flex" alignItems="center">

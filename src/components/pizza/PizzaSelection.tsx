@@ -25,18 +25,14 @@ const PizzaSelection: FC<PizzaSelectionProps> = ({ initialPizzas }) => {
     }, [currentPage])
 
     return (
-        <Box sx={{ m: 3 }}>
-            <Typography variant="h6" component="h1" sx={{
-                fontFamily: 'Open Sans',
-                mt: 2,
-                mb: 2
-            }}>
+        <Box sx={{ m: 3, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <Typography variant="h6" component="h1" sx={{ fontFamily: 'Open Sans' }} gutterBottom>
                 Seleziona la pizza da ordinare
             </Typography>
 
             <Divider sx={{ mb: 3 }} />
 
-            <Grid container spacing={2}>
+            <Grid container spacing={2} marginTop={1}>
                 {currentPizzas.map(pizza => (
                     <Grid item xs={12} sm={6} md={4} key={pizza.id}>
                         <PizzaCard pizza={pizza} />
