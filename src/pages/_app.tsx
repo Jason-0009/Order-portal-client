@@ -1,6 +1,8 @@
 import { AppProps } from 'next/app'
 
-import { Provider } from 'react-redux'
+import { Provider as ReduxProvider } from 'react-redux'
+
+import { SessionProvider } from 'next-auth/react'
 
 import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -15,13 +17,15 @@ const App = (props: AppProps) => {
   const { Component, pageProps } = props
 
   return (
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Header />
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </Provider>
+    <SessionProvider session={pageProps.session}>
+      <ReduxProvider store={store}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Header />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </ReduxProvider>
+    </SessionProvider>
   )
 }
 

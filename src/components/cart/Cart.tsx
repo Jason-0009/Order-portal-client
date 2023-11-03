@@ -27,7 +27,7 @@ const Cart: FC = () => {
             flexDirection: 'column',
             justifyContent: 'center',
             bgcolor: '#F7F7F7',
-            height: '100vh',
+            height: '100%',
             py: 5
         }}>
             <Typography variant="h6" component="div" sx={{

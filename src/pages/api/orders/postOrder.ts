@@ -4,18 +4,12 @@ import Order from '@/types/order/Order.type'
 
 const postOrder = async (order: Order): Promise<AxiosResponse<any, any>> => {
     const config: AxiosRequestConfig = {
-        method: 'post',
+        method: 'POST',
         url: `${process.env.API_URL}/orders`,
         data: order,
     }
 
-    try {
-        const response = await axios(config)
-
-        return response
-    } catch (error) {
-        throw error
-    }
+    return await axios(config)
 }
 
 export default postOrder

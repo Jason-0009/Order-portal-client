@@ -2,21 +2,15 @@ import axios, { AxiosRequestConfig } from 'axios'
 
 const fetchPizzas = async (page: number): Promise<PagedResponse<Pizza>> => {
     const config: AxiosRequestConfig = {
-        method: 'get',
+        method: 'GET',
         url: `${process.env.API_URL}/pizzas`,
         params: {
             page,
-            size: 3,
-        },
+            size: 3
+        }
     }
 
-    try {
-        const { data } = await axios(config)
-
-        return data
-    } catch (error) {
-        throw error
-    }
+    return (await axios(config)).data
 }
 
 export default fetchPizzas
