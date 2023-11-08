@@ -3,14 +3,17 @@ import axios, { AxiosRequestConfig } from 'axios'
 const fetchPizzas = async (page: number): Promise<PagedResponse<Pizza>> => {
     const config: AxiosRequestConfig = {
         method: 'GET',
-        url: `${process.env.API_URL}/pizzas`,
+        url: `${process.env.NEXT_PUBLIC_API_URL}/pizzas`,
         params: {
             page,
             size: 3
-        }
+        },
+        withCredentials: true
     }
 
-    return (await axios(config)).data
+    const { data } = await axios(config)
+
+    return data
 }
 
 export default fetchPizzas

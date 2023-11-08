@@ -6,19 +6,15 @@ import fetchPizzas from '@/api/fetchPizzas'
 
 import PizzaCard from '@/components/pizza/PizzaCard'
 
-type PizzaSelectionProps = {
-    initialPizzas: PagedResponse<Pizza>
-}
-
-const PizzaSelection: FC<PizzaSelectionProps> = ({ initialPizzas }) => {
+const PizzaSelection: FC = () => {
     const [currentPage, setCurrentPage] = useState(1)
-    const [currentPizzas, setCurrentPizzas] = useState(initialPizzas.content)
+    const [currentPizzas, setCurrentPizzas] = useState<PagedResponse<Pizza> | undefined>()
 
     useEffect(() => {
         const fetchAndSetPizzas = async () => {
-            const { content } = await fetchPizzas(currentPage - 1)
+            const pizzas = await fetchPizzas(currentPage - 1)
 
-            setCurrentPizzas(content)
+            setCurrentPizzas(pizzas)
         }
 
         fetchAndSetPizzas()
@@ -33,7 +29,7 @@ const PizzaSelection: FC<PizzaSelectionProps> = ({ initialPizzas }) => {
             <Divider sx={{ mb: 3 }} />
 
             <Grid container spacing={2} marginTop={1}>
-                {currentPizzas.map(pizza => (
+                {currentPizzas && currentPizzas.content.map(pizza => (
                     <Grid item xs={12} sm={6} md={4} key={pizza.id}>
                         <PizzaCard pizza={pizza} />
                     </Grid>
@@ -41,7 +37,7 @@ const PizzaSelection: FC<PizzaSelectionProps> = ({ initialPizzas }) => {
             </Grid>
 
             <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-                <Pagination color="primary" count={initialPizzas.totalPages} page={currentPage}
+                <Pagination color="primary" count={currentPizzas?.totalPages} page={currentPage}
                     onChange={(_, value: number) => setCurrentPage(value)} />
             </Box>
         </Box>

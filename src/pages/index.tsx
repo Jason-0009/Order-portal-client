@@ -1,64 +1,76 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-
-import { GetServerSidePropsContext } from 'next'
-import { Session } from 'next-auth'
-import { signIn, signOut } from 'next-auth/react'
 
 import { Box, Button } from '@mui/material'
 
 import { RootState } from '@/store'
 
-// import fetchPizzas from '@/api/fetchPizzas'
+import checkAuthentication from '@/api/checkAuthentication'
 
-// import PizzaSelection from '@/components/pizza/PizzaSelection'
-// import Cart from '@/components/cart/Cart'
+import GoogleIcon from '@mui/icons-material/Google'
 
-import { useSession } from 'next-auth/react'
+import PizzaSelection from '@/components/pizza/PizzaSelection'
+import Cart from '@/components/cart/Cart'
 
-type IndexProps = {
-  initialPizzas: PagedResponse<Pizza>
-  session: Session | null
+const Index: FC = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  const cart = useSelector((state: RootState) => state.cart)
+
+  useEffect(() => {
+    const verifyUserAuthentication = async () => {
+      const isAuthenticated = await checkAuthentication()
+
+      setIsAuthenticated(isAuthenticated)
+    }
+
+    verifyUserAuthentication()
+  })
+
+  const handleAuthentication = () => window.location.href =
+    `${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization/google`
+
+  if (!isAuthenticated) return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh' // Adjust as needed
+      }}
+    >
+      <Button
+        onClick={handleAuthentication}
+        sx={{
+          backgroundColor: 'red',
+          color: 'white',
+          fontSize: '20px',
+          padding: '10px 24px',
+          '&:hover': {
+            backgroundColor: '#357ae8',
+          },
+        }}
+      >
+        <GoogleIcon />
+        Effettua il login con Google
+      </Button>
+    </Box>
+  )
+
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+      <Box sx={{ flex: '70%', marginRight: '2%' }}>
+        <PizzaSelection />
+      </Box>
+
+      {cart.length > 0 && (
+        <Box sx={{ flex: '30%' }}>
+          <Cart />
+        </Box>
+      )}
+    </Box>
+  )
 }
-
-const Index: FC/* <IndexProps> */ = (/* { initialPizzas, session } */) => {
-  const { data: session, status } = useSession()
-
-  return <></>
-  // const cart = useSelector((state: RootState) => state.cart)
-
-  // if (!session) return (
-  //   <Box>
-  //     Not signed in <br />
-  //     <Button onClick={() => signIn('google')}>Sign in with Google</Button>
-  //   </Box>
-  // )
-
-  // return (
-  //   <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-  //     <Box sx={{ flex: '70%', marginRight: '2%' }}>
-  //       <PizzaSelection initialPizzas={initialPizzas} />
-  //     </Box>
-
-  //     {cart.length > 0 && (
-  //       <Box sx={{ flex: '30%' }}>
-  //         <Cart />
-  //       </Box>
-  //     )}
-  //   </Box>
-  // )
-}
-
-/* export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-  // const session = await getSession(context)
-  // console.log({ session })
-  // let initialPizzas = null
-
-  // if (session) {
-  //   initialPizzas = await fetchPizzas(0)
-  // }
-
-  // return { props: { initialPizzas, session } }
-} */
 
 export default Index

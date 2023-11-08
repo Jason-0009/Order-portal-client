@@ -7,7 +7,7 @@ export const store = configureStore({
     reducer: {
         cart: cartReducer,
         orderModal: orderModalReducer
-    },
+    }
 })
 
 export type RootState = ReturnType<typeof store.getState>

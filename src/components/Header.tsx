@@ -1,32 +1,29 @@
 import { FC, useState, MouseEvent } from 'react'
 
 import { useRouter } from 'next/router'
-import { signIn, signOut, useSession } from 'next-auth/react'
+
 import NextLink from 'next/link'
 
 import {
     Link, AppBar, Toolbar, Typography,
-    IconButton, Avatar, Button, Menu, MenuItem
+    IconButton, Avatar, Button, Popover, Divider, Box
 } from '@mui/material'
 
 import LocalPizzaIcon from '@mui/icons-material/LocalPizza'
-import GoogleIcon from '@mui/icons-material/Google'
 import ShoppingCartCheckout from '@mui/icons-material/ShoppingCartCheckout'
 
 const Header: FC = () => {
     const router = useRouter()
     const isIndexPage = router.pathname === '/'
 
-    const { data: session } = useSession()
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+    const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null)
 
-    const handleMenuOpen = (event: MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget as HTMLElement)
-    }
+    const handleMenuOpen = (event: MouseEvent<HTMLElement>) =>
+        setAnchorElement(event.currentTarget as HTMLElement)
 
-    const handleMenuClose = () => {
-        setAnchorEl(null)
-    }
+    const handleMenuClose = () => setAnchorElement(null)
+
+    const handleLogout = async () => window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/logout`
 
     return (
         <AppBar position="relative" color="primary">
@@ -41,42 +38,53 @@ const Header: FC = () => {
                     </IconButton>
                 </Link>
 
-                {session ? (
-                    <>
-                        <IconButton color="inherit" onClick={handleMenuOpen}>
-                            <Avatar src={session.user?.image || ''} />
-                        </IconButton>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    {isIndexPage && (
+                        <Link component={NextLink} href="/orders" underline="none" color="inherit" justifyContent={'center'}>
+                            <IconButton color="inherit" disableRipple>
+                                <ShoppingCartCheckout sx={{ mr: 0.5, fontSize: '0.8em' }} />
 
-                        <Menu
-                            anchorEl={anchorEl}
-                            open={Boolean(anchorEl)}
-                            onClose={handleMenuClose}
-                        >
-                            <MenuItem onClick={() => { handleMenuClose(); signOut() }}>Logout</MenuItem>
-                        </Menu>
-                    </>
-                ) : (
-                    <Button
-                        startIcon={<GoogleIcon />}
-                        onClick={() => signIn('google')}
-                        variant="contained"
-                        color="secondary"
-                    >
-                        Effettua il login
-                    </Button>
-                )}
+                                <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                                    I miei ordini
+                                </Typography>
+                            </IconButton>
+                        </Link>
+                    )}
 
-                {isIndexPage && session && (
-                    <Link component={NextLink} href="/orders" underline="none" color="inherit">
-                        <IconButton color="inherit" disableRipple>
-                            <ShoppingCartCheckout sx={{ mr: 0.5, fontSize: '0.8em' }} />
+                    {(
+                        <>
+                            <IconButton color="inherit" onClick={handleMenuOpen}>
+                                <Avatar src={''} />
+                            </IconButton>
 
-                            <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                                I miei ordini
-                            </Typography>
-                        </IconButton>
-                    </Link>
-                )}
+                            <Popover
+                                open={Boolean(anchorElement)}
+                                anchorEl={anchorElement}
+                                onClose={handleMenuClose}
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'center',
+                                }}
+                            >
+                                <Box sx={{ padding: 2, width: 200 }}>
+                                    <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                                        jason
+                                    </Typography>
+
+                                    <Typography variant="body2" color="text.secondary">
+                                        nnjnjjn
+                                    </Typography>
+
+                                    <Divider sx={{ my: 1 }} />
+
+                                    <Button onClick={handleLogout} variant="contained" color="primary" fullWidth>
+                                        Esci
+                                    </Button>
+                                </Box>
+                            </Popover>
+                        </>
+                    )}
+                </Box>
             </Toolbar>
         </AppBar >
     )
