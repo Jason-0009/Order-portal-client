@@ -1,34 +1,33 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import { Box, Button } from '@mui/material'
-
-import { RootState } from '@/store'
 
 import checkAuthentication from '@/api/checkAuthentication'
 
 import GoogleIcon from '@mui/icons-material/Google'
 
-import PizzaSelection from '@/components/pizza/PizzaSelection'
+import { RootState } from '@/store'
+
 import Cart from '@/components/cart/Cart'
+import PizzaSelection from '@/components/pizza/PizzaSelection'
 
 const Index: FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-
   const cart = useSelector((state: RootState) => state.cart)
 
   useEffect(() => {
-    const verifyUserAuthentication = async () => {
+    const validateAuthentication = async () => {
       const isAuthenticated = await checkAuthentication()
 
       setIsAuthenticated(isAuthenticated)
     }
 
-    verifyUserAuthentication()
-  })
+    validateAuthentication()
+  }, [])
 
-  const handleAuthentication = () => window.location.href =
-    `${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization/google`
+  const handleAuthentication = useCallback(() =>
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization/google`, [])
 
   if (!isAuthenticated) return (
     <Box
@@ -37,7 +36,7 @@ const Index: FC = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        height: '100vh' // Adjust as needed
+        height: '100vh'
       }}
     >
       <Button

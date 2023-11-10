@@ -1,4 +1,4 @@
-import { FC, useState, MouseEvent } from 'react'
+import { FC, useState, MouseEvent, useCallback } from 'react'
 
 import { useRouter } from 'next/router'
 
@@ -11,6 +11,7 @@ import {
 
 import LocalPizzaIcon from '@mui/icons-material/LocalPizza'
 import ShoppingCartCheckout from '@mui/icons-material/ShoppingCartCheckout'
+import axios, { AxiosRequestConfig } from 'axios'
 
 const Header: FC = () => {
     const router = useRouter()
@@ -23,7 +24,8 @@ const Header: FC = () => {
 
     const handleMenuClose = () => setAnchorElement(null)
 
-    const handleLogout = async () => window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/logout`
+    const handleLogout = useCallback(() => 
+        window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/logout`, [])
 
     return (
         <AppBar position="relative" color="primary">
@@ -68,11 +70,11 @@ const Header: FC = () => {
                             >
                                 <Box sx={{ padding: 2, width: 200 }}>
                                     <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                                        jason
+                                       Jason
                                     </Typography>
 
                                     <Typography variant="body2" color="text.secondary">
-                                        nnjnjjn
+                                        jasonolimpio@gmail.com
                                     </Typography>
 
                                     <Divider sx={{ my: 1 }} />
