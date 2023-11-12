@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, Key, useState } from 'react'
 
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -38,7 +38,7 @@ const Cart: FC = () => {
                 Il mio ordine
             </Typography>
 
-            {currentPageItems.map((item, index) =>
+            {currentPageItems.map((item: CartItem, index: Key | null | undefined) =>
                 <CartItem key={index} item={item} />
             )}
 

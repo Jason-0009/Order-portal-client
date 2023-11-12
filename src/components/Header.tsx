@@ -1,6 +1,8 @@
-import { FC, useState, MouseEvent, useCallback } from 'react'
+import { FC, useState, MouseEvent, useCallback, useEffect } from 'react'
 
 import { useRouter } from 'next/router'
+
+import { useSelector } from 'react-redux'
 
 import NextLink from 'next/link'
 
@@ -11,21 +13,38 @@ import {
 
 import LocalPizzaIcon from '@mui/icons-material/LocalPizza'
 import ShoppingCartCheckout from '@mui/icons-material/ShoppingCartCheckout'
-import axios, { AxiosRequestConfig } from 'axios'
+
+import { RootState } from '@/store'
+
+import fetchUserProfile from '@/api/fetchUserProfile'
 
 const Header: FC = () => {
     const router = useRouter()
     const isIndexPage = router.pathname === '/'
 
-    const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null)
+    const [userProfile, setUserProfile] = useState<User>()
+    const [anchorElement, setAnchorElement] = useState<HTMLElement>()
+
+    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
+
+    const fetchAndSetUserProfile = useCallback(async () => {
+        if (!isAuthenticated) return
+
+        const userProfile = await fetchUserProfile()
+
+        setUserProfile(userProfile)
+    }, [isAuthenticated])
+
+    useEffect(() => {
+        fetchAndSetUserProfile()
+    }, [fetchAndSetUserProfile])
 
     const handleMenuOpen = (event: MouseEvent<HTMLElement>) =>
         setAnchorElement(event.currentTarget as HTMLElement)
 
-    const handleMenuClose = () => setAnchorElement(null)
+    const handleMenuClose = () => setAnchorElement(undefined)
 
-    const handleLogout = useCallback(() => 
-        window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/logout`, [])
+    const handleLogout = useCallback(() => window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/logout`, [])
 
     return (
         <AppBar position="relative" color="primary">
@@ -41,7 +60,7 @@ const Header: FC = () => {
                 </Link>
 
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    {isIndexPage && (
+                    {isIndexPage && isAuthenticated && (
                         <Link component={NextLink} href="/orders" underline="none" color="inherit" justifyContent={'center'}>
                             <IconButton color="inherit" disableRipple>
                                 <ShoppingCartCheckout sx={{ mr: 0.5, fontSize: '0.8em' }} />
@@ -53,10 +72,10 @@ const Header: FC = () => {
                         </Link>
                     )}
 
-                    {(
+                    {isAuthenticated && (
                         <>
                             <IconButton color="inherit" onClick={handleMenuOpen}>
-                                <Avatar src={''} />
+                                <Avatar src={userProfile?.imageUrl} />
                             </IconButton>
 
                             <Popover
@@ -70,11 +89,11 @@ const Header: FC = () => {
                             >
                                 <Box sx={{ padding: 2, width: 200 }}>
                                     <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                                       Jason
+                                        {userProfile?.name}
                                     </Typography>
 
                                     <Typography variant="body2" color="text.secondary">
-                                        jasonolimpio@gmail.com
+                                        {userProfile?.email}
                                     </Typography>
 
                                     <Divider sx={{ my: 1 }} />

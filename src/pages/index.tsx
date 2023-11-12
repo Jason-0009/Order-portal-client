@@ -1,33 +1,37 @@
 import { FC, useCallback, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { Box, Button } from '@mui/material'
 
-import checkAuthentication from '@/api/checkAuthentication'
-
 import GoogleIcon from '@mui/icons-material/Google'
 
+import checkAuth from '@/api/checkAuth'
+
 import { RootState } from '@/store'
+
+import { setAuth } from '@/slices/authSlice'
 
 import Cart from '@/components/cart/Cart'
 import PizzaSelection from '@/components/pizza/PizzaSelection'
 
 const Index: FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const dispatch = useDispatch()
+
   const cart = useSelector((state: RootState) => state.cart)
+  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
+
+  const checkAndSetAuth = useCallback(async () => {
+    const isAuthenticated = await checkAuth()
+
+    dispatch(setAuth(isAuthenticated))
+  }, [dispatch])
 
   useEffect(() => {
-    const validateAuthentication = async () => {
-      const isAuthenticated = await checkAuthentication()
+    checkAndSetAuth()
+  }, [checkAndSetAuth])
 
-      setIsAuthenticated(isAuthenticated)
-    }
-
-    validateAuthentication()
-  }, [])
-
-  const handleAuthentication = useCallback(() =>
-    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization/google`, [])
+  const handleAuth = useCallback(() => window.location.href =
+    `${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization/google`, [])
 
   if (!isAuthenticated) return (
     <Box
@@ -40,18 +44,18 @@ const Index: FC = () => {
       }}
     >
       <Button
-        onClick={handleAuthentication}
+        onClick={handleAuth}
         sx={{
-          backgroundColor: 'red',
+          backgroundColor: 'primary.main',
           color: 'white',
           fontSize: '20px',
           padding: '10px 24px',
           '&:hover': {
-            backgroundColor: '#357ae8',
-          },
+            backgroundColor: 'primary.dark'
+          }
         }}
+        startIcon={<GoogleIcon />}
       >
-        <GoogleIcon />
         Effettua il login con Google
       </Button>
     </Box>
