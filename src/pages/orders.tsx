@@ -10,6 +10,8 @@ import {
 
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 
+import withAuth from '@/hoc/withAuth'
+
 import Order from '@/types/order/Order.type'
 
 type OrdersProps = {
@@ -54,4 +56,4 @@ const Orders: FC<OrdersProps> = () => {
     )
 }
 
-export default Orders
+export default withAuth(Orders)

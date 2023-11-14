@@ -18,6 +18,8 @@ import { RootState } from '@/store'
 
 import fetchUserProfile from '@/api/fetchUserProfile'
 
+import UserProfilePopover from '@/components/UserProfilePopover'
+
 const Header: FC = () => {
     const router = useRouter()
     const isIndexPage = router.pathname === '/'
@@ -87,21 +89,7 @@ const Header: FC = () => {
                                     horizontal: 'center',
                                 }}
                             >
-                                <Box sx={{ padding: 2, width: 200 }}>
-                                    <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                                        {userProfile?.name}
-                                    </Typography>
-
-                                    <Typography variant="body2" color="text.secondary">
-                                        {userProfile?.email}
-                                    </Typography>
-
-                                    <Divider sx={{ my: 1 }} />
-
-                                    <Button onClick={handleLogout} variant="contained" color="primary" fullWidth>
-                                        Esci
-                                    </Button>
-                                </Box>
+                                <UserProfilePopover userProfile={userProfile} handleLogout={handleLogout} />
                             </Popover>
                         </>
                     )}

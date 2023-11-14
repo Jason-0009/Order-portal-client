@@ -3,8 +3,7 @@ import axios, { AxiosRequestConfig } from 'axios'
 const fetchUser = async (): Promise<User> => {
     const config: AxiosRequestConfig = {
         method: 'GET',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/users/profile`,
-        withCredentials: true
+        url: '/users/profile',
     }
 
     const { data } = await axios<User>(config)

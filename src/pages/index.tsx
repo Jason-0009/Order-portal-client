@@ -13,6 +13,7 @@ import { setAuth } from '@/slices/authSlice'
 
 import Cart from '@/components/cart/Cart'
 import PizzaSelection from '@/components/pizza/PizzaSelection'
+import axios from 'axios'
 
 const Index: FC = () => {
   const dispatch = useDispatch()
