@@ -7,8 +7,10 @@ import { Box, Button, Typography, Select, MenuItem, SelectChangeEvent } from '@m
 
 import { changeQuantity, removeFromCart } from '@/slices/cartSlice'
 
+import CartItemType from '@/types/CartItem.type'
+
 type CartItemProps = {
-    item: CartItem
+    item: CartItemType
 }
 
 const CartItem: FC<CartItemProps> = ({ item }) => {

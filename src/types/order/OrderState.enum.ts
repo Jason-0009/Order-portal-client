@@ -1,8 +1,8 @@
 enum OrderState {
-    PENDING,
-    IN_CHARGE,
-    SHIPPING,
-    COMPLETED
+    PENDING = 'PENDING',
+    IN_CHARGE = 'IN_CHARGE',
+    SHIPPING = 'SHIPPING',
+    SHIPPED = 'SHIPPED'
 }
 
 export default OrderState

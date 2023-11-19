@@ -1,14 +1,15 @@
-import { FC, useState, MouseEvent, useCallback, useEffect } from 'react'
+import { FC, useState, MouseEvent, useEffect } from 'react'
 
 import { useRouter } from 'next/router'
 
+import { useQuery } from 'react-query'
 import { useSelector } from 'react-redux'
 
 import NextLink from 'next/link'
 
 import {
     Link, AppBar, Toolbar, Typography,
-    IconButton, Avatar, Button, Popover, Divider, Box
+    IconButton, Avatar, Popover, Box
 } from '@mui/material'
 
 import LocalPizzaIcon from '@mui/icons-material/LocalPizza'
@@ -18,38 +19,27 @@ import { RootState } from '@/store'
 
 import fetchUserProfile from '@/api/fetchUserProfile'
 
-import UserProfilePopover from '@/components/UserProfilePopover'
+import UserProfilePopover from '@/components/header/UserProfilePopover'
+
+import User from '@/types/user/User.type'
 
 const Header: FC = () => {
     const router = useRouter()
-    const isIndexPage = router.pathname === '/'
+    const isOrdersPage = router.pathname === '/orders'
 
-    const [userProfile, setUserProfile] = useState<User>()
     const [anchorElement, setAnchorElement] = useState<HTMLElement>()
 
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
+    
+    const { data: userProfile } = useQuery<User, Error>('userProfile', fetchUserProfile, { enabled: isAuthenticated })
 
-    const fetchAndSetUserProfile = useCallback(async () => {
-        if (!isAuthenticated) return
-
-        const userProfile = await fetchUserProfile()
-
-        setUserProfile(userProfile)
-    }, [isAuthenticated])
-
-    useEffect(() => {
-        fetchAndSetUserProfile()
-    }, [fetchAndSetUserProfile])
-
-    const handleMenuOpen = (event: MouseEvent<HTMLElement>) =>
-        setAnchorElement(event.currentTarget as HTMLElement)
-
+    const handleMenuOpen = (event: MouseEvent<HTMLElement>) => setAnchorElement(event.currentTarget as HTMLElement)
     const handleMenuClose = () => setAnchorElement(undefined)
 
-    const handleLogout = useCallback(() => window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/logout`, [])
+    const handleLogout = () => window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/logout`
 
     return (
-        <AppBar position="relative" color="primary">
+        <AppBar position="relative" color="primary" >
             <Toolbar sx={{ justifyContent: 'space-between' }}>
                 <Link component={NextLink} href="/" color="inherit">
                     <IconButton color="inherit" disableRipple>
@@ -62,7 +52,7 @@ const Header: FC = () => {
                 </Link>
 
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    {isIndexPage && isAuthenticated && (
+                    {!isOrdersPage && isAuthenticated && (
                         <Link component={NextLink} href="/orders" underline="none" color="inherit" justifyContent={'center'}>
                             <IconButton color="inherit" disableRipple>
                                 <ShoppingCartCheckout sx={{ mr: 0.5, fontSize: '0.8em' }} />
@@ -74,7 +64,7 @@ const Header: FC = () => {
                         </Link>
                     )}
 
-                    {isAuthenticated && (
+                    {userProfile && isAuthenticated && (
                         <>
                             <IconButton color="inherit" onClick={handleMenuOpen}>
                                 <Avatar src={userProfile?.imageUrl} />
@@ -95,7 +85,7 @@ const Header: FC = () => {
                     )}
                 </Box>
             </Toolbar>
-        </AppBar >
+        </AppBar>
     )
 }
 

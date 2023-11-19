@@ -6,9 +6,9 @@ const checkAuth = async (): Promise<boolean> => {
         url: '/auth/is-authenticated',
     }
 
-    const { data } = await axios<boolean>(config)
+    const { data: isAuthenticated } = await axios<boolean>(config)
 
-    return data
+    return isAuthenticated
 }
 
 export default checkAuth

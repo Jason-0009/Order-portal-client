@@ -1,5 +1,8 @@
 import axios, { AxiosRequestConfig } from 'axios'
 
+import PagedResponse from '@/types/PagedResponse.type'
+import Pizza from '@/types/Pizza.type'
+
 const fetchPizzas = async (page: number): Promise<PagedResponse<Pizza>> => {
     const config: AxiosRequestConfig = {
         method: 'GET',
@@ -10,9 +13,9 @@ const fetchPizzas = async (page: number): Promise<PagedResponse<Pizza>> => {
         }
     }
 
-    const { data } = await axios<PagedResponse<Pizza>>(config)
+    const { data: pizzas } = await axios<PagedResponse<Pizza>>(config)
 
-    return data
+    return pizzas
 }
 
 export default fetchPizzas

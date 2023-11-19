@@ -5,3 +5,5 @@ type Pizza = {
     ingredients: string[],
     price: number
 }
+
+export default Pizza

@@ -7,6 +7,8 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 
 import { addToCart } from '@/slices/cartSlice'
 
+import Pizza from '@/types/Pizza.type'
+
 type PizzaCardProps = {
     pizza: Pizza
 }
@@ -46,7 +48,8 @@ const PizzaCard: FC<PizzaCardProps> = ({ pizza }) => {
                 <Typography variant="body2" color="text.secondary" sx={{
                     fontSize: '0.8em',
                     textAlign: 'center',
-                    minHeight: '5em'
+                    minHeight: '5em',
+                    mb: 1
                 }}>
                     {ingredients.join(', ')}.
                 </Typography>
@@ -54,7 +57,11 @@ const PizzaCard: FC<PizzaCardProps> = ({ pizza }) => {
                 <Box display="flex" alignItems="center">
                     <Typography
                         variant="body2"
-                        sx={{ fontSize: '0.8em', mr: 2 }}
+                        sx={{
+                            fontSize: '0.8em',
+                            fontWeight: 600,
+                            mr: 2
+                        }}
                     >
                         €{pizza.price}
                     </Typography>

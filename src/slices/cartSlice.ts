@@ -1,12 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-const initialState: CartItem[] = []
+import CartItemType from '@/types/CartItem.type'
+
+const initialState: CartItemType[] = []
 
 const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
-        addToCart: (state, action: PayloadAction<CartItem>) => {
+        addToCart: (state, action: PayloadAction<CartItemType>) => {
             const index = state.findIndex(item => item.pizza.id === action.payload.pizza.id)
 
             if (index !== -1) return

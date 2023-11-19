@@ -15,13 +15,14 @@ import { RootState } from '@/store'
 import { closeConfirmOrderModal } from '@/slices/confirmOrderModalSlice'
 import { clearCart } from '@/slices/cartSlice'
 
-import postOrder from '@/api/postOrder'
+import postOrder from '@/api/order/postOrder'
+
+import CartItemType from '@/types/CartItem.type'
 
 import OrderState from '@/types/order/OrderState.enum'
 import Order from '@/types/order/Order.type'
 
-const createOrder = (cart: CartItem[], totalPrice: number): Order => ({
-    date: new Date(),
+const createOrder = (cart: CartItemType[], totalPrice: number): Order => ({
     totalPrice,
     state: OrderState.PENDING,
     items: cart.map(item => ({

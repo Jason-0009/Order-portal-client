@@ -1,3 +1,5 @@
+import Role from './Role.enum'
+
 type User = {
     id: string;
     providerUserId: string;
@@ -6,3 +8,5 @@ type User = {
     role: Role;
     imageUrl: string;
 }
+
+export default User

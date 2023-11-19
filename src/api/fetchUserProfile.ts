@@ -1,14 +1,16 @@
 import axios, { AxiosRequestConfig } from 'axios'
 
+import User from '@/types/user/User.type'
+
 const fetchUser = async (): Promise<User> => {
     const config: AxiosRequestConfig = {
         method: 'GET',
         url: '/users/profile',
     }
 
-    const { data } = await axios<User>(config)
+    const { data: userProfile } = await axios<User>(config)
 
-    return data
+    return userProfile
 }
 
 export default fetchUser

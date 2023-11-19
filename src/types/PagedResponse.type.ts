@@ -4,3 +4,5 @@ type PagedResponse<T> = {
     totalPages: number
     number: number
 }
+
+export default PagedResponse

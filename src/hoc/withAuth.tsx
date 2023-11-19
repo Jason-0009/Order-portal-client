@@ -1,15 +1,21 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store'
 
-import { useAuth } from '@/hooks/useAuth'
+const withAuth = (WrappedComponent: FC) => {
+    const WithAuthComponent: FC = (props) => {
+        const router = useRouter()
+        const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
 
-const withAuth = (WrappedComponent: FC<any>) => {
-    const Wrapper: FC<any> = (props) => {
-        useAuth()
+        useEffect(() => {
+            if (!isAuthenticated) router.push('/')
+        }, [isAuthenticated])
 
-        return <WrappedComponent {...props} />
+        return isAuthenticated ? <WrappedComponent {...props} /> : null
     }
 
-    return Wrapper
+    return WithAuthComponent
 }
 
 export default withAuth

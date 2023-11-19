@@ -1,28 +1,27 @@
-import { FC, useState, useEffect } from 'react'
-
+import { FC, useState } from 'react'
+import { useQuery } from 'react-query'
 import { Box, Typography, Divider, Grid, Pagination } from '@mui/material'
 
 import fetchPizzas from '@/api/fetchPizzas'
 
-import PizzaCard from '@/components/pizza/PizzaCard'
+import CenteredLayout from '../layout/CenteredLayout'
+import PizzaCard from './PizzaCard'
+import CenteredPaginationBox from '../layout/CenteredPaginationBox'
+
+import PagedResponse from '@/types/PagedResponse.type'
+import Pizza from '@/types/Pizza.type'
 
 const PizzaSelection: FC = () => {
     const [currentPage, setCurrentPage] = useState(1)
-    const [currentPizzas, setCurrentPizzas] = useState<PagedResponse<Pizza> | undefined>()
 
-    useEffect(() => {
-        const fetchAndSetPizzas = async () => {
-            const pizzas = await fetchPizzas(currentPage - 1)
+    const { data: currentPizzas } = useQuery<PagedResponse<Pizza>, Error>
+        (['pizzas', currentPage], () => fetchPizzas(currentPage - 1), { keepPreviousData: true })
 
-            setCurrentPizzas(pizzas)
-        }
-
-        fetchAndSetPizzas()
-    }, [currentPage])
+    const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => setCurrentPage(value)
 
     return (
-        <Box sx={{ m: 3, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <Typography variant="h6" component="h1" sx={{ fontFamily: 'Open Sans' }} gutterBottom>
+        <CenteredLayout>
+            <Typography variant="h6" component="h1" gutterBottom>
                 Seleziona la pizza da ordinare
             </Typography>
 
@@ -36,11 +35,10 @@ const PizzaSelection: FC = () => {
                 ))}
             </Grid>
 
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-                <Pagination color="primary" count={currentPizzas?.totalPages} page={currentPage}
-                    onChange={(_, value: number) => setCurrentPage(value)} />
-            </Box>
-        </Box>
+            <CenteredPaginationBox>
+                <Pagination color="primary" count={currentPizzas?.totalPages} page={currentPage} onChange={handlePageChange} />
+            </CenteredPaginationBox>
+        </CenteredLayout>
     )
 }
 
