@@ -49,9 +49,11 @@ const Cart: FC = () => {
                 <CartItem key={index} item={item} />
             )}
 
-            <CenteredPaginationBox>
-                <Pagination count={totalPageCount} page={page} onChange={handlePageChange} />
-            </CenteredPaginationBox>
+            {totalPageCount > 1 && (
+                <CenteredPaginationBox>
+                    <Pagination count={totalPageCount} page={page} onChange={handlePageChange} />
+                </CenteredPaginationBox>
+            )}
 
             <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
                 <Button

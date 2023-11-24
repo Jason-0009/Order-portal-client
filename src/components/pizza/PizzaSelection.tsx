@@ -28,7 +28,7 @@ const PizzaSelection: FC = () => {
             <Divider sx={{ mb: 3 }} />
 
             <Grid container spacing={2} marginTop={1}>
-                {currentPizzas && currentPizzas.content.map(pizza => (
+                {currentPizzas?.content.map(pizza => (
                     <Grid item xs={12} sm={6} md={4} key={pizza.id}>
                         <PizzaCard pizza={pizza} />
                     </Grid>

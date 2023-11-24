@@ -1,10 +1,14 @@
 import { ReactNode } from 'react'
 import { useQuery } from 'react-query'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+
+import { RootState } from '@/store'
 
 import checkAuth from '@/api/checkAuth'
+import fetchUserProfile from '@/api/fetchUserProfile'
 
 import { setAuth } from '@/slices/authSlice'
+import { setUserProfile } from '@/slices/userProfileSlice'
 
 type AuthCheckProps = {
     children: ReactNode
@@ -12,14 +16,18 @@ type AuthCheckProps = {
 
 const AuthCheck: React.FC<AuthCheckProps> = ({ children }) => {
     const dispatch = useDispatch()
+    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
 
-    const { isLoading } = useQuery('auth', async () => {
-        const isAuthenticated = await checkAuth()
-        
-        dispatch(setAuth(isAuthenticated))
+    useQuery('auth', checkAuth, {
+        onSuccess: (isAuthenticated) => dispatch(setAuth(isAuthenticated))
     })
 
-    return isLoading ? null : <>{children}</>
+    const { isLoading: isProfileLoading } = useQuery('userProfile', fetchUserProfile, {
+        enabled: isAuthenticated,
+        onSuccess: (userProfile) => dispatch(setUserProfile(userProfile))
+    })
+
+    return !isProfileLoading ? <>{children}</> : null
 }
 
 export default AuthCheck

@@ -27,12 +27,11 @@ const OrderStateIndicator: FC<OrderStateIndicatorProps> = ({ state }) => {
         },
         [OrderState.SHIPPING]: {
             backgroundColor: '#F6BEBA',
-            color: '#C62424',
-            text: 'In arrivo'
+            color: '#C62424'
         },
         [OrderState.SHIPPED]: {
             backgroundColor: '#BAF6C0',
-            color: '#37811D'
+            color: '#37811D',
         }
     }
 
@@ -58,17 +57,23 @@ const OrderStateIndicator: FC<OrderStateIndicatorProps> = ({ state }) => {
         <Box sx={{
             ...style,
             display: 'flex',
-            justifyContent: 'center',
+            justifyContent: 'space-between',
+            padding: '10px',
             alignItems: 'center',
-            padding: '5px',
             borderRadius: '20px',
-            width: '150px',
+            width: '140px',
             height: '40px',
             boxShadow: '0px 4px 14px 0px rgba(0, 0, 0, 0.25)'
         }}>
             <IconComponent />
 
-            <Typography variant="body2" fontSize={13} fontWeight={600} marginLeft={'5px'}>
+            <Typography variant="body2" sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                flexGrow: 1,
+                fontSize: '13px',
+                fontWeight: 600
+            }}>
                 {text}
             </Typography>
         </Box>

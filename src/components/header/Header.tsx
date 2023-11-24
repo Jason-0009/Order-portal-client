@@ -1,8 +1,7 @@
-import { FC, useState, MouseEvent, useEffect } from 'react'
+import { FC, useState, MouseEvent } from 'react'
 
 import { useRouter } from 'next/router'
 
-import { useQuery } from 'react-query'
 import { useSelector } from 'react-redux'
 
 import NextLink from 'next/link'
@@ -13,15 +12,15 @@ import {
 } from '@mui/material'
 
 import LocalPizzaIcon from '@mui/icons-material/LocalPizza'
-import ShoppingCartCheckout from '@mui/icons-material/ShoppingCartCheckout'
+import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout'
+import PersonIcon from '@mui/icons-material/Person'
 
 import { RootState } from '@/store'
 
-import fetchUserProfile from '@/api/fetchUserProfile'
+import HeaderLinkButton from './HeaderLinkButton'
+import UserProfileMenu from '../UserProfileMenu'
 
-import UserProfilePopover from '@/components/header/UserProfilePopover'
-
-import User from '@/types/user/User.type'
+import Role from '@/types/user/Role.enum'
 
 const Header: FC = () => {
     const router = useRouter()
@@ -30,8 +29,9 @@ const Header: FC = () => {
     const [anchorElement, setAnchorElement] = useState<HTMLElement>()
 
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
-    
-    const { data: userProfile } = useQuery<User, Error>('userProfile', fetchUserProfile, { enabled: isAuthenticated })
+    const userProfile = useSelector((state: RootState) => state.userProfile)
+
+    const isAdmin = userProfile?.role === Role.ADMIN
 
     const handleMenuOpen = (event: MouseEvent<HTMLElement>) => setAnchorElement(event.currentTarget as HTMLElement)
     const handleMenuClose = () => setAnchorElement(undefined)
@@ -51,39 +51,33 @@ const Header: FC = () => {
                     </IconButton>
                 </Link>
 
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    {!isOrdersPage && isAuthenticated && (
-                        <Link component={NextLink} href="/orders" underline="none" color="inherit" justifyContent={'center'}>
-                            <IconButton color="inherit" disableRipple>
-                                <ShoppingCartCheckout sx={{ mr: 0.5, fontSize: '0.8em' }} />
+                {isAuthenticated && (
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        {isAdmin && (
+                            <HeaderLinkButton
+                                href="/admin"
+                                icon={<PersonIcon sx={{ mr: 0.5, fontSize: '0.8em' }} />}
+                                text="Pannello di controllo"
+                            />
+                        )}
 
-                                <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                                    I miei ordini
-                                </Typography>
-                            </IconButton>
-                        </Link>
-                    )}
+                        {!isOrdersPage && (
+                            <HeaderLinkButton
+                                href="/orders"
+                                icon={<ShoppingCartCheckoutIcon sx={{ mr: 0.5, fontSize: '0.8em' }} />}
+                                text="I miei ordini"
+                            />
+                        )}
 
-                    {userProfile && isAuthenticated && (
-                        <>
-                            <IconButton color="inherit" onClick={handleMenuOpen}>
-                                <Avatar src={userProfile?.imageUrl} />
-                            </IconButton>
-
-                            <Popover
-                                open={Boolean(anchorElement)}
-                                anchorEl={anchorElement}
-                                onClose={handleMenuClose}
-                                anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'center',
-                                }}
-                            >
-                                <UserProfilePopover userProfile={userProfile} handleLogout={handleLogout} />
-                            </Popover>
-                        </>
-                    )}
-                </Box>
+                        {userProfile && <UserProfileMenu
+                            userProfile={userProfile}
+                            handleMenuOpen={handleMenuOpen}
+                            anchorElement={anchorElement}
+                            handleMenuClose={handleMenuClose}
+                            handleLogout={handleLogout}
+                        />}
+                    </Box>
+                )}
             </Toolbar>
         </AppBar>
     )

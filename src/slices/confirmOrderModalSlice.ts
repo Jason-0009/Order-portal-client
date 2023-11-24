@@ -1,7 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = {
-    isOpen: false
+type ConfirmOrderModalState = {
+    isOpen: boolean
+}
+
+const initialState: ConfirmOrderModalState = {
+    isOpen: false,
 }
 
 const confirmOrderModalSlice = createSlice({

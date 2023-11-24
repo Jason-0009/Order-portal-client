@@ -19,8 +19,8 @@ type OrdersTableProps = {
 const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
     const tableCellStyle: SxProps = {
         borderBottom: 'none',
-        fontSize: '14px',
-        fontWeight: 600,
+        fontSize: '15px',
+        fontWeight: 700,
         color: '#BAB5B5',
         textTransform: 'uppercase'
     }

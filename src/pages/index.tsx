@@ -11,8 +11,8 @@ import Cart from '@/components/cart/Cart'
 import PizzaSelection from '@/components/pizza/PizzaSelection'
 
 const Index: FC = () => {
-  const cart = useSelector((state: RootState) => state.cart)
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
+  const cart = useSelector((state: RootState) => state.cart)
 
   const handleAuth = () => window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization/google`
 

@@ -15,9 +15,7 @@ const cartSlice = createSlice({
 
             state.push(action.payload)
         },
-        removeFromCart: (state, action: PayloadAction<string>) => {
-            return state.filter(item => item.pizza.id !== action.payload)
-        },
+        removeFromCart: (state, action: PayloadAction<string>) => state.filter(item => item.pizza.id !== action.payload),
         changeQuantity: (state, action: PayloadAction<{ pizzaId: string; quantity: number }>) => {
             const { pizzaId, quantity } = action.payload
             const item = state.find(item => item.pizza.id === pizzaId)
