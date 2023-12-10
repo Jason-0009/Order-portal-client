@@ -1,7 +1,8 @@
 import { FC, ReactElement } from 'react'
 
-import { Link, IconButton, Typography } from '@mui/material'
 import NextLink from 'next/link'
+
+import { Link, IconButton, Typography } from '@mui/material'
 
 type HeaderLinkButtonProps = {
     href: string,

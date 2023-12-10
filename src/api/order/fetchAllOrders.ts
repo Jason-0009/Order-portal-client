@@ -1,13 +1,12 @@
 import axios, { AxiosRequestConfig } from 'axios'
 
 import PagedResponse from '@/types/PagedResponse.type'
-
 import Order from '@/types/order/Order.type'
 
-const fetchOrdersByUser = async (page: number, date: Date | null, status: string | null): Promise<PagedResponse<Order>> => {
+const fetchAllOrders = async (page: number, date: Date | null, status: string | null): Promise<PagedResponse<Order>> => {
     const config: AxiosRequestConfig = {
         method: 'GET',
-        url: '/orders/user',
+        url: '/orders',
         params: {
             page,
             size: 5,
@@ -21,4 +20,4 @@ const fetchOrdersByUser = async (page: number, date: Date | null, status: string
     return orders
 }
 
-export default fetchOrdersByUser
+export default fetchAllOrders

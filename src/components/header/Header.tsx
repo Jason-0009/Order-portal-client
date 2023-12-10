@@ -8,42 +8,51 @@ import NextLink from 'next/link'
 
 import {
     Link, AppBar, Toolbar, Typography,
-    IconButton, Avatar, Popover, Box
+    IconButton, Box, Avatar, Popover,
+    Divider, Button
 } from '@mui/material'
 
-import LocalPizzaIcon from '@mui/icons-material/LocalPizza'
-import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout'
-import PersonIcon from '@mui/icons-material/Person'
+import { LocalPizza, FactCheck, People, ShoppingCartCheckout } from '@mui/icons-material'
 
 import { RootState } from '@/store'
 
 import HeaderLinkButton from './HeaderLinkButton'
-import UserProfileMenu from '../UserProfileMenu'
 
 import Role from '@/types/user/Role.enum'
+import Route from '@/types/Route.type'
 
 const Header: FC = () => {
     const router = useRouter()
-    const isOrdersPage = router.pathname === '/orders'
 
-    const [anchorElement, setAnchorElement] = useState<HTMLElement>()
+    const [profileMenuAnchorElement, setProfileMenuAnchorElement] = useState<HTMLElement>()
 
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
     const userProfile = useSelector((state: RootState) => state.userProfile)
 
     const isAdmin = userProfile?.role === Role.ADMIN
 
-    const handleMenuOpen = (event: MouseEvent<HTMLElement>) => setAnchorElement(event.currentTarget as HTMLElement)
-    const handleMenuClose = () => setAnchorElement(undefined)
+    const iconStyle = { mr: 0.5, fontSize: '0.8em' }
+
+    const handleProfileMenuOpen = ({ currentTarget }: MouseEvent<HTMLElement>) =>
+        setProfileMenuAnchorElement(currentTarget as HTMLElement)
+    const handleProfileMenuClose = () => setProfileMenuAnchorElement(undefined)
 
     const handleLogout = () => window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/logout`
+
+    const routes: Route[] = [
+        ...(isAdmin ? [
+            { path: "/admin/orders", icon: <FactCheck sx={iconStyle} />, text: "Gestione degli ordini" },
+            { path: "/admin/users", icon: <People sx={iconStyle} />, text: "Gestione utenti" }
+        ] : []),
+        { path: "/orders", icon: <ShoppingCartCheckout sx={iconStyle} />, text: "I miei ordini" },
+    ]
 
     return (
         <AppBar position="relative" color="primary" >
             <Toolbar sx={{ justifyContent: 'space-between' }}>
                 <Link component={NextLink} href="/" color="inherit">
                     <IconButton color="inherit" disableRipple>
-                        <LocalPizzaIcon />
+                        <LocalPizza />
 
                         <Typography variant="h6" sx={{ fontFamily: 'Train One', textTransform: 'uppercase' }}>
                             Awesome Pizza
@@ -53,29 +62,50 @@ const Header: FC = () => {
 
                 {isAuthenticated && (
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        {isAdmin && (
+                        {routes.map(({ path, icon, text }) => router.pathname !== path && (
                             <HeaderLinkButton
-                                href="/admin"
-                                icon={<PersonIcon sx={{ mr: 0.5, fontSize: '0.8em' }} />}
-                                text="Pannello di controllo"
+                                key={path}
+                                href={path}
+                                icon={icon}
+                                text={text}
                             />
-                        )}
+                        ))}
 
-                        {!isOrdersPage && (
-                            <HeaderLinkButton
-                                href="/orders"
-                                icon={<ShoppingCartCheckoutIcon sx={{ mr: 0.5, fontSize: '0.8em' }} />}
-                                text="I miei ordini"
-                            />
-                        )}
+                        <Box>
+                            <IconButton color="inherit" onClick={handleProfileMenuOpen}>
+                                <Avatar src={userProfile?.imageUrl} />
+                            </IconButton>
 
-                        {userProfile && <UserProfileMenu
-                            userProfile={userProfile}
-                            handleMenuOpen={handleMenuOpen}
-                            anchorElement={anchorElement}
-                            handleMenuClose={handleMenuClose}
-                            handleLogout={handleLogout}
-                        />}
+                            <Popover
+                                open={Boolean(profileMenuAnchorElement)}
+                                anchorEl={profileMenuAnchorElement}
+                                onClose={handleProfileMenuClose}
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'center',
+                                }}
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'center',
+                                }}
+                            >
+                                <Box sx={{ padding: 2, width: 200 }}>
+                                    <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                                        {userProfile?.name}
+                                    </Typography>
+
+                                    <Typography variant="body2" color="text.secondary">
+                                        {userProfile?.email}
+                                    </Typography>
+
+                                    <Divider sx={{ my: 1 }} />
+
+                                    <Button onClick={handleLogout} variant="contained" color="primary" fullWidth>
+                                        Esci
+                                    </Button>
+                                </Box>
+                            </Popover>
+                        </Box>
                     </Box>
                 )}
             </Toolbar>

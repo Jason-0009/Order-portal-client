@@ -1,24 +1,32 @@
 import { FC } from 'react'
-import NextLink from 'next/link'
+import { useRouter } from 'next/router'
 
-import { Link, IconButton, Typography } from '@mui/material'
+import { Box, IconButton, Typography } from '@mui/material'
 
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
+import { ArrowBackIos} from '@mui/icons-material'
 
-type BackButtonProps = {
-    href: string
+const BackButton: FC = () => {
+    const router = useRouter()
+
+    const goBack = () => router.back()
+
+    return (
+        <Box>
+            <IconButton
+                edge="start"
+                color="inherit"
+                onClick={goBack}
+                disableRipple
+                sx={{ mb: 2 }}
+            >
+                <ArrowBackIos />
+
+                <Typography variant="body2">
+                    Indietro
+                </Typography>
+            </IconButton>
+        </Box>
+    )
 }
-
-const BackButton: FC<BackButtonProps> = ({ href }) => (
-    <Link component={NextLink} href={href} color="grey.600" mb={2}>
-        <IconButton edge="start" color="inherit" aria-label="back" disableRipple>
-            <ArrowBackIosIcon />
-
-            <Typography variant="body2">
-                Indietro
-            </Typography>
-        </IconButton>
-    </Link>
-)
 
 export default BackButton

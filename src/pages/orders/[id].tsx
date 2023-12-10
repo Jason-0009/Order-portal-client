@@ -1,43 +1,27 @@
-import { FC, useState, Fragment } from 'react'
+import { FC, Fragment } from 'react'
 
 import { useRouter } from 'next/router'
 
-import { useQuery } from 'react-query'
 
 import { Box, SxProps, Divider, Pagination, Typography } from '@mui/material'
 
 import withAuth from '@/hoc/withAuth'
 
-import fetchOrderById from '@/api/order/fetchOrderById'
-import fetchPizzas from '@/api/fetchPizzas'
+import useOrder from '@/hooks/useOrder'
 
 import CenteredLayout from '@/components/layout/CenteredLayout'
 import BackButton from '@/components/BackButton'
 import OrderStateIndicator from '@/components/order/OrderStateIndicator'
 import PizzaItem from '@/components/pizza/PizzaItem'
 
-import Order from '@/types/order/Order.type'
-import PagedResponse from '@/types/PagedResponse.type'
-import Pizza from '@/types/Pizza.type'
 import { formatDate } from '@/utils/dateUtils'
 
 const OrderPage: FC = () => {
     const router = useRouter()
     const { id } = router.query
-
-    const [currentPage, setCurrentPage] = useState(1)
-
-    const { data: order } = useQuery<Order, Error>
-        (['order', id], () => fetchOrderById(id as string), { enabled: !!id })
-
-    const pizzaIds = order?.items.map(item => item.pizzaId)
-
-    const { data: pizzas } = useQuery<PagedResponse<Pizza>, Error>
-        (['pizzas', currentPage], () => fetchPizzas(currentPage - 1, pizzaIds),
-            { enabled: !!order, keepPreviousData: true })
-
-    const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => setCurrentPage(value)
-
+    
+    const { order, currentPizzas, currentPage, handlePageChange } = useOrder(id as string)
+    
     if (!order) return null
 
     const infoTextStyle: SxProps = { color: '#A5A5A5', fontSize: '0.9em', fontWeight: 600, mb: 1 }
@@ -47,7 +31,7 @@ const OrderPage: FC = () => {
 
     return (
         <CenteredLayout>
-            <BackButton href='/orders' />
+            <BackButton />
 
             <Typography variant="h5" component="h1" fontWeight={600} mb={3}>
                 Ordine <Box component="span" color={'#2EB4FF'}>#{order.id}</Box>
@@ -66,7 +50,7 @@ const OrderPage: FC = () => {
             <Box
                 display="flex"
                 justifyContent="space-between"
-                width='12.6%'
+                width='14%'
                 mb={1}
             >
                 <Typography sx={infoTextStyle}>Totale:</Typography>
@@ -77,11 +61,11 @@ const OrderPage: FC = () => {
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
-                width='22%'
+                width='23%'
                 mb={4}
             >
                 <Typography sx={infoTextStyle}>Stato:</Typography>
-                <OrderStateIndicator state={order.state} />
+                <OrderStateIndicator status={order.status} />
             </Box>
 
             <Typography variant="h6" component="h1" fontWeight={600} mb={2}>
@@ -90,23 +74,23 @@ const OrderPage: FC = () => {
 
             <Divider sx={{ mb: 1 }} />
 
-            {pizzas?.content.map((pizza, index) => {
-                const orderItem = order?.items.find(item => item.pizzaId === pizza.id)
+            {currentPizzas?.content.map((pizza, index) => {
+                const orderItem = order.items.find(item => item.id === pizza.id)
                 const quantity = orderItem ? orderItem.quantity : 0
 
                 return (
                     <Fragment key={index}>
                         <PizzaItem pizza={pizza} quantity={quantity} />
 
-                        {index < pizzas.content.length - 1 && <Divider sx={{ my: 1 }} />}
+                        {index < currentPizzas.content.length - 1 && <Divider sx={{ my: 1 }} />}
                     </Fragment>
                 )
             })}
 
-            {Number(pizzas?.totalPages) > 1 && (
+            {Number(currentPizzas?.totalPages) > 1 && (
                 <Pagination
                     color="primary"
-                    count={pizzas?.totalPages}
+                    count={currentPizzas?.totalPages}
                     page={currentPage}
                     onChange={handlePageChange}
                     sx={{ mt: 2 }}

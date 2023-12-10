@@ -19,9 +19,9 @@ const CartItem: FC<CartItemProps> = ({ item }) => {
     const dispatch = useDispatch()
 
     const handleRemoveFromCart = () => dispatch(removeFromCart(pizza.id))
-
+    
     const handleQuantityChange = (event: SelectChangeEvent<number>) =>
-        dispatch(changeQuantity({ pizzaId: pizza.id, quantity: +event.target.value }))
+        dispatch(changeQuantity({ id: pizza.id, quantity: +event.target.value }))
 
     return (
         <Box sx={{

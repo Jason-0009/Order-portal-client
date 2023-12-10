@@ -1,16 +1,17 @@
 import { FC } from 'react'
+
 import { useSelector } from 'react-redux'
 
 import { Box, Button } from '@mui/material'
 
-import GoogleIcon from '@mui/icons-material/Google'
+import { Google } from '@mui/icons-material'
 
 import { RootState } from '@/store'
 
-import Cart from '@/components/cart/Cart'
 import PizzaSelection from '@/components/pizza/PizzaSelection'
+import Cart from '@/components/cart/Cart'
 
-const Index: FC = () => {
+const IndexPage: FC = () => {
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
   const cart = useSelector((state: RootState) => state.cart)
 
@@ -37,7 +38,7 @@ const Index: FC = () => {
             backgroundColor: 'primary.dark'
           }
         }}
-        startIcon={<GoogleIcon />}
+        startIcon={<Google />}
       >
         Effettua il login con Google
       </Button>
@@ -59,4 +60,4 @@ const Index: FC = () => {
   )
 }
 
-export default Index
+export default IndexPage

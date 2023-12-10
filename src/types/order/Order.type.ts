@@ -1,10 +1,10 @@
-import OrderState from './OrderState.enum'
+import OrderStatus from './OrderStatus.enum'
 import OrderItem from './OrderItem.type'
 
 type Order = {
     id?: string,
     date?: string
-    state: OrderState
+    status: OrderStatus
     items: OrderItem[]
     totalPrice: number
 }

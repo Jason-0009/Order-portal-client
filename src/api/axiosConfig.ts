@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 import { getCookie } from 'cookies-next'
 
 axios.defaults.baseURL = `${process.env.NEXT_PUBLIC_API_URL}/api`

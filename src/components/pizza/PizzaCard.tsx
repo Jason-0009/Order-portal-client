@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 
 import { Card, CardContent, CardMedia, Typography, Divider, Box, Button } from '@mui/material'
 
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import { ShoppingCart } from '@mui/icons-material'
 
 import { addToCart } from '@/slices/cartSlice'
 
@@ -14,9 +14,11 @@ type PizzaCardProps = {
 }
 
 const PizzaCard: FC<PizzaCardProps> = ({ pizza }) => {
+    const { imageUrl, name, ingredients, price } = pizza
+
     const dispatch = useDispatch()
 
-    const ingredients = pizza.ingredients.map((ingredient, index) => index === 0 ?
+    const formattedIngredients = ingredients.map((ingredient, index) => index === 0 ?
         ingredient : ingredient.toLowerCase())
 
     const handleAddToCart = () => dispatch(addToCart({ pizza, quantity: 1 }))
@@ -29,9 +31,9 @@ const PizzaCard: FC<PizzaCardProps> = ({ pizza }) => {
                 alignItems: 'center'
             }}>
                 <CardMedia
-                    image={pizza.imageUrl}
+                    image={imageUrl}
                     component="img"
-                    alt={`Pizza ${pizza.name.toLowerCase()}`}
+                    alt={`Pizza ${name.toLowerCase()}`}
                     sx={{ height: '150px', width: '150px' }}
                 />
 
@@ -40,7 +42,7 @@ const PizzaCard: FC<PizzaCardProps> = ({ pizza }) => {
                     fontWeight: 600,
                     mb: 1
                 }}>
-                    {pizza.name}
+                    {name}
                 </Typography>
 
                 <Divider sx={{ width: '50%', mb: 1 }} />
@@ -51,7 +53,7 @@ const PizzaCard: FC<PizzaCardProps> = ({ pizza }) => {
                     minHeight: '5em',
                     mb: 1
                 }}>
-                    {ingredients.join(', ')}.
+                    {formattedIngredients.join(', ')}.
                 </Typography>
 
                 <Box display="flex" alignItems="center">
@@ -63,7 +65,7 @@ const PizzaCard: FC<PizzaCardProps> = ({ pizza }) => {
                             mr: 2
                         }}
                     >
-                        €{pizza.price}
+                        €{price}
                     </Typography>
 
                     <Button
@@ -80,7 +82,7 @@ const PizzaCard: FC<PizzaCardProps> = ({ pizza }) => {
                             textTransform: 'none'
                         }}
                     >
-                        <ShoppingCartIcon sx={{ color: 'white', mr: 1 }} />
+                        <ShoppingCart sx={{ color: 'white', mr: 1 }} />
                         Aggiungi al carrello
                     </Button>
                 </Box>

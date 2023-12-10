@@ -1,5 +1,5 @@
 type OrderItem = {
-    pizzaId: string
+    id: string
     quantity: number
 }
 

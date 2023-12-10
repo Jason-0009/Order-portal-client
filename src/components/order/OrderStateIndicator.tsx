@@ -1,57 +1,29 @@
 import { FC } from 'react'
 
-import { Box, SxProps, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 
-import { SvgIconComponent } from '@mui/icons-material'
+import { SvgIconComponent, Schedule, HowToReg, LocalShipping, CheckCircle } from '@mui/icons-material'
 
-import ScheduleIcon from '@mui/icons-material/Schedule'
-import HowToRegIcon from '@mui/icons-material/HowToReg'
-import LocalShippingIcon from '@mui/icons-material/LocalShipping'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import OrderStatus from '@/types/order/OrderStatus.enum'
 
-import OrderState from '@/types/order/OrderState.enum'
+import ORDER_STATUS_STYLES from '../../constants/OrderStatusStyles'
+import ORDER_STATUS_TEXTS from '../../constants/OrderStatusTexts'
 
 type OrderStateIndicatorProps = {
-    state: OrderState
+    status: OrderStatus
 }
 
-const OrderStateIndicator: FC<OrderStateIndicatorProps> = ({ state }) => {
-    const styles: Record<OrderState, SxProps> = {
-        [OrderState.PENDING]: {
-            backgroundColor: '#ABC2FF',
-            color: '#4638EC'
-        },
-        [OrderState.IN_CHARGE]: {
-            backgroundColor: '#FFFB9C',
-            color: '#CDAF14'
-        },
-        [OrderState.SHIPPING]: {
-            backgroundColor: '#F6BEBA',
-            color: '#C62424'
-        },
-        [OrderState.SHIPPED]: {
-            backgroundColor: '#BAF6C0',
-            color: '#37811D',
-        }
+const OrderStateIndicator: FC<OrderStateIndicatorProps> = ({ status }) => {
+    const icons: Record<OrderStatus, SvgIconComponent> = {
+        [OrderStatus.PENDING]: Schedule,
+        [OrderStatus.IN_CHARGE]: HowToReg,
+        [OrderStatus.DELIVERING]: LocalShipping,
+        [OrderStatus.DELIVERED]: CheckCircle,
     }
 
-    const icons: Record<OrderState, SvgIconComponent> = {
-        [OrderState.PENDING]: ScheduleIcon,
-        [OrderState.IN_CHARGE]: HowToRegIcon,
-        [OrderState.SHIPPING]: LocalShippingIcon,
-        [OrderState.SHIPPED]: CheckCircleIcon,
-    }
-
-    const texts: Record<OrderState, string> = {
-        [OrderState.PENDING]: 'In attesa',
-        [OrderState.IN_CHARGE]: 'In carico',
-        [OrderState.SHIPPING]: 'In arrivo',
-        [OrderState.SHIPPED]: 'Consegnato'
-    }
-
-    const style = styles[state]
-    const IconComponent = icons[state]
-    const text = texts[state]
+    const style = ORDER_STATUS_STYLES[status]
+    const IconComponent = icons[status]
+    const text = ORDER_STATUS_TEXTS[status]
 
     return (
         <Box sx={{

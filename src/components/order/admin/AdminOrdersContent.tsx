@@ -1,12 +1,8 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 
-import { useQuery } from 'react-query'
+import { Box, Divider, Pagination, Typography } from '@mui/material'
 
-import { Typography, Divider, Pagination, Box } from '@mui/material'
-
-import withAuth from '@/hoc/withAuth'
-
-import fetchOrdersByUser from '@/api/order/fetchOrdersByUser'
+import useOrders from '@/hooks/useOrders'
 
 import CenteredLayout from '@/components/layout/CenteredLayout'
 import CenteredBox from '@/components/layout/CenteredBox'
@@ -14,16 +10,15 @@ import CenteredBox from '@/components/layout/CenteredBox'
 import BackButton from '@/components/BackButton'
 
 import OrdersFilter from '@/components/order/OrdersFilter'
-import OrdersTable from '@/components/order/OrdersTable'
 import NoOrdersFound from '@/components/order/NoOrdersFound'
 
-import OrderStatus from '@/types/order/OrderStatus.enum'
-import useOrders from '@/hooks/useOrders'
+import AdminOrdersTable from '@/components/order/admin/AdminOrdersTable'
 
-const OrdersPage: FC = () => {
+const AdminOrdersContent: FC = () => {
     const {
         currentOrders,
         isLoading,
+        refetch,
         currentPage,
         setCurrentPage,
         filteredDate,
@@ -38,8 +33,8 @@ const OrdersPage: FC = () => {
         <CenteredLayout>
             <BackButton />
 
-            <Typography variant="h5" component="h1" fontWeight={600} gutterBottom>
-                Cronologia ordini
+            <Typography variant="h5" component="h1" fontWeight={700} gutterBottom>
+                Pannello degli ordini
             </Typography>
 
             <Divider sx={{ mb: 3 }} />
@@ -53,7 +48,7 @@ const OrdersPage: FC = () => {
 
             {currentOrders && currentOrders.content.length > 0 ? (
                 <Box>
-                    {currentOrders && <OrdersTable orders={currentOrders.content} />}
+                    <AdminOrdersTable orders={currentOrders.content} />
 
                     {Number(currentOrders?.totalPages) > 1 && (
                         <CenteredBox>
@@ -70,4 +65,4 @@ const OrdersPage: FC = () => {
     )
 }
 
-export default withAuth(OrdersPage)
+export default AdminOrdersContent

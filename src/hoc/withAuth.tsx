@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
 
 const withAuth = (WrappedComponent: FC) => {
-    const WithAuthComponent: FC = (props) => {
+    return (props: any) => {
         const router = useRouter()
         const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
 
@@ -12,10 +12,8 @@ const withAuth = (WrappedComponent: FC) => {
             if (!isAuthenticated) router.push('/')
         }, [isAuthenticated])
 
-        return isAuthenticated ? <WrappedComponent {...props} /> : null
+        return isAuthenticated && <WrappedComponent {...props} />
     }
-
-    return WithAuthComponent
 }
 
 export default withAuth

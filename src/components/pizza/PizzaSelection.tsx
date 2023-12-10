@@ -1,24 +1,20 @@
-import { FC, useState } from 'react'
-import { useQuery } from 'react-query'
-import { Box, Typography, Divider, Grid, Pagination } from '@mui/material'
+import { FC } from 'react'
 
-import fetchPizzas from '@/api/fetchPizzas'
+import { Typography, Divider, Grid, Pagination } from '@mui/material'
+
+import usePizzas from '@/hooks/usePizzas'
 
 import CenteredLayout from '../layout/CenteredLayout'
 import PizzaCard from './PizzaCard'
-import CenteredPaginationBox from '../layout/CenteredPaginationBox'
-
-import PagedResponse from '@/types/PagedResponse.type'
-import Pizza from '@/types/Pizza.type'
+import CenteredBox from '../layout/CenteredBox'
 
 const PizzaSelection: FC = () => {
-    const [currentPage, setCurrentPage] = useState(1)
-
-    const { data: currentPizzas } = useQuery<PagedResponse<Pizza>, Error>
-        (['pizzas', currentPage], () => fetchPizzas(currentPage - 1), { keepPreviousData: true })
-
-    const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => setCurrentPage(value)
-
+    const {
+        currentPizzas,
+        currentPage,
+        handlePageChange,
+    } = usePizzas()
+    
     return (
         <CenteredLayout>
             <Typography variant="h6" component="h1" gutterBottom>
@@ -35,9 +31,14 @@ const PizzaSelection: FC = () => {
                 ))}
             </Grid>
 
-            <CenteredPaginationBox>
-                <Pagination color="primary" count={currentPizzas?.totalPages} page={currentPage} onChange={handlePageChange} />
-            </CenteredPaginationBox>
+            <CenteredBox>
+                <Pagination
+                    color="primary"
+                    count={currentPizzas?.totalPages}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                />
+            </CenteredBox>
         </CenteredLayout>
     )
 }
