@@ -1,35 +1,32 @@
 import { FC, useState } from 'react'
-
 import { useQuery } from 'react-query'
 
 import Image from 'next/image'
 
 import {
     SxProps, TableContainer, Table, TableHead, TableRow,
-    TableCell, TableBody, Pagination
+    TableCell, TableBody, Pagination, Box
 } from '@mui/material'
 
-import fetchPizzas from '@/api/fetchPizzas'
-
-import CenteredBox from '@/components/layout/CenteredBox'
+import fetchProducts from '@/api/fetchProducts'
 
 import Order from '@/types/order/Order.type'
+import useProducts from '@/hooks/useProducts'
 
 type AdminOrderDetailsTableProps = {
     order: Order,
 }
 
 const AdminOrderDetailsTable: FC<AdminOrderDetailsTableProps> = ({ order }) => {
-    const [currentPage, setCurrentPage] = useState(1)
-
     const itemIds = order.items.map(item => item.id)
 
-    const { data: currentPizzas } = useQuery(['pizzas', order.id, currentPage],
-        () => fetchPizzas(currentPage - 1, itemIds), { keepPreviousData: true })
+    const {
+        currentProducts,
+        currentPage,
+        handlePageChange,
+    } = useProducts(false, itemIds)
 
     const tableCellStyle: SxProps = { color: '#BEBEBE' }
-
-    const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => setCurrentPage(value)
 
     return (
         <TableContainer sx={{ maxWidth: '80%', ml: 10, overflow: 'hidden' }}>
@@ -63,17 +60,17 @@ const AdminOrderDetailsTable: FC<AdminOrderDetailsTableProps> = ({ order }) => {
                 </TableHead>
 
                 <TableBody>
-                    {currentPizzas?.content.map(({ id, imageUrl, name, price, ingredients }, index) => {
-                        const isLast = index === currentPizzas.content.length - 1
+                    {currentProducts?.content.map(({ id, imageUrl, name, price, ingredients }, index) => {
+                        const isLast = index === currentProducts.content.length - 1
                         const tableCellStyle: SxProps = { border: isLast ? 'none' : 'default', pb: isLast ? 6 : 'none' }
 
                         const formattedIngredients = ingredients.map((ingredient, index) =>
                             index === 0 ? ingredient : ingredient.toLowerCase())
 
                         const orderItem = order.items.find(item => item.id === id)
-                        const quantity = orderItem ? orderItem.quantity : 0
+                        const quantity = orderItem?.quantity
 
-                        if (quantity === 0) return null
+                        if (!quantity) return null
 
                         return (
                             <TableRow key={id}>
@@ -84,7 +81,7 @@ const AdminOrderDetailsTable: FC<AdminOrderDetailsTableProps> = ({ order }) => {
                                 <TableCell sx={tableCellStyle}>
                                     <Image
                                         src={imageUrl}
-                                        alt="Pizza item"
+                                        alt="Product item"
                                         width={60}
                                         height={60}
                                     />
@@ -111,15 +108,15 @@ const AdminOrderDetailsTable: FC<AdminOrderDetailsTableProps> = ({ order }) => {
                 </TableBody>
             </Table>
 
-            {Number(currentPizzas?.totalPages) > 1 && (
-                <CenteredBox>
+            {Number(currentProducts?.totalPages) > 1 && (
+                <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
                     <Pagination
-                        count={currentPizzas?.totalPages}
+                        count={currentProducts?.totalPages}
                         page={currentPage}
                         onChange={handlePageChange}
                         sx={{ mt: '-2em', mb: 4 }}
                     />
-                </CenteredBox>
+                </Box>
             )}
         </TableContainer>
     )

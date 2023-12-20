@@ -1,21 +1,23 @@
 import { FC } from 'react'
-
 import { useSelector } from 'react-redux'
 
 import { Box, Button } from '@mui/material'
-
 import { Google } from '@mui/icons-material'
 
 import { RootState } from '@/store'
 
-import PizzaSelection from '@/components/pizza/PizzaSelection'
+import useAuth from '@/hooks/useAuth'
+
+import ProductSelection from '@/components/product/ProductSelection'
 import Cart from '@/components/cart/Cart'
 
 const IndexPage: FC = () => {
-  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
+  const { isAuthenticated } = useAuth()
+
   const cart = useSelector((state: RootState) => state.cart)
 
-  const handleAuth = () => window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization/google`
+  const handleAuth = () => window.location.href =
+    `${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization/google`
 
   if (!isAuthenticated) return (
     <Box
@@ -48,7 +50,7 @@ const IndexPage: FC = () => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
       <Box sx={{ flex: '70%', marginRight: '2%' }}>
-        <PizzaSelection />
+        <ProductSelection />
       </Box>
 
       {cart.length > 0 && (

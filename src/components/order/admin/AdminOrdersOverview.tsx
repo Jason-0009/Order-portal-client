@@ -2,10 +2,10 @@ import { FC } from 'react'
 
 import { Box, SxProps, Typography } from '@mui/material'
 
-import useStatistics from '@/hooks/useStatistics'
+import useOrderStatistics from '@/hooks/order/useOrderStatistics'
 
 const AdminOrdersOverview: FC = () => {
-    const { data: statistics } = useStatistics()
+    const { statistics } = useOrderStatistics()
 
     const commonStyles: SxProps = { mb: 1, fontSize: '0.7em' }
     const numberStyles: SxProps = { fontWeight: 600, mb: 2 }

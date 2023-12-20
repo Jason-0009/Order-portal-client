@@ -1,38 +1,30 @@
-import { FC, useState } from 'react'
-
-import { useQuery } from 'react-query'
+import { FC } from 'react'
 
 import { Typography, Divider, Pagination, Box } from '@mui/material'
 
 import withAuth from '@/hoc/withAuth'
 
-import fetchOrdersByUser from '@/api/order/fetchOrdersByUser'
+import useOrders from '@/hooks/order/useOrders'
 
-import CenteredLayout from '@/components/layout/CenteredLayout'
-import CenteredBox from '@/components/layout/CenteredBox'
+import CenteredLayout from '@/components/common/CenteredLayout'
 
-import BackButton from '@/components/BackButton'
+import BackButton from '@/components/common/BackButton'
 
 import OrdersFilter from '@/components/order/OrdersFilter'
 import OrdersTable from '@/components/order/OrdersTable'
 import NoOrdersFound from '@/components/order/NoOrdersFound'
-
-import OrderStatus from '@/types/order/OrderStatus.enum'
-import useOrders from '@/hooks/useOrders'
 
 const OrdersPage: FC = () => {
     const {
         currentOrders,
         isLoading,
         currentPage,
-        setCurrentPage,
+        handlePageChange,
         filteredDate,
-        setFilteredDate,
+        setFilteredDateAndResetPage,
         filteredStatus,
-        setFilteredStatus,
-    } = useOrders()
-    
-    const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => setCurrentPage(value)
+        setFilteredStatusAndResetPage,
+    } = useOrders('/orders/user')
 
     return (
         <CenteredLayout>
@@ -46,23 +38,23 @@ const OrdersPage: FC = () => {
 
             <OrdersFilter
                 filteredDate={filteredDate}
-                setFilteredDate={setFilteredDate}
+                setFilteredDateAndResetPage={setFilteredDateAndResetPage}
                 filteredStatus={filteredStatus}
-                setFilteredStatus={setFilteredStatus}
+                setFilteredStatusAndResetPage={setFilteredStatusAndResetPage}
             />
 
             {currentOrders && currentOrders.content.length > 0 ? (
                 <Box>
-                    {currentOrders && <OrdersTable orders={currentOrders.content} />}
+                    {<OrdersTable orders={currentOrders.content} />}
 
                     {Number(currentOrders?.totalPages) > 1 && (
-                        <CenteredBox>
+                        <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
                             <Pagination
                                 count={currentOrders?.totalPages}
                                 page={currentPage}
                                 onChange={handlePageChange}
                             />
-                        </CenteredBox>
+                        </Box>
                     )}
                 </Box>
             ) : !isLoading && <NoOrdersFound />}

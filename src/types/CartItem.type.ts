@@ -1,7 +1,7 @@
-import Pizza from './Pizza.type'
+import Product from './Product.type'
 
 type CartItemType = {
-    pizza: Pizza,
+    product: Product,
     quantity: number
 }
 

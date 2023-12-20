@@ -1,35 +1,37 @@
 import React, { FC } from 'react'
 
-import { useSelector } from 'react-redux'
-
 import { Box, Typography } from '@mui/material'
-
 import { Error } from '@mui/icons-material'
 
-import { RootState } from '@/store'
+import useAuth from '@/hooks/useAuth'
+import useUserProfile from '@/hooks/user/useUserProfile'
 
-import Role from '@/types/user/Role.enum'
+import UserRole from '@/types/user/UserRole.enum'
 
 const withAdminAuth = (WrappedComponent: FC) => {
     return (props: any) => {
-        const userProfile = useSelector((state: RootState) => state.userProfile)
-        const isAdmin = userProfile?.role === Role.ADMIN
+        const { isAuthenticated } = useAuth()
+        const { userProfile, isLoading } = useUserProfile(isAuthenticated)
 
-        return isAdmin ? <WrappedComponent {...props} /> : <Box
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '100vh'
-            }}
-        >
-            <Error color="error" />
+        const isAdmin = userProfile?.role === UserRole.ADMIN
 
-            <Typography variant="h6" color="error">
-                Non hai il permesso per visualizzare questa pagina.
-            </Typography>
-        </Box>
+        return isAdmin ? <WrappedComponent {...props} /> : !isLoading && (
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: '100vh'
+                }}
+            >
+                <Error color="error" />
+
+                <Typography variant="h6" color="error">
+                    Non hai il permesso per visualizzare questa pagina.
+                </Typography>
+            </Box>
+        )
     }
 }
 

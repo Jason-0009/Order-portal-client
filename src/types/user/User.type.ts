@@ -1,10 +1,10 @@
-import Role from './Role.enum'
+import UserRole from './UserRole.enum'
 
 type User = {
     id: string;
     name: string;
     email: string;
-    role: Role;
+    role: UserRole;
     imageUrl: string;
 }
 

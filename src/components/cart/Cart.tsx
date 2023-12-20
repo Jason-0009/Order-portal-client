@@ -1,5 +1,4 @@
-import { FC, useEffect, useState } from 'react'
-
+import { FC, useEffect, useState, ChangeEvent } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { useRouter } from 'next/router'
@@ -17,7 +16,6 @@ import { clearCart } from '@/slices/cartSlice'
 import postOrder from '@/api/order/postOrder'
 
 import CartItem from './CartItem'
-import CenteredBox from '../layout/CenteredBox'
 
 import OrderStatus from '@/types/order/OrderStatus.enum'
 import CartItemType from '@/types/CartItem.type'
@@ -29,7 +27,7 @@ const createOrder = (cart: CartItemType[], totalPrice: number): Order => ({
     totalPrice,
     status: OrderStatus.PENDING,
     items: cart.map(item => ({
-        id: item.pizza.id,
+        id: item.product.id,
         quantity: item.quantity
     }))
 })
@@ -42,11 +40,11 @@ const Cart: FC = () => {
     const dispatch = useDispatch()
     const router = useRouter()
 
-    const totalPrice = cart.reduce((sum, item) => sum + item.pizza.price * item.quantity, 0)
+    const totalPrice = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0)
     const currentPageItems = cart.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
     const totalPageCount = Math.ceil(cart.length / ITEMS_PER_PAGE)
 
-    const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => setCurrentPage(value)
+    const handlePageChange = (_: ChangeEvent<unknown>, page: number) => setCurrentPage(page)
 
     useEffect(() => {
         if (currentPageItems.length !== 0) return
@@ -84,21 +82,21 @@ const Cart: FC = () => {
                 Il mio ordine
             </Typography>
 
-            {currentPageItems.map((item, index) =>
-                <CartItem key={index} item={item} />
+            {currentPageItems.map(item =>
+                <CartItem key={item.product.id} item={item} />
             )}
 
             {totalPageCount > 1 && (
-                <CenteredBox>
+                <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
                     <Pagination
                         count={totalPageCount}
                         page={currentPage}
                         onChange={handlePageChange}
                     />
-                </CenteredBox>
+                </Box>
             )}
 
-            <CenteredBox>
+            <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
                 <Button
                     variant="contained"
                     color="primary"
@@ -112,7 +110,7 @@ const Cart: FC = () => {
                 >
                     Conferma l'ordine
                 </Button>
-            </CenteredBox>
+            </Box>
 
             <Dialog open={isConfirmationDialogOpen} onClose={handleClose} PaperProps={{
                 sx: { pt: 1, pb: 3, pl: 2, pr: 3, borderRadius: '15px' }

@@ -58,7 +58,7 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
                     {orders.map(order => {
                         const { id, date, status, totalPrice } = order
 
-                        const formattedDate = formatDate(date as string)
+                        const formattedDate = date && formatDate(date)
 
                         const tableCellStyle: SxProps = { borderBottom: 'none', fontWeight: 600 }
 

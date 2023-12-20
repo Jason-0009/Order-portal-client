@@ -1,13 +1,15 @@
 import { FC } from 'react'
 
 import { Box, Typography } from '@mui/material'
-
-import { SvgIconComponent, Schedule, HowToReg, LocalShipping, CheckCircle } from '@mui/icons-material'
+import {
+    SvgIconComponent, Schedule,
+    HowToReg, LocalShipping, CheckCircle
+} from '@mui/icons-material'
 
 import OrderStatus from '@/types/order/OrderStatus.enum'
 
-import ORDER_STATUS_STYLES from '../../constants/OrderStatusStyles'
-import ORDER_STATUS_TEXTS from '../../constants/OrderStatusTexts'
+import ORDER_STATUS_STYLES from '@/constants/OrderStatusStyles'
+import ORDER_STATUS_TEXTS from '@/constants/OrderStatusTexts'
 
 type OrderStateIndicatorProps = {
     status: OrderStatus

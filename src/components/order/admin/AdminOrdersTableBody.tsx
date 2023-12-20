@@ -1,28 +1,26 @@
 import { FC, useState } from 'react'
 
-import { QueryObserverResult } from 'react-query'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { AxiosError } from 'axios'
 
 import {
     SxProps, TableBody, TableRow, TableCell,
-    IconButton, Collapse, Select, MenuItem,
-    SelectChangeEvent, Dialog, DialogTitle,
-    DialogActions, DialogContent, DialogContentText,
-    Button
+    IconButton, Collapse, Select, MenuItem, SelectChangeEvent
 } from '@mui/material'
-
-import { ExpandCircleDownOutlined, ExpandMore, Error } from '@mui/icons-material'
+import { ExpandCircleDownOutlined, ExpandMore } from '@mui/icons-material'
 
 import { formatDistanceToNow } from 'date-fns'
 import { it } from 'date-fns/locale'
 
+import { RootState } from '@/store'
+
+import { showAlert } from '@/slices/alertSlice'
+
 import updateOrderStatus from '@/api/order/updateOrderStatus'
 
-import useOrders from '@/hooks/useOrders'
-import useStatistics from '@/hooks/useStatistics'
-
 import AdminOrderDetailsTable from './AdminOrderDetailsTable'
+import AlertDialog from '@/components/AlertDialog'
 
 import Order from '@/types/order/Order.type'
 import OrderStatus from '@/types/order/OrderStatus.enum'
@@ -49,18 +47,16 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
     ordersLength,
     onExpand
 }) => {
+    const dispatch = useDispatch()
+    
     const { id: currentId, date, totalPrice, status } = order
 
     const [selectedStatus, setSelectedStatus] = useState(status)
-    const [isErrorDialogOpen, setIsErrorDialogOpen] = useState(false)
-    const [errorDialogMessage, setErrorDialogMessage] = useState('')
 
-    const { refetch: refetchOrders } = useOrders()
-    const { refetch: refetchStatistics } = useStatistics()
+    const formattedDate = date && formatDistanceToNow(new Date(date),
+        { addSuffix: true, locale: it })
 
-    const formattedDate = date && formatDistanceToNow(new Date(date), { addSuffix: true, locale: it })
-
-    const possibleOrderStatuses = Object.values(OrderStatus)
+    const orderStatuses = Object.values(OrderStatus)
 
     const isCurrentRowOpen = currentId && openRows[currentId]
     const isPreviousRowOpen = previousRowId && openRows[previousRowId]
@@ -80,12 +76,11 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
     const handleChange = async (event: SelectChangeEvent) => {
         const newStatus = event.target.value as OrderStatus
 
-        const currentIndex = possibleOrderStatuses.indexOf(selectedStatus)
-        const newIndex = possibleOrderStatuses.indexOf(newStatus)
+        const currentIndex = orderStatuses.indexOf(selectedStatus)
+        const newIndex = orderStatuses.indexOf(newStatus)
 
         if (newIndex !== currentIndex + 1) {
-            setErrorDialogMessage('Puoi cambiare lo stato solo al successivo nella sequenza.')
-            setIsErrorDialogOpen(true)
+            dispatch(showAlert('Puoi cambiare lo stato solo al successivo nella sequenza.'))
 
             return
         }
@@ -94,19 +89,13 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
             currentId && await updateOrderStatus(currentId, newStatus)
 
             setSelectedStatus(newStatus)
-
-            refetchOrders()
-            refetchStatistics()
         } catch (error: unknown) {
             const { response } = error as AxiosError
             const errorMessage = response?.data as string
 
-            setErrorDialogMessage(errorMessage)
-            setIsErrorDialogOpen(true)
+            dispatch(showAlert(errorMessage))
         }
     }
-
-    const handleCloseErrorDialog = () => setIsErrorDialogOpen(false)
 
     return (
         <TableBody sx={{
@@ -167,7 +156,7 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
                             }
                         }}
                     >
-                        {possibleOrderStatuses.map((status, index, array) => {
+                        {orderStatuses.map((status, index, array) => {
                             const statusStyle = ORDER_STATUS_STYLES[status]
 
                             const isFirstItem = index === 0
@@ -215,39 +204,7 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
                 </TableCell>
             </TableRow>
 
-            <Dialog open={isErrorDialogOpen} onClose={handleCloseErrorDialog} PaperProps={{
-                sx: {
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: '10px',
-                    p: 1
-                }
-            }}>
-                <DialogTitle sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    fontWeight: 600,
-                    mb: 1
-                }}>
-                    <Error color="error" sx={{ mr: 1 }} />
-
-                    Si è verificato un errore
-                </DialogTitle>
-
-                <DialogContent>
-                    <DialogContentText>
-                        {errorDialogMessage}
-                    </DialogContentText>
-                </DialogContent>
-
-                <DialogActions sx={{ justifyContent: 'center' }}>
-                    <Button onClick={handleCloseErrorDialog} color="primary" autoFocus>
-                        OK
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <AlertDialog />
         </TableBody >
     )
 }

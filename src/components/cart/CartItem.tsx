@@ -14,14 +14,14 @@ type CartItemProps = {
 }
 
 const CartItem: FC<CartItemProps> = ({ item }) => {
-    const { pizza, quantity } = item
+    const { product, quantity } = item
 
     const dispatch = useDispatch()
 
-    const handleRemoveFromCart = () => dispatch(removeFromCart(pizza.id))
+    const handleRemoveFromCart = () => dispatch(removeFromCart(product.id))
     
     const handleQuantityChange = (event: SelectChangeEvent<number>) =>
-        dispatch(changeQuantity({ id: pizza.id, quantity: +event.target.value }))
+        dispatch(changeQuantity({ id: product.id, quantity: +event.target.value }))
 
     return (
         <Box sx={{
@@ -34,7 +34,7 @@ const CartItem: FC<CartItemProps> = ({ item }) => {
             my: 1,
             p: 2
         }}>
-            <Image src={pizza.imageUrl} alt="Cart item" width={60} height={60} />
+            <Image src={product.imageUrl} alt="Cart item" width={60} height={60} />
 
             <Box sx={{
                 display: 'flex',
@@ -50,11 +50,11 @@ const CartItem: FC<CartItemProps> = ({ item }) => {
                     p: 0.5
                 }}>
                     <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                        {pizza.name}
+                        {product.name}
                     </Typography>
 
                     <Typography variant="body2" sx={{ fontSize: '0.8em'}}>
-                        €{pizza.price}
+                        €{product.price}
                     </Typography>
                 </Box>
 

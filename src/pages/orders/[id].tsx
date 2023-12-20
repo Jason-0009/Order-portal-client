@@ -2,39 +2,41 @@ import { FC, Fragment } from 'react'
 
 import { useRouter } from 'next/router'
 
-
 import { Box, SxProps, Divider, Pagination, Typography } from '@mui/material'
 
 import withAuth from '@/hoc/withAuth'
 
-import useOrder from '@/hooks/useOrder'
+import useOrder from '@/hooks/order/useOrder'
+import useProducts from '@/hooks/useProducts'
 
-import CenteredLayout from '@/components/layout/CenteredLayout'
-import BackButton from '@/components/BackButton'
+import CenteredLayout from '@/components/common/CenteredLayout'
+import BackButton from '@/components/common/BackButton'
 import OrderStateIndicator from '@/components/order/OrderStateIndicator'
-import PizzaItem from '@/components/pizza/PizzaItem'
+import ProductItem from '@/components/product/ProductItem'
 
 import { formatDate } from '@/utils/dateUtils'
 
 const OrderPage: FC = () => {
     const router = useRouter()
     const { id } = router.query
-    
-    const { order, currentPizzas, currentPage, handlePageChange } = useOrder(id as string)
-    
-    if (!order) return null
+
+    const order = useOrder(id as string)
+
+    const itemIds = order?.items.map(item => item.id)
+
+    const { currentProducts, currentPage, handlePageChange } = useProducts(false, itemIds)
 
     const infoTextStyle: SxProps = { color: '#A5A5A5', fontSize: '0.9em', fontWeight: 600, mb: 1 }
     const valueTextStyle: SxProps = { ...infoTextStyle, color: 'black' }
 
-    const formattedDate = formatDate(order.date as string)
+    const formattedDate = order?.date && formatDate(order.date)
 
     return (
         <CenteredLayout>
             <BackButton />
 
             <Typography variant="h5" component="h1" fontWeight={600} mb={3}>
-                Ordine <Box component="span" color={'#2EB4FF'}>#{order.id}</Box>
+                Ordine <Box component="span" color={'#2EB4FF'}>#{order?.id}</Box>
             </Typography>
 
             <Box
@@ -43,8 +45,13 @@ const OrderPage: FC = () => {
                 width='18%'
                 mb={1}
             >
-                <Typography sx={infoTextStyle}>Data dell'ordine:</Typography>
-                <Typography sx={valueTextStyle}>{formattedDate}</Typography>
+                <Typography sx={infoTextStyle}>
+                    Data dell'ordine:
+                </Typography>
+
+                <Typography sx={valueTextStyle}>
+                    {formattedDate}
+                </Typography>
             </Box>
 
             <Box
@@ -54,7 +61,7 @@ const OrderPage: FC = () => {
                 mb={1}
             >
                 <Typography sx={infoTextStyle}>Totale:</Typography>
-                <Typography sx={valueTextStyle}>€{order.totalPrice}</Typography>
+                <Typography sx={valueTextStyle}>€{order?.totalPrice}</Typography>
             </Box>
 
             <Box
@@ -65,7 +72,7 @@ const OrderPage: FC = () => {
                 mb={4}
             >
                 <Typography sx={infoTextStyle}>Stato:</Typography>
-                <OrderStateIndicator status={order.status} />
+                {order?.status && <OrderStateIndicator status={order.status} />}
             </Box>
 
             <Typography variant="h6" component="h1" fontWeight={600} mb={2}>
@@ -74,23 +81,23 @@ const OrderPage: FC = () => {
 
             <Divider sx={{ mb: 1 }} />
 
-            {currentPizzas?.content.map((pizza, index) => {
-                const orderItem = order.items.find(item => item.id === pizza.id)
+            {currentProducts?.content.map((product, index) => {
+                const orderItem = order?.items.find(item => item.id === product.id)
                 const quantity = orderItem ? orderItem.quantity : 0
 
                 return (
-                    <Fragment key={index}>
-                        <PizzaItem pizza={pizza} quantity={quantity} />
+                    <Fragment key={product.id}>
+                        <ProductItem product={product} quantity={quantity} />
 
-                        {index < currentPizzas.content.length - 1 && <Divider sx={{ my: 1 }} />}
+                        {index < currentProducts.content.length - 1 && <Divider sx={{ my: 1 }} />}
                     </Fragment>
                 )
             })}
 
-            {Number(currentPizzas?.totalPages) > 1 && (
+            {Number(currentProducts?.totalPages) > 1 && (
                 <Pagination
                     color="primary"
-                    count={currentPizzas?.totalPages}
+                    count={currentProducts?.totalPages}
                     page={currentPage}
                     onChange={handlePageChange}
                     sx={{ mt: 2 }}

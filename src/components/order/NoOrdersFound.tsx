@@ -1,7 +1,6 @@
 import { FC } from 'react'
 
 import { Box, Typography } from '@mui/material'
-
 import { SentimentDissatisfied } from '@mui/icons-material'
 
 const NoOrdersFound: FC = () => (

@@ -1,7 +1,6 @@
 import { FC, useState, MouseEvent } from 'react'
 
 import { Box, Typography, IconButton, Popover, List, ListItemButton } from '@mui/material'
-
 import { Clear, DateRange, ExpandMore, FilterList } from '@mui/icons-material'
 
 import { LocalizationProvider, DateCalendar } from '@mui/x-date-pickers'
@@ -14,25 +13,30 @@ import ORDER_STATUS_STYLES from '@/constants/OrderStatusStyles'
 
 type OrderFilterProps = {
     filteredDate: Date | null,
-    setFilteredDate: (date: Date | null) => void,
+    setFilteredDateAndResetPage: (date: Date | null) => void,
     filteredStatus: OrderStatus | null,
-    setFilteredStatus: (status: OrderStatus | null) => void
+    setFilteredStatusAndResetPage: (status: OrderStatus | null) => void
 }
 
-const OrdersFilter: FC<OrderFilterProps> = ({ filteredDate, setFilteredDate, filteredStatus, setFilteredStatus }) => {
-    const [calendarAnchorElement, setCalendarAnchorElement] = useState<HTMLElement>()
-    const [statusAnchorElement, setStatusAnchorElement] = useState<HTMLElement>()
+const OrdersFilter: FC<OrderFilterProps> = ({
+    filteredDate,
+    setFilteredDateAndResetPage: setFilteredDateAndResetPage,
+    filteredStatus,
+    setFilteredStatusAndResetPage: setFilteredStatusAndResetPage
+}) => {
+    const [calendarAnchorElement, setCalendarAnchorElement] = useState<HTMLElement | null>(null)
+    const [statusAnchorElement, setStatusAnchorElement] = useState<HTMLElement | null>(null)
 
-    const possibleOrderStatuses = Object.values(OrderStatus)
+    const handleCalendarOpen = (event: MouseEvent<HTMLElement>) =>
+        setCalendarAnchorElement(event.currentTarget)
+    const handleCalendarClose = () => setCalendarAnchorElement(null)
 
-    const handleCalendarOpen = ({ currentTarget }: MouseEvent<HTMLElement>) => setCalendarAnchorElement(currentTarget)
-    const handleCalendarClose = () => setCalendarAnchorElement(undefined)
-    
-    const handleStatusFilterOpen = ({ currentTarget }: MouseEvent<HTMLElement>) => setStatusAnchorElement(currentTarget)
-    const handleStatusFilterClose = () => setStatusAnchorElement(undefined)
+    const handleStatusFilterOpen = (event: MouseEvent<HTMLElement>) =>
+        setStatusAnchorElement(event.currentTarget)
+    const handleStatusFilterClose = () => setStatusAnchorElement(null)
 
-    const handleClearDateFilter = () => setFilteredDate(null)
-    const handleClearStatusFilter = () => setFilteredStatus(null)
+    const handleClearDateFilter = () => setFilteredDateAndResetPage(null)
+    const handleClearStatusFilter = () => setFilteredStatusAndResetPage(null)
 
     return (
         <Box sx={{
@@ -57,7 +61,7 @@ const OrdersFilter: FC<OrderFilterProps> = ({ filteredDate, setFilteredDate, fil
 
             <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <Popover
-                    open={Boolean(calendarAnchorElement)}
+                    open={!!calendarAnchorElement}
                     anchorEl={calendarAnchorElement}
                     onClose={handleCalendarClose}
                     anchorOrigin={{
@@ -71,7 +75,7 @@ const OrdersFilter: FC<OrderFilterProps> = ({ filteredDate, setFilteredDate, fil
                 >
                     <DateCalendar
                         value={filteredDate}
-                        onChange={date => setFilteredDate(date)}
+                        onChange={date => setFilteredDateAndResetPage(date)}
                     />
                 </Popover>
             </LocalizationProvider>
@@ -94,7 +98,7 @@ const OrdersFilter: FC<OrderFilterProps> = ({ filteredDate, setFilteredDate, fil
             </IconButton>
 
             <Popover
-                open={Boolean(statusAnchorElement)}
+                open={!!statusAnchorElement}
                 anchorEl={statusAnchorElement}
                 onClose={handleStatusFilterClose}
                 anchorOrigin={{
@@ -107,7 +111,7 @@ const OrdersFilter: FC<OrderFilterProps> = ({ filteredDate, setFilteredDate, fil
                 }}
             >
                 <List sx={{ fontSize: '0.85em', py: 0 }}>
-                    {possibleOrderStatuses.map((status, index, array) => {
+                    {Object.values(OrderStatus).map((status, index, array) => {
                         const isFirstItem = index === 0
                         const isLastItem = index === array.length - 1
 
@@ -116,10 +120,10 @@ const OrdersFilter: FC<OrderFilterProps> = ({ filteredDate, setFilteredDate, fil
                         return (
                             <ListItemButton
                                 key={status}
-                                onClick={() => setFilteredStatus(status)}
+                                onClick={() => setFilteredStatusAndResetPage(status)}
                                 sx={{
                                     backgroundColor: filteredStatus === status ? selectedStatusStyle.backgroundColor : undefined,
-                                    color: filteredStatus === status ? selectedStatusStyle.color : undefined,
+                                    color: filteredStatus === status ? selectedStatusStyle.color : 'initial',
                                     '&.MuiListItemButton-root': {
                                         paddingTop: isFirstItem ? '0.6em' : 'auto',
                                         paddingBottom: isLastItem ? '0.6em' : 'auto'
