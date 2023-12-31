@@ -1,5 +1,7 @@
 import { FC, Fragment, MouseEvent, useState } from 'react'
 
+import { useTranslation } from 'next-i18next'
+
 import {
     IconButton, Badge, Popover, Box,
     Typography, Button, List, Divider
@@ -11,35 +13,48 @@ import useAuth from '@/hooks/useAuth'
 import useNotifications from '@/hooks/useNotifications'
 import useUserProfile from '@/hooks/user/useUserProfile'
 
-import NotificationListItem from './NotificationListItem'
+import NotificationListItemButton from './NotificationListItemButton'
 
 const NotificationMenu: FC = () => {
-    const [notificationMenuAnchorElement, setNotificationMenuAnchorElement] = useState<HTMLElement | null>(null)
+    const [notificationMenuAnchorElement,
+        setNotificationMenuAnchorElement] = useState<HTMLElement | null>(null)
 
     const { isAuthenticated } = useAuth()
     const { notifications, handleNotificationRead, clearAllNotifications } = useNotifications()
     const { userProfile } = useUserProfile(isAuthenticated)
+    const { t: translation } = useTranslation()
+
+    const unreadNotificationCount = notifications
+        .filter(notification => !notification.readStatus).length
 
     const handleNotificationMenuOpen = (event: MouseEvent<HTMLElement>) =>
         setNotificationMenuAnchorElement(event.currentTarget)
 
     const handleNotificationMenuClose = () => setNotificationMenuAnchorElement(null)
 
+    const handleClearAllNotifications = () => {
+        if (!userProfile) return
+
+        clearAllNotifications(userProfile.id)
+    }
+
     return (
-        <Box>
+        <>
             <IconButton
                 color={'inherit'}
                 onClick={handleNotificationMenuOpen}
             >
                 <Badge
-                    badgeContent={notifications.filter(notification => !notification.readStatus).length}
+                    badgeContent={unreadNotificationCount}
                     sx={{
                         '.MuiBadge-badge': {
                             backgroundColor: 'darkred'
                         }
                     }}
                 >
-                    <Notifications sx={{ color: notificationMenuAnchorElement ? "black" : "white" }} />
+                    <Notifications sx={{
+                        color: notificationMenuAnchorElement ? "black" : "white"
+                    }} />
                 </Badge>
             </IconButton>
 
@@ -63,7 +78,7 @@ const NotificationMenu: FC = () => {
                     mb: 1
                 }}>
                     <Typography variant="body1" fontWeight={600}>
-                        Notifiche
+                        {translation('notifications')}
                     </Typography>
                 </Box>
 
@@ -79,7 +94,7 @@ const NotificationMenu: FC = () => {
                         <NotificationsActive sx={{ fontSize: '2em' }} />
 
                         <Typography variant="body2">
-                            Ancora nessuna notifica
+                            {translation('noNotifications')}
                         </Typography>
                     </Box>
                 ) : (
@@ -99,18 +114,17 @@ const NotificationMenu: FC = () => {
                         }
                     }}>
                         <Button
-                            onClick={() => userProfile && clearAllNotifications(userProfile.id)}
+                            onClick={handleClearAllNotifications}
                             variant="text"
                             sx={{
                                 color: 'grey.700',
                                 textTransform: 'none',
                                 fontWeight: 600,
                                 fontSize: '0.75rem',
-                                p: 0.5,
-                                ml: 1.5
+                                ml: 1
                             }}
                         >
-                            Cancella tutto
+                            {translation('clearAll')}
                         </Button>
 
                         <List sx={{ pt: 0 }}>
@@ -119,7 +133,7 @@ const NotificationMenu: FC = () => {
 
                                 return (
                                     <Fragment key={id}>
-                                        <NotificationListItem
+                                        <NotificationListItemButton
                                             notification={notification}
                                             handleNotificationRead={handleNotificationRead}
                                         />
@@ -132,7 +146,7 @@ const NotificationMenu: FC = () => {
                     </Box>
                 )}
             </Popover>
-        </Box>
+        </>
     )
 }
 

@@ -1,6 +1,8 @@
 import { FC, useState } from 'react'
+import { useDispatch } from 'react-redux'
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
 
 import { AxiosError } from 'axios'
 
@@ -10,23 +12,21 @@ import {
 } from '@mui/material'
 import { ExpandCircleDownOutlined, ExpandMore } from '@mui/icons-material'
 
-import { formatDistanceToNow } from 'date-fns'
-import { it } from 'date-fns/locale'
+import { useOrderStatusTexts } from '@/hooks/useOrderStatusTexts'
 
-import { RootState } from '@/store'
-
-import { showAlert } from '@/slices/alertSlice'
+import { showAlert } from '@/slices/alertDialogSlice'
 
 import updateOrderStatus from '@/api/order/updateOrderStatus'
 
 import AdminOrderDetailsTable from './AdminOrderDetailsTable'
-import AlertDialog from '@/components/AlertDialog'
+import AlertDialog from '@/components/dialog/AlertDialog'
+
+import { formatDistanceToNowLocale } from '@/utils/dateUtils'
 
 import Order from '@/types/order/Order.type'
 import OrderStatus from '@/types/order/OrderStatus.enum'
 
 import ORDER_STATUS_STYLES from '@/constants/OrderStatusStyles'
-import ORDER_STATUS_TEXTS from '@/constants/OrderStatusTexts'
 
 type AdminOrdersTableBodyProps = {
     order: Order,
@@ -47,14 +47,18 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
     ordersLength,
     onExpand
 }) => {
-    const dispatch = useDispatch()
-    
     const { id: currentId, date, totalPrice, status } = order
+
+    const dispatch = useDispatch()
 
     const [selectedStatus, setSelectedStatus] = useState(status)
 
-    const formattedDate = date && formatDistanceToNow(new Date(date),
-        { addSuffix: true, locale: it })
+    const { locale } = useRouter()
+
+    const { t: translation } = useTranslation()
+    const ORDER_STATUS_TEXTS = useOrderStatusTexts()
+
+    const formattedDate = date && locale && formatDistanceToNowLocale(date, locale)
 
     const orderStatuses = Object.values(OrderStatus)
 
@@ -80,7 +84,7 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
         const newIndex = orderStatuses.indexOf(newStatus)
 
         if (newIndex !== currentIndex + 1) {
-            dispatch(showAlert('Puoi cambiare lo stato solo al successivo nella sequenza.'))
+            dispatch(showAlert(translation('changeStatus')))
 
             return
         }
@@ -124,7 +128,8 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
                             className = className.replace("MuiSelect-iconOpen", "")
 
                             return status !== OrderStatus.DELIVERED &&
-                                <ExpandMore className={className} style={{ color: selectedStatusStyle.color }} />
+                                <ExpandMore className={className}
+                                    style={{ color: selectedStatusStyle.color }} />
                         }}
                         sx={{
                             ...selectedStatusStyle,

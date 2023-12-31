@@ -2,7 +2,9 @@ import { useQuery } from 'react-query'
 
 import fetchOrderById from '@/api/order/fetchOrderById'
 
-const useOrder = (id: string) => {
+import Order from '@/types/order/Order.type'
+
+const useOrder = (id: string): Order | undefined => {
     const { data: order } = useQuery(['order', id], () => fetchOrderById(id),
         { enabled: !!id })
 

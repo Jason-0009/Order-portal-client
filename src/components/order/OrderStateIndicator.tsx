@@ -6,16 +6,19 @@ import {
     HowToReg, LocalShipping, CheckCircle
 } from '@mui/icons-material'
 
+import { useOrderStatusTexts } from '@/hooks/useOrderStatusTexts'
+
 import OrderStatus from '@/types/order/OrderStatus.enum'
 
 import ORDER_STATUS_STYLES from '@/constants/OrderStatusStyles'
-import ORDER_STATUS_TEXTS from '@/constants/OrderStatusTexts'
 
 type OrderStateIndicatorProps = {
     status: OrderStatus
 }
 
 const OrderStateIndicator: FC<OrderStateIndicatorProps> = ({ status }) => {
+    const ORDER_STATUS_TEXTS = useOrderStatusTexts()
+    
     const icons: Record<OrderStatus, SvgIconComponent> = {
         [OrderStatus.PENDING]: Schedule,
         [OrderStatus.IN_CHARGE]: HowToReg,

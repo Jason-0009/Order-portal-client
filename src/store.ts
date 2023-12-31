@@ -1,12 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit'
 
+import themeReducer from '@/slices/themeSlice'
 import cartReducer from '@/slices/cartSlice'
-import alertReducer from '@/slices/alertSlice'
+import alertDialogReducer from '@/slices/alertDialogSlice'
+import confirmationDialogReducer from '@/slices/confirmationDialogSlice'
 
 export const store = configureStore({
     reducer: {
+        theme: themeReducer,
         cart: cartReducer,
-        alert: alertReducer
+        alertDialog: alertDialogReducer,
+        confirmationDialog: confirmationDialogReducer
     }
 })
 

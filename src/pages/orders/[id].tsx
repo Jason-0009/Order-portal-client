@@ -1,6 +1,8 @@
 import { FC, Fragment } from 'react'
 
 import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import { Box, SxProps, Divider, Pagination, Typography } from '@mui/material'
 
@@ -14,39 +16,43 @@ import BackButton from '@/components/common/BackButton'
 import OrderStateIndicator from '@/components/order/OrderStateIndicator'
 import ProductItem from '@/components/product/ProductItem'
 
-import { formatDate } from '@/utils/dateUtils'
+import { formatDateLocale } from '@/utils/dateUtils'
+
 
 const OrderPage: FC = () => {
-    const router = useRouter()
-    const { id } = router.query
+    const { query, locale } = useRouter()
+    const { id } = query
 
     const order = useOrder(id as string)
 
     const itemIds = order?.items.map(item => item.id)
 
     const { currentProducts, currentPage, handlePageChange } = useProducts(false, itemIds)
+    const { t: translation } = useTranslation()
 
     const infoTextStyle: SxProps = { color: '#A5A5A5', fontSize: '0.9em', fontWeight: 600, mb: 1 }
     const valueTextStyle: SxProps = { ...infoTextStyle, color: 'black' }
 
-    const formattedDate = order?.date && formatDate(order.date)
+    const formattedDate = order?.date && locale && formatDateLocale(order.date, locale)
 
     return (
         <CenteredLayout>
-            <BackButton />
+            <BackButton location='/orders' />
 
             <Typography variant="h5" component="h1" fontWeight={600} mb={3}>
-                Ordine <Box component="span" color={'#2EB4FF'}>#{order?.id}</Box>
+                Id <Box component="span" color={'#2EB4FF'}>
+                    #{order?.id}
+                </Box>
             </Typography>
 
             <Box
                 display="flex"
                 justifyContent="space-between"
-                width='18%'
+                width='14.5%'
                 mb={1}
             >
                 <Typography sx={infoTextStyle}>
-                    Data dell'ordine:
+                    {translation('dateLabel')}:
                 </Typography>
 
                 <Typography sx={valueTextStyle}>
@@ -57,26 +63,34 @@ const OrderPage: FC = () => {
             <Box
                 display="flex"
                 justifyContent="space-between"
-                width='14%'
+                width='10%'
                 mb={1}
             >
-                <Typography sx={infoTextStyle}>Totale:</Typography>
-                <Typography sx={valueTextStyle}>€{order?.totalPrice}</Typography>
+                <Typography sx={infoTextStyle}>
+                    {translation('totalLabel')}:
+                </Typography>
+                
+                <Typography sx={valueTextStyle}>
+                    €{order?.totalPrice}
+                </Typography>
             </Box>
 
             <Box
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
-                width='23%'
+                width='20%'
                 mb={4}
             >
-                <Typography sx={infoTextStyle}>Stato:</Typography>
+                <Typography sx={infoTextStyle}>
+                    {translation('statusLabel')}:
+                </Typography>
+
                 {order?.status && <OrderStateIndicator status={order.status} />}
             </Box>
 
             <Typography variant="h6" component="h1" fontWeight={600} mb={2}>
-                Pizze
+                {translation('products')}
             </Typography>
 
             <Divider sx={{ mb: 1 }} />
@@ -107,5 +121,11 @@ const OrderPage: FC = () => {
         </CenteredLayout>
     )
 }
+
+export const getServerSideProps = async ({ locale }: { locale: string }) => ({
+    props: {
+        ...(await serverSideTranslations(locale))
+    }
+})
 
 export default withAuth(OrderPage)

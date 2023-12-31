@@ -1,5 +1,7 @@
 import { FC } from 'react'
 
+import { useTranslation } from 'next-i18next'
+
 import { Typography, Divider, Grid, Pagination, Box } from '@mui/material'
 
 import useProducts from '@/hooks/useProducts'
@@ -8,16 +10,14 @@ import CenteredLayout from '../common/CenteredLayout'
 import ProductCard from './ProductCard'
 
 const ProductSelection: FC = () => {
-    const {
-        currentProducts,
-        currentPage,
-        handlePageChange,
-    } = useProducts()
-    
+    const { currentProducts, currentPage, handlePageChange, } = useProducts()
+
+    const { t: translation } = useTranslation('common')
+
     return (
         <CenteredLayout>
             <Typography variant="h6" component="h1" gutterBottom>
-                Seleziona la pizza da ordinare
+                {translation('selectProduct')}
             </Typography>
 
             <Divider sx={{ mb: 3 }} />

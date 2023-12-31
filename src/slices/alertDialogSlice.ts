@@ -1,16 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-type AlertState = {
+type AlertDialogState = {
     isOpen: boolean
     message: string
 }
 
-const initialState: AlertState = {
+const initialState: AlertDialogState = {
     isOpen: false,
     message: '',
 }
 
-const alertSlice = createSlice({
+const alertDialogSlice = createSlice({
     name: 'alert',
     initialState,
     reducers: {
@@ -18,13 +18,13 @@ const alertSlice = createSlice({
             state.isOpen = true
             state.message = action.payload
         },
-        hideAlert: (state) => {
+        hideAlert: state => {
             state.isOpen = false
             state.message = ''
         }
     }
 })
 
-export const { showAlert, hideAlert } = alertSlice.actions
+export const { showAlert, hideAlert } = alertDialogSlice.actions
 
-export default alertSlice.reducer
+export default alertDialogSlice.reducer

@@ -1,47 +1,30 @@
 import { FC, useEffect, useState, ChangeEvent } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
 
-import {
-    Box, Typography, Button, Pagination,
-    Dialog, DialogTitle, DialogContent,
-    DialogContentText, DialogActions
-} from '@mui/material'
+import { Box, Typography, Button, Pagination } from '@mui/material'
 
 import { RootState } from '@/store'
 
-import { clearCart } from '@/slices/cartSlice'
-
-import postOrder from '@/api/order/postOrder'
+import { openDialog } from '@/slices/confirmationDialogSlice'
 
 import CartItem from './CartItem'
-
-import OrderStatus from '@/types/order/OrderStatus.enum'
-import CartItemType from '@/types/CartItem.type'
-import Order from '@/types/order/Order.type'
+import ConfirmationDialog from '../dialog/ConfirmationDialog'
 
 const ITEMS_PER_PAGE = 3
 
-const createOrder = (cart: CartItemType[], totalPrice: number): Order => ({
-    totalPrice,
-    status: OrderStatus.PENDING,
-    items: cart.map(item => ({
-        id: item.product.id,
-        quantity: item.quantity
-    }))
-})
-
 const Cart: FC = () => {
     const [currentPage, setCurrentPage] = useState(1)
-    const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] = useState(false)
 
     const cart = useSelector((state: RootState) => state.cart)
-    const dispatch = useDispatch()
-    const router = useRouter()
 
-    const totalPrice = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0)
-    const currentPageItems = cart.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
+    const dispatch = useDispatch()
+
+    const { t: translation } = useTranslation()
+
+    const currentPageItems = cart.slice((currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE)
     const totalPageCount = Math.ceil(cart.length / ITEMS_PER_PAGE)
 
     const handlePageChange = (_: ChangeEvent<unknown>, page: number) => setCurrentPage(page)
@@ -52,19 +35,7 @@ const Cart: FC = () => {
         setCurrentPage(currentPage - 1)
     }, [currentPageItems])
 
-    const handleClose = () => setIsConfirmationDialogOpen(false)
-
-    const handleConfirm = async () => {
-        handleClose()
-
-        const order = createOrder(cart, totalPrice)
-
-        await postOrder(order)
-
-        dispatch(clearCart())
-
-        router.push('/orders')
-    }
+    const handleClick = () => dispatch(openDialog())
 
     return (
         <Box sx={{
@@ -79,7 +50,7 @@ const Cart: FC = () => {
                 fontWeight: 600,
                 mb: 2
             }}>
-                Il mio ordine
+                {translation('myOrder')}
             </Typography>
 
             {currentPageItems.map(item =>
@@ -100,7 +71,7 @@ const Cart: FC = () => {
                 <Button
                     variant="contained"
                     color="primary"
-                    onClick={() => setIsConfirmationDialogOpen(true)}
+                    onClick={handleClick}
                     sx={{
                         textTransform: 'none',
                         width: '90%',
@@ -108,48 +79,11 @@ const Cart: FC = () => {
                         p: 2
                     }}
                 >
-                    Conferma l'ordine
+                    {translation('confirmOrder')}
                 </Button>
             </Box>
 
-            <Dialog open={isConfirmationDialogOpen} onClose={handleClose} PaperProps={{
-                sx: { pt: 1, pb: 3, pl: 2, pr: 3, borderRadius: '15px' }
-            }}>
-                <DialogTitle sx={{ fontWeight: 600 }}>
-                    Vuoi confermare il tuo ordine?
-                </DialogTitle>
-
-                <DialogContent>
-                    <DialogContentText sx={{ fontSize: '0.9em' }}>
-                        L'ordine andrà ad ammontare a <Typography component="span" sx={{
-                            fontSize: '0.9em', fontWeight: 'bold'
-                        }}>
-                            €{totalPrice}
-                        </Typography>.
-                    </DialogContentText>
-                </DialogContent>
-
-                <DialogActions>
-                    <Button
-                        variant="outlined"
-                        color="inherit"
-                        onClick={handleClose}
-                        sx={{ textTransform: 'none ' }}
-                    >
-                        Cancella
-                    </Button>
-
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleConfirm}
-                        autoFocus
-                        sx={{ textTransform: 'none ' }}
-                    >
-                        Conferma
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <ConfirmationDialog />
         </Box >
     )
 }

@@ -1,5 +1,7 @@
 import { FC } from 'react'
 
+import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
 import NextLink from 'next/link'
 
 import {
@@ -11,7 +13,7 @@ import {
 
 import OrderStateIndicator from './OrderStateIndicator'
 
-import { formatDate } from '@/utils/dateUtils'
+import { formatDateLocale } from '@/utils/dateUtils'
 
 import Order from '@/types/order/Order.type'
 
@@ -20,6 +22,9 @@ type OrdersTableProps = {
 }
 
 const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
+    const { locale } = useRouter()
+    const { t: translation } = useTranslation()
+
     const tableCellStyle: SxProps = {
         borderBottom: 'none',
         fontSize: '15px',
@@ -37,19 +42,19 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
                 <TableHead>
                     <TableRow>
                         <TableCell sx={tableCellStyle}>
-                            Ordine
+                            Id
                         </TableCell>
 
                         <TableCell sx={tableCellStyle}>
-                            Data
+                            {translation('dateLabel')}
                         </TableCell>
 
                         <TableCell sx={tableCellStyle}>
-                            Stato
+                            {translation('statusLabel')}
                         </TableCell>
 
                         <TableCell sx={tableCellStyle} align="center">
-                            Totale
+                            {translation('totalLabel')}
                         </TableCell>
                     </TableRow>
                 </TableHead>
@@ -58,7 +63,7 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
                     {orders.map(order => {
                         const { id, date, status, totalPrice } = order
 
-                        const formattedDate = date && formatDate(date)
+                        const formattedDate = date && locale && formatDateLocale(date, locale)
 
                         const tableCellStyle: SxProps = { borderBottom: 'none', fontWeight: 600 }
 

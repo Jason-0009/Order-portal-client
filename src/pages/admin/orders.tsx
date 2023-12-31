@@ -1,5 +1,7 @@
 import { FC } from 'react'
 
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
 import { Box } from '@mui/material'
 
 import withAuth from '@/hoc/withAuth'
@@ -21,5 +23,11 @@ const AdminOrdersPage: FC = () => {
         </Box>
     )
 }
+
+export const getServerSideProps = async ({ locale }: { locale: string }) => ({
+    props: {
+        ...(await serverSideTranslations(locale))
+    }
+})
 
 export default withAuth(withAdminAuth(AdminOrdersPage))

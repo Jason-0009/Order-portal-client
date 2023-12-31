@@ -1,9 +1,12 @@
 import { FC } from 'react'
 
-import { Box, Divider, Pagination, Typography } from '@mui/material'
+import { useTranslation } from 'next-i18next'
+
+import { Box, CircularProgress, Divider, Pagination, Typography } from '@mui/material'
 
 import useOrders from '@/hooks/order/useOrders'
 
+import CenteredBox from '@/components/common/CenteredBox'
 import CenteredLayout from '@/components/common/CenteredLayout'
 import BackButton from '@/components/common/BackButton'
 
@@ -23,12 +26,20 @@ const AdminOrdersContent: FC = () => {
         setFilteredStatusAndResetPage,
     } = useOrders('/orders')
 
+    const { t: translation } = useTranslation()
+
+    if (isLoading) return (
+        <CenteredBox>
+            <CircularProgress />
+        </CenteredBox>
+    )
+
     return (
         <CenteredLayout>
-            <BackButton />
+            <BackButton location='/' />
 
             <Typography variant="h5" component="h1" fontWeight={700} gutterBottom>
-                Pannello degli ordini
+                {translation('orderPanel')}
             </Typography>
 
             <Divider sx={{ mb: 3 }} />
@@ -40,21 +51,23 @@ const AdminOrdersContent: FC = () => {
                 setFilteredStatusAndResetPage={setFilteredStatusAndResetPage}
             />
 
-            {currentOrders && currentOrders.content.length > 0 ? (
-                <Box>
-                    <AdminOrdersTable orders={currentOrders.content} />
+            {currentOrders?.content && (
+                currentOrders.content.length > 0 ? (
+                    <>
+                        <AdminOrdersTable orders={currentOrders.content} />
 
-                    {Number(currentOrders?.totalPages) > 1 && (
-                        <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
-                            <Pagination
-                                count={currentOrders?.totalPages}
-                                page={currentPage}
-                                onChange={handlePageChange}
-                            />
-                        </Box>
-                    )}
-                </Box>
-            ) : !isLoading && <NoOrdersFound />}
+                        {currentOrders.totalPages > 1 && (
+                            <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
+                                <Pagination
+                                    count={currentOrders.totalPages}
+                                    page={currentPage}
+                                    onChange={handlePageChange}
+                                />
+                            </Box>
+                        )}
+                    </>
+                ) : <NoOrdersFound />
+            )}
         </CenteredLayout>
     )
 }

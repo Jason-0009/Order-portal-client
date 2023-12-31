@@ -2,8 +2,9 @@ import { FC } from 'react'
 
 import { useRouter } from 'next/router'
 import NextLink from 'next/link'
+import { useTranslation } from 'next-i18next'
 
-import { Box, Link, IconButton, Typography } from '@mui/material'
+import { Link, IconButton, Typography } from '@mui/material'
 import { FactCheck, People, ShoppingCartCheckout } from '@mui/icons-material'
 
 import useAuth from '@/hooks/useAuth'
@@ -18,20 +19,21 @@ const Routes: FC = () => {
 
     const { isAuthenticated } = useAuth()
     const { userProfile } = useUserProfile(isAuthenticated)
+    const { t: translation } = useTranslation()
 
     const isAdmin = userProfile?.role === UserRole.ADMIN
     const iconStyle = { mr: 0.5, fontSize: '0.8em' }
 
     const routes: Route[] = [
         ...(isAdmin ? [
-            { path: "/admin/orders", icon: <FactCheck sx={iconStyle} />, text: "Gestione degli ordini" },
-            { path: "/admin/users", icon: <People sx={iconStyle} />, text: "Gestione utenti" }
+            { path: "/admin/orders", icon: <FactCheck sx={iconStyle} />, text: translation('adminOrders') },
+            { path: "/admin/users", icon: <People sx={iconStyle} />, text: translation('adminUsers') }
         ] : []),
-        { path: "/orders", icon: <ShoppingCartCheckout sx={iconStyle} />, text: "I miei ordini" },
+        { path: "/orders", icon: <ShoppingCartCheckout sx={iconStyle} />, text: translation('myOrders') }
     ]
 
     return (
-        <Box>
+        <>
             {routes.map(({ path, icon, text }) => router.pathname !== path && (
                 <Link
                     key={path}
@@ -50,7 +52,7 @@ const Routes: FC = () => {
                     </IconButton>
                 </Link>
             ))}
-        </Box>
+        </>
     )
 }
 

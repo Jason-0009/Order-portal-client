@@ -1,13 +1,17 @@
 import { FC } from 'react'
 
+import { useTranslation } from 'next-i18next'
+
 import { Box, SxProps, Typography } from '@mui/material'
 
 import useOrderStatistics from '@/hooks/order/useOrderStatistics'
 
 const AdminOrdersOverview: FC = () => {
+    const { t: translation } = useTranslation()
+
     const { statistics } = useOrderStatistics()
 
-    const commonStyles: SxProps = { mb: 1, fontSize: '0.7em' }
+    const textStyles: SxProps = { mb: 1, fontSize: '0.7em' }
     const numberStyles: SxProps = { fontWeight: 600, mb: 2 }
 
     return (
@@ -22,27 +26,27 @@ const AdminOrdersOverview: FC = () => {
                 color: '#F31515',
                 mb: 5
             }}>
-                Panoramica
+                {translation('overview')}
             </Typography>
 
-            <Typography sx={commonStyles}>
-                Ordini consegnati oggi
+            <Typography sx={textStyles}>
+                {translation('orderDeliveredToday')}
             </Typography>
 
             <Typography variant="h5" sx={numberStyles}>
                 {statistics?.deliveredToday}
             </Typography>
 
-            <Typography sx={commonStyles}>
-                Ordini in attesa
+            <Typography sx={textStyles}>
+                {translation('pendingOrders')}
             </Typography>
 
             <Typography variant="h5" sx={numberStyles}>
                 {statistics?.pending}
             </Typography>
 
-            <Typography sx={commonStyles}>
-                Ordini in arrivo
+            <Typography sx={textStyles}>
+                {translation('incomingOrders')}
             </Typography>
 
             <Typography variant="h5" sx={numberStyles}>

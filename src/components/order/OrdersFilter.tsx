@@ -1,14 +1,17 @@
 import { FC, useState, MouseEvent } from 'react'
 
+import { useTranslation } from 'next-i18next'
+
 import { Box, Typography, IconButton, Popover, List, ListItemButton } from '@mui/material'
 import { Clear, DateRange, ExpandMore, FilterList } from '@mui/icons-material'
 
 import { LocalizationProvider, DateCalendar } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 
+import { useOrderStatusTexts } from '@/hooks/useOrderStatusTexts'
+
 import OrderStatus from '@/types/order/OrderStatus.enum'
 
-import ORDER_STATUS_TEXTS from '@/constants/OrderStatusTexts'
 import ORDER_STATUS_STYLES from '@/constants/OrderStatusStyles'
 
 type OrderFilterProps = {
@@ -26,6 +29,9 @@ const OrdersFilter: FC<OrderFilterProps> = ({
 }) => {
     const [calendarAnchorElement, setCalendarAnchorElement] = useState<HTMLElement | null>(null)
     const [statusAnchorElement, setStatusAnchorElement] = useState<HTMLElement | null>(null)
+
+    const { t: translation } = useTranslation()
+    const ORDER_STATUS_TEXTS = useOrderStatusTexts()
 
     const handleCalendarOpen = (event: MouseEvent<HTMLElement>) =>
         setCalendarAnchorElement(event.currentTarget)
@@ -52,7 +58,7 @@ const OrdersFilter: FC<OrderFilterProps> = ({
             <DateRange sx={{ fontSize: '0.95em' }} />
 
             <Typography variant="body1" sx={{ ml: 0.5, fontSize: '0.85em' }}>
-                Ordina per data
+                {translation('sortByDate')}
             </Typography>
 
             <IconButton onClick={handleCalendarOpen} sx={{ p: 0.2 }}>
@@ -90,7 +96,7 @@ const OrdersFilter: FC<OrderFilterProps> = ({
             <FilterList sx={{ ml: 1, fontSize: '0.95em' }} />
 
             <Typography variant="body1" sx={{ ml: 0.5, fontSize: '0.85em' }}>
-                Ordina per stato
+                {translation('sortByStatus')}
             </Typography>
 
             <IconButton onClick={handleStatusFilterOpen} sx={{ p: 0.2 }}>

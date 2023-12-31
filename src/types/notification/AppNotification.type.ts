@@ -1,9 +1,10 @@
 type AppNotification = {
     id: string,
     userId: string,
-    message: string,
-    date: Date,
-    readStatus: boolean
+    messageCode: string,
+    date: string,
+    readStatus: boolean,
+    redirectUrl: string
 }
 
 export default AppNotification

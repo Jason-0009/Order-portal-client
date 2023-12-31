@@ -14,6 +14,9 @@ import Routes from './Routes'
 import NotificationMenu from './notification/NotificationMenu'
 import ProfileMenu from './ProfileMenu'
 
+import LanguageSelector from './selector/LanguageSelector'
+import ThemeSelector from './selector/ThemeSelector'
+
 
 const Header: FC = () => {
     const { isAuthenticated } = useAuth()
@@ -31,13 +34,18 @@ const Header: FC = () => {
                     </IconButton>
                 </Link>
 
-                {isAuthenticated && (
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Routes />
-                        <NotificationMenu />
-                        <ProfileMenu />
-                    </Box>
-                )}
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    {isAuthenticated && (
+                        <>
+                            <Routes />
+                            <NotificationMenu />
+                            <ProfileMenu />
+                        </>
+                    )}
+
+                    <LanguageSelector />
+                    <ThemeSelector />
+                </Box>
             </Toolbar>
         </AppBar>
     )

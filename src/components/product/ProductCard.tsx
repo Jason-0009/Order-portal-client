@@ -1,7 +1,13 @@
 import { FC } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { Card, CardContent, CardMedia, Typography, Divider, Box, Button } from '@mui/material'
+import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
+
+import {
+    Card, CardContent, CardMedia,
+    Typography, Divider, Box, Button
+} from '@mui/material'
 
 import { ShoppingCart } from '@mui/icons-material'
 
@@ -16,10 +22,13 @@ type ProductCardProps = {
 const ProductCard: FC<ProductCardProps> = ({ product }) => {
     const { imageUrl, name, ingredients, price } = product
 
+    const { locale } = useRouter()
     const dispatch = useDispatch()
+    const { t: translation } = useTranslation()
 
-    const formattedIngredients = ingredients.map((ingredient, index) => index === 0 ?
-        ingredient : ingredient.toLowerCase())
+    const formattedIngredients = locale && ingredients[locale] ?
+        ingredients[locale].map((ingredient, index) => index === 0 ?
+            ingredient : ingredient.toLowerCase()) : []
 
     const handleAddToCart = () => dispatch(addToCart({ product: product, quantity: 1 }))
 
@@ -33,7 +42,6 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                 <CardMedia
                     image={imageUrl}
                     component="img"
-                    alt={`Product ${name.toLowerCase()}`}
                     sx={{ height: '150px', width: '150px' }}
                 />
 
@@ -42,7 +50,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                     fontWeight: 600,
                     mb: 1
                 }}>
-                    {name}
+                    {locale && name[locale]}
                 </Typography>
 
                 <Divider sx={{ width: '50%', mb: 1 }} />
@@ -73,9 +81,9 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                         color="primary"
                         onClick={handleAddToCart}
                         sx={{
-                            width: '120px',
+                            width: '140px',
                             height: '50px',
-                            fontSize: '0.7em',
+                            fontSize: '0.8em',
                             fontWeight: 600,
                             lineHeight: 'normal',
                             textAlign: 'left',
@@ -83,7 +91,8 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                         }}
                     >
                         <ShoppingCart sx={{ color: 'white', mr: 1 }} />
-                        Aggiungi al carrello
+                        
+                        {translation('addToCart')}
                     </Button>
                 </Box>
             </CardContent>

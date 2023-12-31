@@ -1,10 +1,22 @@
-export const formatDate = (dateInput: string): string => {
+import { format, formatDistanceToNow } from 'date-fns'
+import { enUS, it } from 'date-fns/locale'
+
+type Locale = typeof enUS | typeof it
+
+const locales: { [key: string]: Locale } = { en: enUS, it: it }
+
+export const formatDistanceToNowLocale = (dateInput: string, localeKey: string): string => {
     const date = new Date(dateInput)
+    const dateFnsLocale = localeKey && locales.hasOwnProperty(localeKey) ?
+        locales[localeKey] as Locale : undefined
 
-    const day = date.toLocaleDateString('it-IT', { day: 'numeric' })
-    const month = date.toLocaleDateString('it-IT', { month: 'short' })
-        .replace(/^\w/, char => char.toUpperCase()).concat('.')
-    const year = date.toLocaleDateString('it-IT', { year: 'numeric' })
+    return formatDistanceToNow(date, { addSuffix: true, locale: dateFnsLocale })
+}
 
-    return `${day} ${month} ${year}`
+export const formatDateLocale = (dateInput: string, localeKey: string): string => {
+    const date = new Date(dateInput)
+    const dateFnsLocale = localeKey && locales.hasOwnProperty(localeKey) ?
+        locales[localeKey] as Locale : undefined
+        
+    return format(date, 'dd MMM. yyyy', { locale: dateFnsLocale })
 }

@@ -1,5 +1,6 @@
 import { FC, useState } from 'react'
-import { QueryObserverResult } from 'react-query'
+
+import { useTranslation } from 'next-i18next'
 
 import {
     SxProps, Table, TableHead, TableRow,
@@ -17,6 +18,8 @@ type AdminOrdersTableProps = {
 const AdminOrdersTable: FC<AdminOrdersTableProps> = ({ orders }) => {
     const [openRows, setOpenRows] = useState<Record<string, boolean>>({})
 
+    const { t: translation } = useTranslation()
+
     const firstOrderId = orders[0].id
     const isFirstRowOpen = firstOrderId && openRows[firstOrderId]
 
@@ -25,7 +28,8 @@ const AdminOrdersTable: FC<AdminOrdersTableProps> = ({ orders }) => {
         border: isFirstRowOpen ? 'none' : 'default'
     }
 
-    const toggleRow = (id: string) => setOpenRows(previousOpenRows => ({ ...previousOpenRows, [id]: !previousOpenRows[id] }))
+    const toggleRow = (id: string) => setOpenRows(previousOpenRows =>
+        ({ ...previousOpenRows, [id]: !previousOpenRows[id] }))
 
     return (
         <TableContainer sx={{ p: 1 }}>
@@ -40,15 +44,15 @@ const AdminOrdersTable: FC<AdminOrdersTableProps> = ({ orders }) => {
                         </TableCell>
 
                         <TableCell sx={tableCellStyle}>
-                            Creato
+                            {translation('dateLabel')}
                         </TableCell>
 
                         <TableCell sx={tableCellStyle}>
-                            Totale
+                            {translation('totalLabel')}
                         </TableCell>
 
                         <TableCell sx={tableCellStyle}>
-                            Stato
+                            {translation('statusLabel')}
                         </TableCell>
 
                         <TableCell sx={tableCellStyle} align="right" />

@@ -29,7 +29,7 @@ const useNotifications = () => {
 
                 const notification: AppNotification = {
                     ...data,
-                    date: new Date(date * 1000)
+                    date: new Date(date * 1000).toISOString()
                 }
 
                 notificationIdsRef.current.add(id)

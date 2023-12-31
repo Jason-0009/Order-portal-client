@@ -1,5 +1,7 @@
 import { FC, MouseEvent, useState } from 'react'
 
+import { useTranslation } from 'next-i18next'
+
 import {
     IconButton, Avatar, Popover, Box,
     Typography, Divider, Button
@@ -13,6 +15,7 @@ const ProfileMenu: FC = () => {
 
     const { isAuthenticated } = useAuth()
     const { userProfile } = useUserProfile(isAuthenticated)
+    const { t: translation } = useTranslation()
 
     const handleProfileMenuOpen = (event: MouseEvent<HTMLElement>) =>
         setProfileMenuAnchorElement(event.currentTarget as HTMLElement)
@@ -22,7 +25,7 @@ const ProfileMenu: FC = () => {
     const handleLogout = () => window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/logout`
 
     return (
-        <Box>
+        <>
             <IconButton color="inherit" onClick={handleProfileMenuOpen}>
                 <Avatar src={userProfile?.imageUrl} />
             </IconButton>
@@ -52,11 +55,11 @@ const ProfileMenu: FC = () => {
                     <Divider sx={{ my: 1 }} />
 
                     <Button onClick={handleLogout} variant="contained" color="primary" fullWidth>
-                        Esci
+                        {translation('logout')}
                     </Button>
                 </Box>
             </Popover>
-        </Box>
+        </>
     )
 }
 

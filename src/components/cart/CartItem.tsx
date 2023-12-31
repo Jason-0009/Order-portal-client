@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { useDispatch } from 'react-redux'
 
+import { useRouter } from 'next/router'
 import Image from 'next/image'
 
 import { Box, Button, Typography, Select, MenuItem, SelectChangeEvent } from '@mui/material'
@@ -16,6 +17,7 @@ type CartItemProps = {
 const CartItem: FC<CartItemProps> = ({ item }) => {
     const { product, quantity } = item
 
+    const {locale } = useRouter()
     const dispatch = useDispatch()
 
     const handleRemoveFromCart = () => dispatch(removeFromCart(product.id))
@@ -50,7 +52,7 @@ const CartItem: FC<CartItemProps> = ({ item }) => {
                     p: 0.5
                 }}>
                     <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                        {product.name}
+                        {locale && product.name[locale]}
                     </Typography>
 
                     <Typography variant="body2" sx={{ fontSize: '0.8em'}}>

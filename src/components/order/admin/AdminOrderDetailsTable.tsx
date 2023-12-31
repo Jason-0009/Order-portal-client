@@ -1,5 +1,7 @@
-import { FC, useState } from 'react'
-import { useQuery } from 'react-query'
+import { FC } from 'react'
+
+import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
 
 import Image from 'next/image'
 
@@ -8,10 +10,9 @@ import {
     TableCell, TableBody, Pagination, Box
 } from '@mui/material'
 
-import fetchProducts from '@/api/fetchProducts'
+import useProducts from '@/hooks/useProducts'
 
 import Order from '@/types/order/Order.type'
-import useProducts from '@/hooks/useProducts'
 
 type AdminOrderDetailsTableProps = {
     order: Order,
@@ -19,6 +20,9 @@ type AdminOrderDetailsTableProps = {
 
 const AdminOrderDetailsTable: FC<AdminOrderDetailsTableProps> = ({ order }) => {
     const itemIds = order.items.map(item => item.id)
+
+    const { locale } = useRouter()
+    const { t: translation } = useTranslation()
 
     const {
         currentProducts,
@@ -38,23 +42,23 @@ const AdminOrderDetailsTable: FC<AdminOrderDetailsTableProps> = ({ order }) => {
                         </TableCell>
 
                         <TableCell sx={tableCellStyle}>
-                            Immagine
+                            {translation('imageLabel')}
                         </TableCell>
 
                         <TableCell sx={tableCellStyle}>
-                            Nome
+                            {translation('nameLabel')}
                         </TableCell>
 
                         <TableCell sx={tableCellStyle}>
-                            Prezzo
+                            {translation('priceLabel')}
                         </TableCell>
 
                         <TableCell sx={tableCellStyle} align="center">
-                            Ingredienti
+                            {translation('ingredientsLabel')}
                         </TableCell>
 
                         <TableCell sx={tableCellStyle}>
-                            Quantità
+                            {translation('amountLabel')}
                         </TableCell>
                     </TableRow>
                 </TableHead>
@@ -62,10 +66,14 @@ const AdminOrderDetailsTable: FC<AdminOrderDetailsTableProps> = ({ order }) => {
                 <TableBody>
                     {currentProducts?.content.map(({ id, imageUrl, name, price, ingredients }, index) => {
                         const isLast = index === currentProducts.content.length - 1
-                        const tableCellStyle: SxProps = { border: isLast ? 'none' : 'default', pb: isLast ? 6 : 'none' }
+                        const tableCellStyle: SxProps = {
+                            border: isLast ? 'none' : 'default',
+                            pb: isLast ? 6 : 'none'
+                        }
 
-                        const formattedIngredients = ingredients.map((ingredient, index) =>
-                            index === 0 ? ingredient : ingredient.toLowerCase())
+                        const formattedIngredients = locale && ingredients[locale] ?
+                            ingredients[locale].map((ingredient, index) => index === 0 ?
+                                ingredient : ingredient.toLowerCase()) : []
 
                         const orderItem = order.items.find(item => item.id === id)
                         const quantity = orderItem?.quantity
@@ -88,7 +96,7 @@ const AdminOrderDetailsTable: FC<AdminOrderDetailsTableProps> = ({ order }) => {
                                 </TableCell>
 
                                 <TableCell sx={tableCellStyle}>
-                                    {name}
+                                    {locale && name[locale]}
                                 </TableCell>
 
                                 <TableCell sx={tableCellStyle}>

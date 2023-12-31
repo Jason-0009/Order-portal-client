@@ -11,11 +11,11 @@ import { Warning } from '@mui/icons-material'
 
 import { RootState } from '@/store'
 
-import { hideAlert } from '@/slices/alertSlice'
+import { hideAlert } from '@/slices/alertDialogSlice'
 
 const AlertDialog: FC = () => {
     const dispatch = useDispatch()
-    const { isOpen, message } = useSelector((state: RootState) => state.alert)
+    const { isOpen, message } = useSelector((state: RootState) => state.alertDialog)
 
     const handleClose = () => dispatch(hideAlert())
 

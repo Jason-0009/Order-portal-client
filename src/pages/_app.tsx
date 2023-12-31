@@ -1,36 +1,36 @@
-
 import { AppProps } from 'next/app'
 
 import { Provider as ReduxProvider } from 'react-redux'
-import { QueryClient, QueryClientProvider } from 'react-query'
 
-import { ThemeProvider } from '@mui/material/styles'
-import CssBaseline from '@mui/material/CssBaseline'
+import { appWithTranslation } from 'next-i18next'
 
 import { store } from '@/store'
 
-import theme from '@/app/theme'
-
+import ThemedComponent from '@/components/ThemedComponent'
 import Header from '@/components/Header'
+
+import { useEffect, useState } from 'react'
 
 import '@/api/axiosConfig'
 
-const queryClient = new QueryClient()
-
 const App = (props: AppProps) => {
   const { Component, pageProps } = props
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) return null
 
   return (
     <ReduxProvider store={store}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <QueryClientProvider client={queryClient}>
-          <Header />
-          <Component {...pageProps} />
-        </QueryClientProvider>
-      </ThemeProvider>
-    </ReduxProvider >
+      <ThemedComponent>
+        <Header />
+        <Component {...pageProps} />
+      </ThemedComponent>
+    </ReduxProvider>
   )
 }
 
-export default App
+export default appWithTranslation(App)
