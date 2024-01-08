@@ -20,7 +20,7 @@ const useOrderStatistics = () => {
 
                 setStatistics(updatedStatistics)
             } catch (error) {
-                console.error('Error parsing WebSocket message:', error)
+                throw error
             }
 
             return

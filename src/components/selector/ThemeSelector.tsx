@@ -13,19 +13,18 @@ export default function ThemeSelector() {
     const theme = useSelector((state: RootState) => state.theme)
 
     const handleThemeChange = () => {
-        let newTheme: ThemeState
+        if (theme === 'light') {
+            dispatch(setTheme('dark'))
+            
+            return
+        }
 
-        if (theme === 'light')
-            newTheme = 'dark'
-        else
-            newTheme = 'light'
-
-        dispatch(setTheme(newTheme))
+        dispatch(setTheme('light'))
     }
 
     return (
         <IconButton
-            sx={{ ml: 1 }}
+            sx={{ mr: 1 }}
             onClick={handleThemeChange}
             color='inherit'
         >

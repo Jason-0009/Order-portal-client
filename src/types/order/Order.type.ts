@@ -3,6 +3,7 @@ import OrderItem from './OrderItem.type'
 
 type Order = {
     id?: string,
+    customerId?: string,
     date?: string
     status: OrderStatus
     items: OrderItem[]

@@ -29,7 +29,7 @@ const BackButton: FC<BackButtonProps> = ({ location }) => {
             >
                 <ArrowBackIos />
 
-                <Typography variant="body2">
+                <Typography variant="body2" fontWeight={600}>
                     {translation('back')}
                 </Typography>
             </IconButton>

@@ -9,8 +9,9 @@ import {
 
 import useAuth from '@/hooks/useAuth'
 import useUserProfile from '@/hooks/user/useUserProfile'
+import ConfirmButton from '../common/button/ConfirmButton'
 
-const ProfileMenu: FC = () => {
+const UserProfileMenu: FC = () => {
     const [profileMenuAnchorElement, setProfileMenuAnchorElement] = useState<HTMLElement | null>(null)
 
     const { isAuthenticated } = useAuth()
@@ -43,7 +44,11 @@ const ProfileMenu: FC = () => {
                     horizontal: 'center',
                 }}
             >
-                <Box sx={{ padding: 2, width: 200 }}>
+                <Box sx={{
+                    padding: 2,
+                    width: 200,
+                    backgroundColor: 'secondary.main'
+                }}>
                     <Typography variant="h6" sx={{ fontWeight: 600 }}>
                         {userProfile?.name}
                     </Typography>
@@ -52,15 +57,17 @@ const ProfileMenu: FC = () => {
                         {userProfile?.email}
                     </Typography>
 
-                    <Divider sx={{ my: 1 }} />
+                    <Divider sx={{ mt: 1, mb: 2 }} />
 
-                    <Button onClick={handleLogout} variant="contained" color="primary" fullWidth>
-                        {translation('logout')}
-                    </Button>
+                    <ConfirmButton
+                        onClick={handleLogout}
+                        size='regular'
+                        text={translation('logout')}
+                    />
                 </Box>
             </Popover>
         </>
     )
 }
 
-export default ProfileMenu
+export default UserProfileMenu

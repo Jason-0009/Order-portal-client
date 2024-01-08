@@ -28,12 +28,12 @@ const AdminOrderDetailsTable: FC<AdminOrderDetailsTableProps> = ({ order }) => {
         currentProducts,
         currentPage,
         handlePageChange,
-    } = useProducts(false, itemIds)
+    } = useProducts(false, 3, itemIds)
 
-    const tableCellStyle: SxProps = { color: '#BEBEBE' }
+    const tableCellStyle: SxProps = { color: 'text.main', fontWeight: 600 }
 
     return (
-        <TableContainer sx={{ maxWidth: '80%', ml: 10, overflow: 'hidden' }}>
+        <TableContainer sx={{ maxWidth: '80%', ml: 10, mt: 2, overflow: 'hidden' }}>
             <Table>
                 <TableHead>
                     <TableRow>
@@ -53,7 +53,7 @@ const AdminOrderDetailsTable: FC<AdminOrderDetailsTableProps> = ({ order }) => {
                             {translation('priceLabel')}
                         </TableCell>
 
-                        <TableCell sx={tableCellStyle} align="center">
+                        <TableCell sx={tableCellStyle}>
                             {translation('ingredientsLabel')}
                         </TableCell>
 
@@ -64,11 +64,11 @@ const AdminOrderDetailsTable: FC<AdminOrderDetailsTableProps> = ({ order }) => {
                 </TableHead>
 
                 <TableBody>
-                    {currentProducts?.content.map(({ id, imageUrl, name, price, ingredients }, index) => {
-                        const isLast = index === currentProducts.content.length - 1
+                    {currentProducts?.content.map(product => {
+                        const { id, imageUrl, name, price, ingredients } = product
                         const tableCellStyle: SxProps = {
-                            border: isLast ? 'none' : 'default',
-                            pb: isLast ? 6 : 'none'
+                            border: 'none',
+                            color: 'text.secondary',
                         }
 
                         const formattedIngredients = locale && ingredients[locale] ?
@@ -117,7 +117,7 @@ const AdminOrderDetailsTable: FC<AdminOrderDetailsTableProps> = ({ order }) => {
             </Table>
 
             {Number(currentProducts?.totalPages) > 1 && (
-                <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
                     <Pagination
                         count={currentProducts?.totalPages}
                         page={currentPage}

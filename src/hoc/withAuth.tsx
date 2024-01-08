@@ -19,7 +19,7 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
 
         if (isLoading) return (
             <CenteredBox>
-                <CircularProgress />
+                <CircularProgress color="info" />
             </CenteredBox>
         )
 
@@ -38,13 +38,12 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
                 <Button
                     onClick={handleAuth}
                     sx={{
-                        backgroundColor: 'primary.main',
-                        color: 'white',
-                        fontSize: '20px',
-                        padding: '10px 24px',
-                        '&:hover': {
-                            backgroundColor: 'primary.dark'
-                        }
+                        backgroundColor: 'secondary.main',
+                        color: 'text.primary',
+                        borderRadius: '20px',
+                        fontWeight: 600,
+                        textTransform: 'none',
+                        padding: '10px 24px'
                     }}
                     startIcon={<Google />}
                 >

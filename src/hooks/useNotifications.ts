@@ -19,31 +19,23 @@ const useNotifications = () => {
 
     const { lastMessage } = useWebSocket(SOCKET_URL)
 
-    useEffect(() => {
-        if (lastMessage) {
-            try {
-                const data: AppNotificationData = JSON.parse(lastMessage.data)
-                const { id, date } = data
+    const handleWebSocketMessage = (message: MessageEvent) => {
+        const data: AppNotificationData = JSON.parse(message.data)
+        const { id, date } = data
 
-                if (notificationIdsRef.current.has(id)) return
+        if (notificationIdsRef.current.has(id)) return
 
-                const notification: AppNotification = {
-                    ...data,
-                    date: new Date(date * 1000).toISOString()
-                }
-
-                notificationIdsRef.current.add(id)
-
-                setNotifications(previousNotifications => [notification, ...previousNotifications])
-            } catch (error) {
-                console.error('Error parsing WebSocket message:', error)
-            }
-
-            return
+        const notification: AppNotification = {
+            ...data,
+            date: new Date(date * 1000).toISOString()
         }
 
-        if (!fetchedNotifications ) return
+        notificationIdsRef.current.add(id)
 
+        setNotifications(previousNotifications => [notification, ...previousNotifications])
+    }
+
+    const handleFetchedNotifications = (fetchedNotifications: AppNotification[]) => {
         const uniqueFetchedNotifications = fetchedNotifications.filter(({ id }) =>
             !notificationIdsRef.current.has(id))
 
@@ -54,6 +46,20 @@ const useNotifications = () => {
 
         setNotifications(previousNotifications =>
             [...previousNotifications, ...uniqueFetchedNotifications])
+    }
+
+    useEffect(() => {
+        if (lastMessage) {
+            try {
+                handleWebSocketMessage(lastMessage)
+            } catch (error) {
+                throw error
+            }
+        }
+
+        if (!fetchedNotifications) return
+
+        handleFetchedNotifications(fetchedNotifications)
     }, [lastMessage, fetchedNotifications])
 
     const handleNotificationRead = async (notificationId: string) => {

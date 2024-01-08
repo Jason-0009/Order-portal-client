@@ -5,13 +5,12 @@ import { useTranslation } from 'next-i18next'
 import NextLink from 'next/link'
 
 import {
-    Link,
-    SxProps, Table, TableBody,
+    Link, SxProps, Table, TableBody,
     TableCell, TableContainer,
     TableHead, TableRow
 } from '@mui/material'
 
-import OrderStateIndicator from './OrderStateIndicator'
+import OrderStatusIndicator from './OrderStatusIndicator'
 
 import { formatDateLocale } from '@/utils/dateUtils'
 
@@ -26,60 +25,60 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
     const { t: translation } = useTranslation()
 
     const tableCellStyle: SxProps = {
-        borderBottom: 'none',
-        fontSize: '15px',
-        fontWeight: 700,
-        color: '#BAB5B5',
-        textTransform: 'uppercase'
+        pt: 3,
+        fontSize: '14px',
+        fontWeight: 600,
+        color: 'text.primary'
     }
 
     return (
         <TableContainer>
             <Table sx={{
-                borderCollapse: 'separate',
-                borderSpacing: '5px 30px'
+                backgroundColor: 'secondary.main',
+                borderRadius: '20px'
             }}>
                 <TableHead>
                     <TableRow>
-                        <TableCell sx={tableCellStyle}>
+                        <TableCell sx={{ ...tableCellStyle, width: '30%', pl: 4 }}>
                             Id
                         </TableCell>
 
-                        <TableCell sx={tableCellStyle}>
+                        <TableCell sx={{ ...tableCellStyle, width: '15%' }}>
                             {translation('dateLabel')}
+                        </TableCell>
+
+                        <TableCell sx={{ ...tableCellStyle, width: '10%' }}>
+                            {translation('totalLabel')}
                         </TableCell>
 
                         <TableCell sx={tableCellStyle}>
                             {translation('statusLabel')}
                         </TableCell>
-
-                        <TableCell sx={tableCellStyle} align="center">
-                            {translation('totalLabel')}
-                        </TableCell>
                     </TableRow>
                 </TableHead>
 
                 <TableBody>
-                    {orders.map(order => {
+                    {orders.map((order, index, array) => {
                         const { id, date, status, totalPrice } = order
 
-                        const formattedDate = date && locale && formatDateLocale(date, locale)
+                        const isFirstItem = index === 0
+                        const isLastItem = index === array.length - 1
 
-                        const tableCellStyle: SxProps = { borderBottom: 'none', fontWeight: 600 }
+                        const formattedDate = date && locale && formatDateLocale(date, locale)
+                        const tableCellStyle: SxProps = {
+                            borderBottom: 'none',
+                            color: 'text.secondary',
+                            pt: isFirstItem ? 4 : 2,
+                            pb: isLastItem ? 4 : 2,
+                        }
 
                         return (
-                            <TableRow
-                                key={id}
-                                sx={{
-                                    height: '100px',
-                                    boxShadow: '0px 2px 8px 0px rgba(0, 0, 0, 0.2)',
-                                    borderRadius: '10px'
-                                }}>
-                                <TableCell sx={{ ...tableCellStyle, pl: 5 }}>
+                            <TableRow key={id}>
+                                <TableCell sx={{ ...tableCellStyle, pl: 4 }}>
                                     <Link
                                         component={NextLink}
                                         href={`/orders/${id}`}
-                                        color="#2EB4FF"
+                                        color='link.main'
                                         sx={{ textDecoration: 'none' }}
                                     >
                                         #{id}
@@ -91,11 +90,11 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
                                 </TableCell>
 
                                 <TableCell sx={tableCellStyle}>
-                                    <OrderStateIndicator status={status} />
+                                    € {totalPrice}
                                 </TableCell>
 
-                                <TableCell sx={tableCellStyle} align="center">
-                                    € {totalPrice}
+                                <TableCell sx={tableCellStyle}>
+                                    <OrderStatusIndicator status={status} size='regular' />
                                 </TableCell>
                             </TableRow >
                         )

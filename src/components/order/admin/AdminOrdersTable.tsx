@@ -4,7 +4,7 @@ import { useTranslation } from 'next-i18next'
 
 import {
     SxProps, Table, TableHead, TableRow,
-    TableCell, TableContainer
+    TableCell, TableContainer, Paper
 } from '@mui/material'
 
 import AdminOrdersTableBody from './AdminOrdersTableBody'
@@ -20,60 +20,59 @@ const AdminOrdersTable: FC<AdminOrdersTableProps> = ({ orders }) => {
 
     const { t: translation } = useTranslation()
 
-    const firstOrderId = orders[0].id
-    const isFirstRowOpen = firstOrderId && openRows[firstOrderId]
-
     const tableCellStyle: SxProps = {
-        color: '#BEBEBE',
-        border: isFirstRowOpen ? 'none' : 'default'
+        color: 'text.primary',
+        fontWeight: 600,
+        pt: 3
     }
 
     const toggleRow = (id: string) => setOpenRows(previousOpenRows =>
         ({ ...previousOpenRows, [id]: !previousOpenRows[id] }))
 
     return (
-        <TableContainer sx={{ p: 1 }}>
+        <TableContainer>
             <Table sx={{
-                borderCollapse: 'separate',
-                borderSpacing: '0px 10px',
+                backgroundColor: 'secondary.main',
+                borderRadius: '20px',
+                mt: 4
             }}>
                 <TableHead>
                     <TableRow>
-                        <TableCell sx={tableCellStyle}>
+                        <TableCell sx={{ ...tableCellStyle, width: '25%', pl: 5 }}>
                             Id
                         </TableCell>
 
-                        <TableCell sx={tableCellStyle}>
+                        <TableCell sx={{ ...tableCellStyle, width: '20%' }}>
+                            {translation('customerLabel')}
+                        </TableCell>
+
+                        <TableCell sx={{ ...tableCellStyle, width: '15%' }}>
                             {translation('dateLabel')}
                         </TableCell>
 
-                        <TableCell sx={tableCellStyle}>
+                        <TableCell sx={{ ...tableCellStyle, width: '10%' }}>
                             {translation('totalLabel')}
                         </TableCell>
 
-                        <TableCell sx={tableCellStyle}>
+                        <TableCell sx={{ ...tableCellStyle, width: '15%' }}>
                             {translation('statusLabel')}
                         </TableCell>
 
-                        <TableCell sx={tableCellStyle} align="right" />
+                        <TableCell sx={tableCellStyle} />
                     </TableRow>
                 </TableHead>
 
-                {orders.map((order, index) => {
-                    const { id: currentId } = order
-                    const previousRowId = orders[index - 1]?.id
-                    const nextRowId = orders[index + 1]?.id
+                {orders.map((order, index, array) => {
+                    const { id } = order
 
                     return (
                         <AdminOrdersTableBody
-                            key={currentId}
+                            key={id}
                             order={order}
                             openRows={openRows}
-                            previousRowId={previousRowId}
-                            nextRowId={nextRowId}
-                            onExpand={() => currentId && toggleRow(currentId)}
                             index={index}
-                            ordersLength={orders.length}
+                            array={array}
+                            onExpand={() => id && toggleRow(id)}
                         />
                     )
                 })}

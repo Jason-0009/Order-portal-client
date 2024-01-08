@@ -5,8 +5,8 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 
 import {
-    Select, Box, MenuItem, FormControl,
-    InputLabel, SelectChangeEvent
+    Select, Box, MenuItem, 
+    SelectChangeEvent, Typography, lighten
 } from '@mui/material'
 
 import useAuth from '@/hooks/useAuth'
@@ -16,7 +16,7 @@ import updateUserPreferredLanguage from '@/api/user/updateUserPreferredLanguage'
 
 const LanguageSelector: FC = () => {
     const router = useRouter()
-    const { i18n, t: translation } = useTranslation()
+    const { i18n } = useTranslation()
     const [locale, setLocale] = useState(i18n.language)
 
     const { isAuthenticated } = useAuth()
@@ -29,8 +29,8 @@ const LanguageSelector: FC = () => {
     }, [locale])
 
     const languages = [
-        { code: 'en', label: 'EN', flag: '/images/flags/us.png' },
-        { code: 'it', label: 'IT', flag: '/images/flags/it.png' }
+        { code: 'it', label: 'Italiano', flag: '/images/flags/it.png' },
+        { code: 'en', label: 'English', flag: '/images/flags/us.png' }
     ]
 
     const handleLocaleChange = async (event: SelectChangeEvent<string>) => {
@@ -43,53 +43,58 @@ const LanguageSelector: FC = () => {
         userProfile && await updateUserPreferredLanguage(userProfile.id, newLocale)
     }
 
-    const renderLanguage = (selectedLanguage: string) => {
-        const language = languages.find(language => language.code === selectedLanguage)
-
-        return (
-            <Box display="flex" alignItems="center">
-                <Image
-                    src={language?.flag as string}
-                    alt={language?.label as string}
-                    width={16}
-                    height={12}
-                />
-
-                <Box ml={1}>
-                    {language?.label}
-                </Box>
-            </Box>
-        )
-    }
-
     return (
-        <FormControl variant="outlined" size="small" sx={{
-            '& .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white'
-            }
-        }}>
-            <InputLabel id="language-selector-label" sx={{ color: 'white' }}>
-                {translation('languageLabel')}
-            </InputLabel>
+        <Select
+            value={locale}
+            onChange={handleLocaleChange}
+            sx={{
+                mr: 0.5,
+                "& fieldset": {
+                    border: 'none'
+                }
+            }}
+            renderValue={selectedLanguage => {
+                const language = languages.find(language => language.code === selectedLanguage)
 
-            <Select
-                labelId="language-selector-label"
-                value={locale}
-                onChange={handleLocaleChange}
-                label="Language"
-                renderValue={renderLanguage}
-            >
-                {languages.map(({ code, flag, label }) => (
-                    <MenuItem key={code} value={code}>
+                return (
+                    <Image
+                        src={language?.flag as string}
+                        alt={language?.label as string}
+                        width={16}
+                        height={12}
+                    />
+                )
+            }}
+        >
+            {languages.map(({ code, flag, label }, index, array) => {
+                const isFirstItem = index === 0
+                const isLastItem = index === array.length - 1
+
+                return (
+                    <MenuItem key={code} value={code} sx={{
+                        backgroundColor: 'secondary.main',
+                        '&.MuiMenuItem-root': {
+                            marginTop: isFirstItem ? '-0.5em' : 'auto',
+                            marginBottom: isLastItem ? '-0.5em' : 'auto',
+                            '&.Mui-selected': {
+                                backgroundColor: 'secondary.main'
+                            },
+                            '&:hover': {
+                                backgroundColor: 'primary.main'
+                            }
+                        }
+                    }}>
                         <Box display="flex" alignItems="center">
                             <Image src={flag} alt={label} width={16} height={12} />
 
-                            <Box ml={1}>{label}</Box>
+                            <Typography variant="body2" ml={1}>
+                                {label}
+                            </Typography>
                         </Box>
                     </MenuItem>
-                ))}
-            </Select>
-        </FormControl>
+                )
+            })}
+        </Select>
     )
 }
 

@@ -1,54 +1,65 @@
 import { FC } from 'react'
 
+import { useTranslation } from 'next-i18next'
 import NextLink from 'next/link'
 
-import {
-    Link, AppBar, Toolbar, Typography,
-    IconButton, Box
-} from '@mui/material'
+import { Link, AppBar, Toolbar, Typography, IconButton, Box } from '@mui/material'
 import { LocalPizza } from '@mui/icons-material'
 
 import useAuth from '@/hooks/useAuth'
 
 import Routes from './Routes'
 import NotificationMenu from './notification/NotificationMenu'
-import ProfileMenu from './ProfileMenu'
+import UserProfileMenu from './user/UserProfileMenu'
 
 import LanguageSelector from './selector/LanguageSelector'
 import ThemeSelector from './selector/ThemeSelector'
 
+const Navbar: FC = () => {
+    const { t: translation } = useTranslation()
 
-const Header: FC = () => {
     const { isAuthenticated } = useAuth()
 
     return (
-        <AppBar position="relative" color="primary" >
+        <AppBar position="relative" sx={{
+            fontFamily: 'Heebo',
+            backgroundColor: 'secondary.main',
+            backgroundImage: 'none',
+            boxShadow: 'none'
+        }}>
             <Toolbar sx={{ justifyContent: 'space-between' }}>
                 <Link component={NextLink} href="/" color="inherit">
                     <IconButton color="inherit" disableRipple>
                         <LocalPizza />
 
-                        <Typography variant="h6" sx={{ fontFamily: 'Train One', textTransform: 'uppercase' }}>
-                            Awesome Pizza
+                        <Typography variant="h6" sx={{
+                            textTransform: 'uppercase',
+                            textShadow: '0px 0px 10px currentColor',
+                            fontWeight: 700,
+                            letterSpacing: '1px',
+                            ml: 1
+                        }}>
+                            {translation('title')}
                         </Typography>
                     </IconButton>
                 </Link>
 
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    {isAuthenticated && (
-                        <>
-                            <Routes />
-                            <NotificationMenu />
-                            <ProfileMenu />
-                        </>
-                    )}
+                    {isAuthenticated && <Routes />}
 
                     <LanguageSelector />
                     <ThemeSelector />
+
+                    {isAuthenticated && (
+                        <>
+                            <NotificationMenu />
+                            <UserProfileMenu />
+                        </>
+                    )}
                 </Box>
             </Toolbar>
         </AppBar>
     )
 }
 
-export default Header
+export default Navbar

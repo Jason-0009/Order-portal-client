@@ -9,20 +9,20 @@ type OrderStatusStyle = SxProps & {
 
 const ORDER_STATUS_STYLES: Record<OrderStatus, OrderStatusStyle> = {
     [OrderStatus.PENDING]: {
-        backgroundColor: '#ABC2FF',
-        color: '#4638EC'
+        backgroundColor: 'status.pending.background.main',
+        color: 'status.pending.text.main'
     },
     [OrderStatus.IN_CHARGE]: {
-        backgroundColor: '#FFFB9C',
-        color: '#CDAF14'
+        backgroundColor: 'status.inCharge.background.main',
+        color: 'status.inCharge.text.main'
     },
     [OrderStatus.DELIVERING]: {
-        backgroundColor: '#F6BEBA',
-        color: '#C62424'
+        backgroundColor: 'status.delivering.background.main',
+        color: 'status.delivering.text.main'
     },
     [OrderStatus.DELIVERED]: {
-        backgroundColor: '#BAF6C0',
-        color: '#37811D',
+        backgroundColor: 'status.delivered.background.main',
+        color: 'status.delivered.text.main',
     }
 }
 

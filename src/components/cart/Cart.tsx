@@ -3,13 +3,14 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import { useTranslation } from 'next-i18next'
 
-import { Box, Typography, Button, Pagination } from '@mui/material'
+import { Box, Typography, Pagination, Divider } from '@mui/material'
 
 import { RootState } from '@/store'
 
 import { openDialog } from '@/slices/confirmationDialogSlice'
 
 import CartItem from './CartItem'
+import ConfirmButton from '../common/button/ConfirmButton'
 import ConfirmationDialog from '../dialog/ConfirmationDialog'
 
 const ITEMS_PER_PAGE = 3
@@ -42,16 +43,18 @@ const Cart: FC = () => {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            backgroundColor: '#F7F7F7',
+            backgroundColor: 'secondary.main',
             height: '100%',
+            px: 3
         }}>
             <Typography variant="h6" sx={{
-                textAlign: 'center',
                 fontWeight: 600,
-                mb: 2
+                mb: 3
             }}>
                 {translation('myOrder')}
             </Typography>
+
+            <Divider sx={{ mb: 1 }} />
 
             {currentPageItems.map(item =>
                 <CartItem key={item.product.id} item={item} />
@@ -67,20 +70,16 @@ const Cart: FC = () => {
                 </Box>
             )}
 
-            <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
-                <Button
-                    variant="contained"
-                    color="primary"
+            <Box sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                p: 2
+            }}>
+                <ConfirmButton
+                    text={translation('confirmOrder')}
+                    size='large'
                     onClick={handleClick}
-                    sx={{
-                        textTransform: 'none',
-                        width: '90%',
-                        fontWeight: 600,
-                        p: 2
-                    }}
-                >
-                    {translation('confirmOrder')}
-                </Button>
+                />
             </Box>
 
             <ConfirmationDialog />

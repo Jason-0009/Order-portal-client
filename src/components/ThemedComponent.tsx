@@ -16,12 +16,9 @@ type ThemedComponentProps = {
 
 const queryClient = new QueryClient()
 
-const getTheme = (themeName: string) =>
-    themeName === 'light' ? lightTheme : darkTheme
-
 const ThemedComponent = ({ children }: ThemedComponentProps) => {
     const themeName = useSelector((state: RootState) => state.theme)
-    const theme = getTheme(themeName)
+    const theme = themeName === 'light' ? lightTheme : darkTheme
 
     return (
         <ThemeProvider theme={theme}>

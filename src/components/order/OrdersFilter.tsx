@@ -45,16 +45,16 @@ const OrdersFilter: FC<OrderFilterProps> = ({
     const handleClearStatusFilter = () => setFilteredStatusAndResetPage(null)
 
     return (
-        <Box sx={{
+        <Box sx={theme => ({
             display: 'flex',
             alignItems: 'center',
-            width: 'fit-content',
-            height: '40px',
-            color: '#948E8E',
+            height: '35px',
+            color: 'text.primary',
+            backgroundColor: 'secondary.main',
             p: 1,
-            boxShadow: '0px 2px 8px 0px rgba(0, 0, 0, 0.2)',
-            borderRadius: '10px'
-        }}>
+            borderRadius: '10px',
+            boxShadow: `0px 2px 8px 0px ${theme.palette.secondary.main}`
+        })}>
             <DateRange sx={{ fontSize: '0.95em' }} />
 
             <Typography variant="body1" sx={{ ml: 0.5, fontSize: '0.85em' }}>
@@ -82,6 +82,7 @@ const OrdersFilter: FC<OrderFilterProps> = ({
                     <DateCalendar
                         value={filteredDate}
                         onChange={date => setFilteredDateAndResetPage(date)}
+                        sx={{ backgroundColor: 'secondary.main' }}
                     />
                 </Popover>
             </LocalizationProvider>
@@ -90,7 +91,7 @@ const OrdersFilter: FC<OrderFilterProps> = ({
                 onClick={handleClearDateFilter}
                 sx={{ p: 0.2, color: 'primary.main' }}
             >
-                <Clear sx={{ fontSize: '0.7em' }} />
+                <Clear sx={{ fontSize: '0.7em', color: 'red' }} />
             </IconButton>}
 
             <FilterList sx={{ ml: 1, fontSize: '0.95em' }} />
@@ -128,8 +129,10 @@ const OrdersFilter: FC<OrderFilterProps> = ({
                                 key={status}
                                 onClick={() => setFilteredStatusAndResetPage(status)}
                                 sx={{
-                                    backgroundColor: filteredStatus === status ? selectedStatusStyle.backgroundColor : undefined,
-                                    color: filteredStatus === status ? selectedStatusStyle.color : 'initial',
+                                    backgroundColor: filteredStatus === status ?
+                                        selectedStatusStyle.backgroundColor : 'secondary.main',
+                                    color: filteredStatus === status ?
+                                        selectedStatusStyle.color : 'text.main',
                                     '&.MuiListItemButton-root': {
                                         paddingTop: isFirstItem ? '0.6em' : 'auto',
                                         paddingBottom: isLastItem ? '0.6em' : 'auto'
@@ -147,7 +150,7 @@ const OrdersFilter: FC<OrderFilterProps> = ({
                 onClick={handleClearStatusFilter}
                 sx={{ p: 0.2, color: 'primary.main' }}
             >
-                <Clear sx={{ fontSize: '0.7em' }} />
+                <Clear sx={{ fontSize: '0.7em', color: 'red' }} />
             </IconButton>}
         </Box>
     )

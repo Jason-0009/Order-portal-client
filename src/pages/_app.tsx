@@ -7,7 +7,7 @@ import { appWithTranslation } from 'next-i18next'
 import { store } from '@/store'
 
 import ThemedComponent from '@/components/ThemedComponent'
-import Header from '@/components/Header'
+import Navbar from '@/components/Navbar'
 
 import { useEffect, useState } from 'react'
 
@@ -15,6 +15,7 @@ import '@/api/axiosConfig'
 
 const App = (props: AppProps) => {
   const { Component, pageProps } = props
+  
   const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
@@ -26,7 +27,7 @@ const App = (props: AppProps) => {
   return (
     <ReduxProvider store={store}>
       <ThemedComponent>
-        <Header />
+        <Navbar />
         <Component {...pageProps} />
       </ThemedComponent>
     </ReduxProvider>

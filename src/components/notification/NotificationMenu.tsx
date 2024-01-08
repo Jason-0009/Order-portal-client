@@ -40,20 +40,17 @@ const NotificationMenu: FC = () => {
 
     return (
         <>
-            <IconButton
-                color={'inherit'}
-                onClick={handleNotificationMenuOpen}
-            >
+            <IconButton onClick={handleNotificationMenuOpen} sx={{ mr: 1 }}>
                 <Badge
                     badgeContent={unreadNotificationCount}
                     sx={{
                         '.MuiBadge-badge': {
-                            backgroundColor: 'darkred'
+                            backgroundColor: 'badgeBackground.main'
                         }
                     }}
                 >
                     <Notifications sx={{
-                        color: notificationMenuAnchorElement ? "black" : "white"
+                        color: notificationMenuAnchorElement ? "text.secondary" : "text.primary"
                     }} />
                 </Badge>
             </IconButton>
@@ -72,79 +69,76 @@ const NotificationMenu: FC = () => {
                 }}
             >
                 <Box sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    mt: 2,
-                    mb: 1
+                    backgroundColor: 'secondary.main',
+                    width: 250,
+                    height: 250,
+                    overflow: 'auto',
+                    '&::-webkit-scrollbar': {
+                        width: '8px',
+                        borderRadius: '8px',
+                        backgroundColor: 'secondary.main',
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                        borderRadius: '8px',
+                        backgroundColor: 'text.primary',
+                    }
                 }}>
-                    <Typography variant="body1" fontWeight={600}>
-                        {translation('notifications')}
-                    </Typography>
-                </Box>
-
-                {notifications?.length === 0 ? (
                     <Box sx={{
                         display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        px: 2,
-                        pb: 2,
-                        fontSize: '1.5em'
+                        justifyContent: 'center',
+                        pt: 2,
+                        pb: 1
                     }}>
-                        <NotificationsActive sx={{ fontSize: '2em' }} />
-
-                        <Typography variant="body2">
-                            {translation('noNotifications')}
+                        <Typography variant="body1" fontWeight={600}>
+                            {translation('notifications')}
                         </Typography>
                     </Box>
-                ) : (
-                    <Box sx={{
-                        maxWidth: 250,
-                        maxHeight: 300,
-                        overflow: 'auto',
-                        mt: '-0.em',
-                        '&::-webkit-scrollbar': {
-                            width: '8px',
-                            borderRadius: '8px',
-                            backgroundColor: '#F5F5F5',
-                        },
-                        '&::-webkit-scrollbar-thumb': {
-                            borderRadius: '8px',
-                            backgroundColor: '#C1C1C1',
-                        }
-                    }}>
-                        <Button
-                            onClick={handleClearAllNotifications}
-                            variant="text"
-                            sx={{
-                                color: 'grey.700',
-                                textTransform: 'none',
-                                fontWeight: 600,
-                                fontSize: '0.75rem',
-                                ml: 1
-                            }}
-                        >
-                            {translation('clearAll')}
-                        </Button>
 
-                        <List sx={{ pt: 0 }}>
-                            {notifications.map((notification, index) => {
-                                const { id } = notification
+                    {notifications?.length === 0 ? (
+                        <Box sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            mt: 4
+                        }}>
+                            <NotificationsActive sx={{ fontSize: '5em', mb: 0.5 }} />
 
-                                return (
-                                    <Fragment key={id}>
+                            <Typography variant="body2">
+                                {translation('noNotifications')}
+                            </Typography>
+                        </Box>
+                    ) : (
+                        <>
+                            <Button
+                                onClick={handleClearAllNotifications}
+                                variant="text"
+                                sx={{
+                                    color: 'red',
+                                    textTransform: 'none',
+                                    fontWeight: 600,
+                                    fontSize: '0.75rem',
+                                    ml: 1
+                                }}
+                            >
+                                {translation('clearAll')}
+                            </Button>
+
+                            <List sx={{ pt: 0 }}>
+                                {notifications.map((notification, index) => {
+                                    const { id } = notification
+
+                                    return (
                                         <NotificationListItemButton
+                                            key={id}
                                             notification={notification}
                                             handleNotificationRead={handleNotificationRead}
                                         />
-
-                                        {index < notifications.length - 1 && <Divider />}
-                                    </Fragment>
-                                )
-                            })}
-                        </List>
-                    </Box>
-                )}
+                                    )
+                                })}
+                            </List>
+                        </>
+                    )}
+                </Box>
             </Popover>
         </>
     )

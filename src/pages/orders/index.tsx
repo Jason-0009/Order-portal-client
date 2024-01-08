@@ -10,12 +10,12 @@ import withAuth from '@/hoc/withAuth'
 import useOrders from '@/hooks/order/useOrders'
 
 import CenteredLayout from '@/components/common/CenteredLayout'
-import BackButton from '@/components/common/BackButton'
+import BackButton from '@/components/common/button/BackButton'
 import CenteredBox from '@/components/common/CenteredBox'
 
 import OrdersFilter from '@/components/order/OrdersFilter'
 import OrdersTable from '@/components/order/OrdersTable'
-import NoOrdersFound from '@/components/order/NoOrdersFound'
+import NoOrdersFound from '@/components/common/NoResultsFound'
 
 const OrdersPage: FC = () => {
     const {
@@ -33,7 +33,7 @@ const OrdersPage: FC = () => {
 
     if (isLoading) return (
         <CenteredBox>
-            <CircularProgress />
+            <CircularProgress color="info" />
         </CenteredBox>
     )
 
@@ -41,18 +41,25 @@ const OrdersPage: FC = () => {
         <CenteredLayout>
             <BackButton location='/' />
 
-            <Typography variant="h5" component="h1" fontWeight={600} gutterBottom>
-                {translation('orderHistory')}
-            </Typography>
+            <Box sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                mb: 3
+            }}>
+                <Typography variant="h6" component="h1" fontWeight={600}>
+                    {translation('orderHistory')}
+                </Typography>
 
-            <Divider sx={{ mb: 3 }} />
+                <OrdersFilter
+                    filteredDate={filteredDate}
+                    setFilteredDateAndResetPage={setFilteredDateAndResetPage}
+                    filteredStatus={filteredStatus}
+                    setFilteredStatusAndResetPage={setFilteredStatusAndResetPage}
+                />
+            </Box>
 
-            <OrdersFilter
-                filteredDate={filteredDate}
-                setFilteredDateAndResetPage={setFilteredDateAndResetPage}
-                filteredStatus={filteredStatus}
-                setFilteredStatusAndResetPage={setFilteredStatusAndResetPage}
-            />
+            <Divider sx={{ mb: 5 }} />
 
             {currentOrders?.content && (
                 currentOrders.content.length > 0 ? (
@@ -60,8 +67,9 @@ const OrdersPage: FC = () => {
                         <OrdersTable orders={currentOrders.content} />
 
                         {Number(currentOrders?.totalPages) > 1 && (
-                            <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
+                            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 6 }}>
                                 <Pagination
+                                    color='secondary'
                                     count={currentOrders?.totalPages}
                                     page={currentPage}
                                     onChange={handlePageChange}
@@ -69,7 +77,7 @@ const OrdersPage: FC = () => {
                             </Box>
                         )}
                     </>
-                ) : <NoOrdersFound />
+                ) : <NoOrdersFound text={translation('noOrdersFound')} />
             )}
         </CenteredLayout>
     )

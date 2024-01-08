@@ -3,15 +3,18 @@ import { useDispatch } from 'react-redux'
 
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
+import NextLink from 'next/link'
 
 import { AxiosError } from 'axios'
 
 import {
     SxProps, TableBody, TableRow, TableCell,
-    IconButton, Collapse, Select, MenuItem, SelectChangeEvent
+    IconButton, Collapse, Select, MenuItem,
+    SelectChangeEvent, Link, Typography, Avatar, Box
 } from '@mui/material'
-import { ExpandCircleDownOutlined, ExpandMore } from '@mui/icons-material'
+import { ExpandMore } from '@mui/icons-material'
 
+import useUser from '@/hooks/user/useUser'
 import { useOrderStatusTexts } from '@/hooks/useOrderStatusTexts'
 
 import { showAlert } from '@/slices/alertDialogSlice'
@@ -22,57 +25,53 @@ import AdminOrderDetailsTable from './AdminOrderDetailsTable'
 import AlertDialog from '@/components/dialog/AlertDialog'
 
 import { formatDistanceToNowLocale } from '@/utils/dateUtils'
+import toCamelCase from '@/utils/toCamelCase'
 
 import Order from '@/types/order/Order.type'
 import OrderStatus from '@/types/order/OrderStatus.enum'
+import StatusPalette from '@/types/palette/StatusPalette.type'
 
 import ORDER_STATUS_STYLES from '@/constants/OrderStatusStyles'
 
 type AdminOrdersTableBodyProps = {
     order: Order,
     openRows: Record<string, boolean>,
-    previousRowId: string | undefined,
-    nextRowId: string | undefined,
     index: number,
-    ordersLength: number,
+    array: Order[],
     onExpand: () => void
 }
 
 const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
     order,
     openRows,
-    previousRowId,
-    nextRowId,
     index,
-    ordersLength,
+    array,
     onExpand
 }) => {
-    const { id: currentId, date, totalPrice, status } = order
+    const { id, customerId, date, totalPrice, status } = order
 
     const dispatch = useDispatch()
-
     const [selectedStatus, setSelectedStatus] = useState(status)
-
     const { locale } = useRouter()
-
     const { t: translation } = useTranslation()
+
+    const user = customerId ? useUser(customerId) : null
     const ORDER_STATUS_TEXTS = useOrderStatusTexts()
 
     const formattedDate = date && locale && formatDistanceToNowLocale(date, locale)
-
     const orderStatuses = Object.values(OrderStatus)
 
-    const isCurrentRowOpen = currentId && openRows[currentId]
-    const isPreviousRowOpen = previousRowId && openRows[previousRowId]
-    const isNextRowOpen = nextRowId && openRows[nextRowId]
+    const isCurrentRowOpen = id && openRows[id]
+    const statusKey = toCamelCase(status)
 
-    const isFirstRow = index === 0
-    const isLastRow = index === ordersLength - 1
+    const isFirstItem = index === 0
+    const isLastItem = index === array.length - 1
 
     const tableCellStyle: SxProps = {
-        border: isCurrentRowOpen || isNextRowOpen || isLastRow ? 'none' : 'default',
-        pt: isCurrentRowOpen ? 3 : isFirstRow || isPreviousRowOpen ? 1 : 0,
-        pb: 2
+        border: 'none',
+        color: 'text.secondary',
+        pt: isFirstItem ? 4 : 0,
+        pb: isLastItem ? 1 : 0
     }
 
     const selectedStatusStyle = ORDER_STATUS_STYLES[selectedStatus]
@@ -90,25 +89,39 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
         }
 
         try {
-            currentId && await updateOrderStatus(currentId, newStatus)
+            id && await updateOrderStatus(id, newStatus)
 
             setSelectedStatus(newStatus)
         } catch (error: unknown) {
             const { response } = error as AxiosError
-            const errorMessage = response?.data as string
+            const errorMessage = translation(response?.data as string)
 
             dispatch(showAlert(errorMessage))
         }
     }
 
     return (
-        <TableBody sx={{
-            boxShadow: isCurrentRowOpen ? '0px 0px 2px 0px rgba(0, 0, 0, 0.25)' : 'none',
-            borderRadius: '20px'
-        }}>
+        <TableBody>
             <TableRow>
                 <TableCell sx={tableCellStyle}>
-                    {currentId}
+                    <Link
+                        component={NextLink}
+                        href={`/orders/${id}`}
+                        color='link.main'
+                        sx={{ pl: 4, textDecoration: 'none' }}
+                    >
+                        #{id}
+                    </Link>
+                </TableCell>
+
+                <TableCell sx={tableCellStyle}>
+                    <Box display='flex' alignItems='center'>
+                        <Avatar src={user?.imageUrl} />
+
+                        <Typography variant="body2" marginLeft={2}>
+                            {user?.name}
+                        </Typography>
+                    </Box>
                 </TableCell>
 
                 <TableCell sx={tableCellStyle}>
@@ -119,47 +132,37 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
                     € {totalPrice}
                 </TableCell>
 
-                <TableCell sx={tableCellStyle} align="center">
+                <TableCell sx={tableCellStyle}>
                     <Select
                         value={selectedStatus}
                         onChange={handleChange}
                         disabled={status === OrderStatus.DELIVERED}
+                        disableUnderline
                         IconComponent={({ className }) => {
                             className = className.replace("MuiSelect-iconOpen", "")
 
                             return status !== OrderStatus.DELIVERED &&
-                                <ExpandMore className={className}
-                                    style={{ color: selectedStatusStyle.color }} />
+                                <ExpandMore className={className} sx={theme => ({
+                                    fontSize: '20px',
+                                    left: '90px',
+                                    color: `${(theme.palette.status as StatusPalette)[statusKey]?.text.main} !important`
+                                })} />
                         }}
-                        sx={{
-                            ...selectedStatusStyle,
-                            display: 'flex',
-                            alignItems: 'center',
+                        sx={theme => ({
+                            textAlign: 'center',
                             width: '140px',
-                            height: '35px',
+                            height: '25px',
                             borderRadius: '20px',
                             fontSize: '0.95em',
-                            '.MuiOutlinedInput-notchedOutline': {
-                                borderColor: 'transparent',
-                            },
-                            '&:hover .MuiOutlinedInput-notchedOutline': {
-                                borderColor: selectedStatusStyle.color,
-                            },
-                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                border: `1px solid ${selectedStatusStyle.color}`,
-                            },
-                            '&.Mui-disabled .MuiOutlinedInput-input': {
-                                color: selectedStatusStyle.color,
-                                WebkitTextFillColor: 'initial',
-                                pl: 4,
-                                '.MuiOutlinedInput-notchedOutline': {
-                                    borderColor: 'transparent',
-                                    '&:hover': {
-                                        borderColor: selectedStatusStyle.color
-                                    }
-                                }
+                            fontWeight: 600,
+                            pl: status === OrderStatus.DELIVERED ? 2 : 0,
+                            color: selectedStatusStyle.color,
+                            backgroundColor: selectedStatusStyle.backgroundColor,
+                            boxShadow: `0 0 10px ${(theme.palette.status as StatusPalette)[statusKey]?.background.main} !important`,
+                            "& fieldset": {
+                                border: "none",
                             }
-                        }}
+                        })}
                     >
                         {orderStatuses.map((status, index, array) => {
                             const statusStyle = ORDER_STATUS_STYLES[status]
@@ -174,11 +177,16 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
                                     sx={{
                                         fontSize: '0.85em',
                                         '&.Mui-selected': {
-                                            backgroundColor: `${statusStyle.backgroundColor} !important`
+                                            color: statusStyle.color,
+                                            backgroundColor: statusStyle.backgroundColor
                                         },
                                         '&.MuiMenuItem-root': {
                                             marginTop: isFirstItem ? '-0.6em' : 'auto',
-                                            marginBottom: isLastItem ? '-0.6em' : 'auto'
+                                            marginBottom: isLastItem ? '-0.6em' : 'auto',
+                                            backgroundColor: 'secondary.main',
+                                            '&:hover': {
+                                                backgroundColor: 'primary.main'
+                                            }
                                         }
                                     }}
                                 >
@@ -189,11 +197,11 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
                     </Select>
                 </TableCell>
 
-                <TableCell sx={tableCellStyle} align="right">
+                <TableCell sx={tableCellStyle}>
                     <IconButton onClick={onExpand}>
-                        <ExpandCircleDownOutlined
+                        <ExpandMore
                             sx={{
-                                color: isCurrentRowOpen ? '#5970E9' : '#BEBEBE',
+                                color: isCurrentRowOpen ? 'text.primary' : 'text.secondary',
                                 transform: isCurrentRowOpen ? 'rotate(180deg)' : 'none',
                             }}
                         />
@@ -202,7 +210,7 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
             </TableRow>
 
             <TableRow >
-                <TableCell sx={{ borderBottom: 'none', py: 0 }} colSpan={6}>
+                <TableCell sx={{ borderBottom: 'none' }} colSpan={6}>
                     <Collapse in={!!isCurrentRowOpen} timeout="auto" unmountOnExit>
                         <AdminOrderDetailsTable order={order} />
                     </Collapse>

@@ -17,12 +17,12 @@ const IndexPage: FC = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-      <Box sx={{ flex: '70%', marginRight: '2%' }}>
+      <Box sx={{ width: '63%', marginRight: '2%' }}>
         <ProductSelection />
       </Box>
 
       {cart.length > 0 && (
-        <Box sx={{ flex: '30%' }}>
+        <Box sx={{ width: '35%' }}>
           <Cart />
         </Box>
       )}

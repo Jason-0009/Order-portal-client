@@ -12,12 +12,13 @@ import useOrder from '@/hooks/order/useOrder'
 import useProducts from '@/hooks/useProducts'
 
 import CenteredLayout from '@/components/common/CenteredLayout'
-import BackButton from '@/components/common/BackButton'
-import OrderStateIndicator from '@/components/order/OrderStateIndicator'
-import ProductItem from '@/components/product/ProductItem'
+import BackButton from '@/components/common/button/BackButton'
+
+import OrderStatusIndicator from '@/components/order/OrderStatusIndicator'
+
+import ProductsTable from '@/components/product/ProductsTable'
 
 import { formatDateLocale } from '@/utils/dateUtils'
-
 
 const OrderPage: FC = () => {
     const { query, locale } = useRouter()
@@ -27,11 +28,11 @@ const OrderPage: FC = () => {
 
     const itemIds = order?.items.map(item => item.id)
 
-    const { currentProducts, currentPage, handlePageChange } = useProducts(false, itemIds)
+    const { currentProducts, currentPage, handlePageChange } = useProducts(false, 5, itemIds)
     const { t: translation } = useTranslation()
 
-    const infoTextStyle: SxProps = { color: '#A5A5A5', fontSize: '0.9em', fontWeight: 600, mb: 1 }
-    const valueTextStyle: SxProps = { ...infoTextStyle, color: 'black' }
+    const infoTextStyle: SxProps = { color: 'text.primary', fontWeight: 600, mb: 1 }
+    const valueTextStyle: SxProps = { ...infoTextStyle, color: 'text.secondary' }
 
     const formattedDate = order?.date && locale && formatDateLocale(order.date, locale)
 
@@ -39,83 +40,62 @@ const OrderPage: FC = () => {
         <CenteredLayout>
             <BackButton location='/orders' />
 
-            <Typography variant="h5" component="h1" fontWeight={600} mb={3}>
-                Id <Box component="span" color={'#2EB4FF'}>
+            <Typography variant="h6" component="h1" fontWeight={600} mb={1}>
+                {translation('orderLabel')} <Box component="span" color='link.main'>
                     #{order?.id}
                 </Box>
             </Typography>
 
-            <Box
-                display="flex"
-                justifyContent="space-between"
-                width='14.5%'
-                mb={1}
-            >
-                <Typography sx={infoTextStyle}>
-                    {translation('dateLabel')}:
-                </Typography>
-
-                <Typography sx={valueTextStyle}>
-                    {formattedDate}
-                </Typography>
-            </Box>
-
-            <Box
-                display="flex"
-                justifyContent="space-between"
-                width='10%'
-                mb={1}
-            >
-                <Typography sx={infoTextStyle}>
+            <Box display="flex">
+                <Typography width={50} variant="caption" sx={infoTextStyle}>
                     {translation('totalLabel')}:
                 </Typography>
-                
-                <Typography sx={valueTextStyle}>
+
+                <Typography variant="caption" sx={valueTextStyle}>
                     €{order?.totalPrice}
                 </Typography>
             </Box>
 
-            <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                width='20%'
-                mb={4}
-            >
-                <Typography sx={infoTextStyle}>
+            <Box display="flex">
+                <Typography width={50} variant="caption" sx={infoTextStyle}>
+                    {translation('dateLabel')}:
+                </Typography>
+
+                <Typography variant="caption" sx={valueTextStyle}>
+                    {formattedDate}
+                </Typography>
+            </Box>
+
+            <Box display="flex">
+                <Typography width={50} variant="caption" sx={infoTextStyle}>
                     {translation('statusLabel')}:
                 </Typography>
 
-                {order?.status && <OrderStateIndicator status={order.status} />}
+                {order && <OrderStatusIndicator status={order.status} size='small' />}
             </Box>
 
-            <Typography variant="h6" component="h1" fontWeight={600} mb={2}>
+            <Typography variant="h6" component="h1" fontWeight={600} mb={2} mt={5}>
                 {translation('products')}
             </Typography>
 
-            <Divider sx={{ mb: 1 }} />
+            <Divider sx={{ mb: 5 }} />
 
-            {currentProducts?.content.map((product, index) => {
-                const orderItem = order?.items.find(item => item.id === product.id)
-                const quantity = orderItem ? orderItem.quantity : 0
-
-                return (
-                    <Fragment key={product.id}>
-                        <ProductItem product={product} quantity={quantity} />
-
-                        {index < currentProducts.content.length - 1 && <Divider sx={{ my: 1 }} />}
-                    </Fragment>
-                )
-            })}
+            {currentProducts && order &&
+                <ProductsTable
+                    products={currentProducts}
+                    orderItems={order?.items}
+                />}
 
             {Number(currentProducts?.totalPages) > 1 && (
-                <Pagination
-                    color="primary"
-                    count={currentProducts?.totalPages}
-                    page={currentPage}
-                    onChange={handlePageChange}
-                    sx={{ mt: 2 }}
-                />
+                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+                    <Pagination
+                        color="secondary"
+                        count={currentProducts?.totalPages}
+                        page={currentPage}
+                        onChange={handlePageChange}
+                        sx={{ mt: 5 }}
+                    />
+                </Box>
             )}
 
         </CenteredLayout>

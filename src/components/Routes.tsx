@@ -5,7 +5,7 @@ import NextLink from 'next/link'
 import { useTranslation } from 'next-i18next'
 
 import { Link, IconButton, Typography } from '@mui/material'
-import { FactCheck, People, ShoppingCartCheckout } from '@mui/icons-material'
+import { LocalShipping, ManageAccounts, ViewList } from '@mui/icons-material'
 
 import useAuth from '@/hooks/useAuth'
 import useUserProfile from '@/hooks/user/useUserProfile'
@@ -22,14 +22,26 @@ const Routes: FC = () => {
     const { t: translation } = useTranslation()
 
     const isAdmin = userProfile?.role === UserRole.ADMIN
-    const iconStyle = { mr: 0.5, fontSize: '0.8em' }
+    const iconStyle = { mr: 0.2, fontSize: '0.8em' }
 
     const routes: Route[] = [
         ...(isAdmin ? [
-            { path: "/admin/orders", icon: <FactCheck sx={iconStyle} />, text: translation('adminOrders') },
-            { path: "/admin/users", icon: <People sx={iconStyle} />, text: translation('adminUsers') }
+            {
+                path: "/admin/orders",
+                icon: <ViewList sx={iconStyle} />,
+                text: translation('orderManagement')
+            },
+            {
+                path: "/admin/users",
+                icon: <ManageAccounts sx={iconStyle} />,
+                text: translation('userManagement')
+            }
         ] : []),
-        { path: "/orders", icon: <ShoppingCartCheckout sx={iconStyle} />, text: translation('myOrders') }
+        {
+            path: "/orders",
+            icon: <LocalShipping sx={iconStyle} />,
+            text: translation('myOrders')
+        }
     ]
 
     return (
@@ -43,10 +55,10 @@ const Routes: FC = () => {
                     color="inherit"
                     justifyContent={'center'}
                 >
-                    <IconButton color="inherit" disableRipple>
+                    <IconButton color="inherit" sx={{ mr: 1 }} disableRipple>
                         {icon}
 
-                        <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                        <Typography variant="body2" ml={0.5}>
                             {text}
                         </Typography>
                     </IconButton>

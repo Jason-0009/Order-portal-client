@@ -55,6 +55,9 @@ const NotificationListItemButton: FC<NotificationListItemProps> = ({ notificatio
             sx={{
                 flexDirection: 'column',
                 alignItems: 'start',
+                '&:hover': {
+                    backgroundColor: 'primary.main'
+                }
             }}
         >
             <Typography variant="body2">

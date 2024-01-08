@@ -3,11 +3,11 @@ import { useQuery } from 'react-query'
 
 import fetchProducts from '@/api/fetchProducts'
 
-const useProducts = (fetchAll = true, itemIds?: string[]) => {
+const useProducts = (fetchAll = true, size: number, itemIds?: string[]) => {
     const [currentPage, setCurrentPage] = useState(1)
 
     const { data: currentProducts } = useQuery(
-        ['products', currentPage], () => fetchProducts(currentPage - 1, itemIds),
+        ['products', currentPage], () => fetchProducts(currentPage - 1, size, itemIds),
         { keepPreviousData: true, enabled: fetchAll || !!(itemIds && itemIds.length > 0) }
     )
 

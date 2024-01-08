@@ -1,17 +1,16 @@
 import { FC } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 
 import {
     Card, CardContent, CardMedia,
-    Typography, Divider, Box, Button
+    Typography, CardActionArea
 } from '@mui/material'
 
-import { ShoppingCart } from '@mui/icons-material'
-
 import { addToCart } from '@/slices/cartSlice'
+
+import formatIngredients from '@/utils/formatIngredients'
 
 import Product from '@/types/Product.type'
 
@@ -24,78 +23,59 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
 
     const { locale } = useRouter()
     const dispatch = useDispatch()
-    const { t: translation } = useTranslation()
 
-    const formattedIngredients = locale && ingredients[locale] ?
-        ingredients[locale].map((ingredient, index) => index === 0 ?
-            ingredient : ingredient.toLowerCase()) : []
+    const formattedIngredients = formatIngredients(ingredients, locale)
 
-    const handleAddToCart = () => dispatch(addToCart({ product: product, quantity: 1 }))
+    const handleAddToCart = () => dispatch(addToCart({ product, quantity: 1 }))
 
     return (
-        <Card sx={{ boxShadow: 'none' }}>
-            <CardContent sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center'
-            }}>
-                <CardMedia
-                    image={imageUrl}
-                    component="img"
-                    sx={{ height: '150px', width: '150px' }}
-                />
-
-                <Typography variant="h6" component="div" sx={{
-                    textAlign: 'center',
-                    fontWeight: 600,
-                    mb: 1
-                }}>
-                    {locale && name[locale]}
-                </Typography>
-
-                <Divider sx={{ width: '50%', mb: 1 }} />
-
-                <Typography variant="body2" color="text.secondary" sx={{
-                    fontSize: '0.8em',
-                    textAlign: 'center',
-                    minHeight: '5em',
-                    mb: 1
-                }}>
-                    {formattedIngredients.join(', ')}.
-                </Typography>
-
-                <Box display="flex" alignItems="center">
-                    <Typography
-                        variant="body2"
+        <Card sx={theme => ({
+            boxShadow: `0px 4px 4px 0px ${theme.palette.secondary.main}`,
+            borderRadius: '20px',
+            overflow: 'visible',
+            mt: 12
+        })}>
+            <CardActionArea onClick={handleAddToCart}>
+                <CardContent sx={theme => ({
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    borderRadius: '20px',
+                    backgroundColor: 'secondary.main',
+                    boxShadow: `0px 4px 4px 0px ${theme.palette.secondary.main}`
+                })}>
+                    <CardMedia
+                        image={imageUrl}
+                        component="img"
                         sx={{
-                            fontSize: '0.8em',
-                            fontWeight: 600,
-                            mr: 2
+                            height: '150px',
+                            width: '150px',
+                            marginTop: '-75px',
+                            mb: 1
                         }}
-                    >
-                        €{price}
+                    />
+
+                    <Typography variant="body2" sx={{
+                        textAlign: 'center',
+                        fontWeight: 600,
+                        mb: 1
+                    }}>
+                        {locale && name[locale]}
                     </Typography>
 
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleAddToCart}
-                        sx={{
-                            width: '140px',
-                            height: '50px',
-                            fontSize: '0.8em',
-                            fontWeight: 600,
-                            lineHeight: 'normal',
-                            textAlign: 'left',
-                            textTransform: 'none'
-                        }}
-                    >
-                        <ShoppingCart sx={{ color: 'white', mr: 1 }} />
-                        
-                        {translation('addToCart')}
-                    </Button>
-                </Box>
-            </CardContent>
+                    <Typography variant="body2" sx={{ mb: 1 }}>
+                        € {price}
+                    </Typography>
+
+                    <Typography variant="body2" color="text.secondary" sx={{
+                        textAlign: 'center',
+                        height: '7em',
+                        px: 1
+                    }}>
+                        {formattedIngredients.join(', ')}.
+                    </Typography>
+                </CardContent>
+            </CardActionArea>
         </Card>
     )
 }

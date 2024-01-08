@@ -7,7 +7,7 @@ import { useTranslation } from 'next-i18next'
 
 import {
     Dialog, DialogTitle, DialogContent, DialogContentText,
-    DialogActions, Button, Typography
+    DialogActions, Button, Typography, lighten
 } from '@mui/material'
 
 import { RootState } from '@/store'
@@ -20,6 +20,7 @@ import postOrder from '@/api/order/postOrder'
 import CartItemType from '@/types/CartItem.type'
 import OrderStatus from '@/types/order/OrderStatus.enum'
 import Order from '@/types/order/Order.type'
+import ConfirmButton from '../common/button/ConfirmButton'
 
 const createOrder = (cart: CartItemType[], totalPrice: number): Order => ({
     totalPrice,
@@ -59,18 +60,25 @@ const ConfirmationDialog: FC = () => {
 
     return (
         <Dialog open={isOpen} onClose={handleClose} PaperProps={{
-            sx: { pt: 1, pb: 3, pl: 2, pr: 3, borderRadius: '15px' }
+            sx: {
+                backgroundColor: 'secondary.main',
+                backgroundImage: 'none',
+                opacity: 1,
+                pt: 1,
+                pb: 3,
+                pl: 2,
+                pr: 3,
+                borderRadius: '15px'
+            }
         }}>
-            <DialogTitle sx={{ fontWeight: 600 }}>
+            <DialogTitle sx={{ fontSize: '1.1em', fontWeight: 600 }}>
                 {translation('confirmYourOrder')}
             </DialogTitle>
 
             <DialogContent>
                 <DialogContentText sx={{ fontSize: '0.9em' }}>
-                    {translation('orderTotal')}
-
-                    <Typography component="span" sx={{
-                        fontSize: '0.9em', fontWeight: 'bold'
+                    {translation('orderTotal')} <Typography component="span" sx={{
+                        fontSize: '0.9em', fontWeight: 600
                     }}>
                         €{totalPrice}
                     </Typography>.
@@ -82,17 +90,31 @@ const ConfirmationDialog: FC = () => {
                     variant="outlined"
                     color="inherit"
                     onClick={handleClose}
-                    sx={{ textTransform: 'none ' }}
+                    sx={theme => ({
+                        borderRadius: '20px',
+                        backgroundColor: 'primary.main',
+                        textTransform: 'none',
+                        border: 'none',
+                        boxShadow: `0px 0px 10px 0px ${theme.palette.primary.main}`
+                    })}
                 >
                     {translation('cancel')}
                 </Button>
 
                 <Button
                     variant="contained"
-                    color="primary"
                     onClick={handleConfirm}
                     autoFocus
-                    sx={{ textTransform: 'none ' }}
+                    sx={theme => ({
+                        borderRadius: '20px',
+                        backgroundColor: 'buttonBackground.main',
+                        textTransform: 'none',
+                        boxShadow: `0px 0px 10px 0px ${theme.palette.buttonBackground?.main}`,
+                        '&:hover': {
+                            backgroundColor: lighten(theme.palette.buttonBackground?.main || '', 0.2),
+                            boxShadow: `0px 0px 15px 4px ${lighten(theme.palette.buttonBackground?.main || '', 0.2)}`,
+                        }
+                    })}
                 >
                     {translation('confirm')}
                 </Button>
