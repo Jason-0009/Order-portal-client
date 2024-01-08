@@ -140,7 +140,6 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
                         value={selectedStatus}
                         onChange={handleChange}
                         disabled={status === OrderStatus.DELIVERED}
-                        disableUnderline
                         IconComponent={({ className }) => {
                             className = className.replace("MuiSelect-iconOpen", "")
 
