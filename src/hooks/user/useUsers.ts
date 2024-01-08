@@ -31,7 +31,7 @@ const useUsers = (searchTerm: string) => {
         const existingUser = currentUsers?.content.find(user => user.id === id)
     
         if (existingUser) refetch()
-    }, [fetchedUsers, lastMessage, currentPage])
+    }, [fetchedUsers, lastMessage, currentPage, currentUsers?.content, refetch])
 
     const handlePageChange = (_: ChangeEvent<unknown>, page: number) => setCurrentPage(page)
 

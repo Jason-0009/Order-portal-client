@@ -24,7 +24,9 @@ const NotificationListItemButton: FC<NotificationListItemProps> = ({ notificatio
     const { t: translation } = useTranslation()
 
     useEffect(() => {
-        if (!listItemButtonRef.current) return
+        const currentRef = listItemButtonRef.current;
+
+        if (!currentRef) return;
 
         const observer = new IntersectionObserver(
             ([entry]) => {
@@ -35,14 +37,14 @@ const NotificationListItemButton: FC<NotificationListItemProps> = ({ notificatio
             { threshold: 1.0 }
         )
 
-        observer.observe(listItemButtonRef.current)
+        observer.observe(currentRef)
 
         return () => {
-            if (!listItemButtonRef.current) return
+            if (!currentRef) return
 
-            observer.unobserve(listItemButtonRef.current)
+            observer.unobserve(currentRef)
         }
-    }, [id, readStatus])
+    }, [id, readStatus, handleNotificationRead])
 
     const formattedDate = router.locale && formatDistanceToNowLocale(date, router.locale)
 

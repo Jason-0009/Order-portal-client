@@ -9,10 +9,13 @@ import useAuth from '@/hooks/useAuth'
 
 import CenteredBox from '@/components/common/CenteredBox'
 
+import getDisplayName from '@/utils/getDisplayName'
+
 const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
-    return (props: P) => {
-        const { isAuthenticated, isLoading, axiosError } = useAuth()
+    const WithAuth = (props: P) => {
         const { t: translation } = useTranslation()
+
+        const { isAuthenticated, isLoading, axiosError } = useAuth()
 
         const handleAuth = () => window.location.href =
             `${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization/google`
@@ -54,6 +57,10 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
 
         return <WrappedComponent {...props} />
     }
+
+    WithAuth.displayName = `WithAuth(${getDisplayName(WrappedComponent)})`
+
+    return WithAuth
 }
 
 export default withAuth

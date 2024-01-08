@@ -34,7 +34,7 @@ const Cart: FC = () => {
         if (currentPageItems.length !== 0) return
 
         setCurrentPage(currentPage - 1)
-    }, [currentPageItems])
+    }, [currentPageItems, currentPage])
 
     const handleClick = () => dispatch(openDialog())
 

@@ -27,16 +27,16 @@ const useOrders = (url: string) => {
 
     useEffect(() => {
         if (!fetchedOrders) return
-    
+
         setCurrentOrders(fetchedOrders)
-    
+
         if (!lastMessage) return
-    
+
         const { id }: OrderData = JSON.parse(lastMessage.data)
         const existingOrder = currentOrders?.content.find(order => order.id === id)
-    
+
         if (existingOrder) refetch()
-    }, [fetchedOrders, lastMessage, currentPage])
+    }, [fetchedOrders, lastMessage, currentPage, currentOrders?.content, refetch])
 
     const handlePageChange = (_: ChangeEvent<unknown>, page: number) => setCurrentPage(page)
 

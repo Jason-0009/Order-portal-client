@@ -107,7 +107,7 @@ const AdminUsersPage: FC = () => {
                 <List>
                     {currentUsers?.content && (
                         currentUsers.content.length > 0 ? currentUsers.content.map(user =>
-                            <UserListItem user={user} />) :
+                            <UserListItem key={user.id} user={user} />) :
                             <NoResultsFound text={translation('noUsersFound')} />
                     )}
                 </List>

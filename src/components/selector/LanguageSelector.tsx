@@ -26,7 +26,7 @@ const LanguageSelector: FC = () => {
         if (locale === router.locale) return
 
         router.push(router.asPath, undefined, { locale })
-    }, [locale])
+    }, [locale, router])
 
     const languages = [
         { code: 'it', label: 'Italiano', flag: '/images/flags/it.png' },

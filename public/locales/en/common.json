@@ -55,5 +55,6 @@
     "search": "Search",
     "noOrdersFound": "No orders found",
     "noUsersFound": "No users found",
-    "statusUpdatedSuccessfully": "Status updated successfully!"
+    "statusUpdatedSuccessfully": "Status updated successfully!",
+    "permissionDenied": "You do not have permission to view this page."
 }
