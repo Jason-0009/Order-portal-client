@@ -1,6 +1,6 @@
 {
     "title": "Awesome Pizza",
-    "orderManagement": "Admin management",
+    "orderManagement": "Order management",
     "userManagement": "User management",
     "myOrders": "My orders",
     "notifications": "Notifications",
@@ -18,7 +18,6 @@
     "signInButtonLabel": "Log in with Google",
     "selectProduct": "Select the pizza to order",
     "products": "Pizzas",
-    "orderPanel": "Order panel",
     "myOrder": "My order",
     "confirmOrder": "Confirm order",
     "alert": "Alert!",

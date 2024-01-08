@@ -3,30 +3,43 @@ import { useSelector } from 'react-redux'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
+import Head from 'next/head'
+
 import { Box } from '@mui/material'
+
+import withAuth from '@/hoc/withAuth'
 
 import { RootState } from '@/store'
 
-import withAuth from '@/hoc/withAuth'
+import { useTranslation } from 'next-i18next'
 
 import ProductSelection from '@/components/product/ProductSelection'
 import Cart from '@/components/cart/Cart'
 
 const IndexPage: FC = () => {
+  const { t: translation } = useTranslation()
   const cart = useSelector((state: RootState) => state.cart)
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-      <Box sx={{ width: '63%', marginRight: '2%' }}>
-        <ProductSelection />
-      </Box>
+    <>
+      <Head>
+        <title>
+          {translation('title')}
+        </title>
+      </Head>
 
-      {cart.length > 0 && (
-        <Box sx={{ width: '35%' }}>
-          <Cart />
+      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+        <Box sx={{ width: '63%', marginRight: '2%' }}>
+          <ProductSelection />
         </Box>
-      )}
-    </Box>
+
+        {cart.length > 0 && (
+          <Box sx={{ width: '35%' }}>
+            <Cart />
+          </Box>
+        )}
+      </Box>
+    </>
   )
 }
 

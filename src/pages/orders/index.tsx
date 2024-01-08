@@ -3,6 +3,8 @@ import { FC } from 'react'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
+import Head from 'next/head'
+
 import { Typography, Divider, Pagination, Box, CircularProgress } from '@mui/material'
 
 import withAuth from '@/hoc/withAuth'
@@ -17,7 +19,10 @@ import OrdersFilter from '@/components/order/OrdersFilter'
 import OrdersTable from '@/components/order/OrdersTable'
 import NoOrdersFound from '@/components/common/NoResultsFound'
 
+
 const OrdersPage: FC = () => {
+    const { t: translation } = useTranslation()
+
     const {
         currentOrders,
         isLoading,
@@ -29,8 +34,6 @@ const OrdersPage: FC = () => {
         setFilteredStatusAndResetPage,
     } = useOrders('/orders/user')
 
-    const { t: translation } = useTranslation()
-
     if (isLoading) return (
         <CenteredBox>
             <CircularProgress color="error" />
@@ -38,48 +41,56 @@ const OrdersPage: FC = () => {
     )
 
     return (
-        <CenteredLayout>
-            <BackButton location='/' />
+        <>
+            <Head>
+                <title>
+                    {translation('title')} - {translation('orderHistory')}
+                </title>
+            </Head>
 
-            <Box sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                mb: 3
-            }}>
-                <Typography variant="h6" component="h1" fontWeight={600}>
-                    {translation('orderHistory')}
-                </Typography>
+            <CenteredLayout>
+                <BackButton location='/' />
 
-                <OrdersFilter
-                    filteredDate={filteredDate}
-                    setFilteredDateAndResetPage={setFilteredDateAndResetPage}
-                    filteredStatus={filteredStatus}
-                    setFilteredStatusAndResetPage={setFilteredStatusAndResetPage}
-                />
-            </Box>
+                <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    mb: 3
+                }}>
+                    <Typography variant="h6" component="h1" fontWeight={600}>
+                        {translation('orderHistory')}
+                    </Typography>
 
-            <Divider sx={{ mb: 5 }} />
+                    <OrdersFilter
+                        filteredDate={filteredDate}
+                        setFilteredDateAndResetPage={setFilteredDateAndResetPage}
+                        filteredStatus={filteredStatus}
+                        setFilteredStatusAndResetPage={setFilteredStatusAndResetPage}
+                    />
+                </Box>
 
-            {currentOrders?.content && (
-                currentOrders.content.length > 0 ? (
-                    <>
-                        <OrdersTable orders={currentOrders.content} />
+                <Divider sx={{ mb: 5 }} />
 
-                        {Number(currentOrders?.totalPages) > 1 && (
-                            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 6 }}>
-                                <Pagination
-                                    color='secondary'
-                                    count={currentOrders?.totalPages}
-                                    page={currentPage}
-                                    onChange={handlePageChange}
-                                />
-                            </Box>
-                        )}
-                    </>
-                ) : <NoOrdersFound text={translation('noOrdersFound')} />
-            )}
-        </CenteredLayout>
+                {currentOrders?.content && (
+                    currentOrders.content.length > 0 ? (
+                        <>
+                            <OrdersTable orders={currentOrders.content} />
+
+                            {Number(currentOrders?.totalPages) > 1 && (
+                                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 6 }}>
+                                    <Pagination
+                                        color='secondary'
+                                        count={currentOrders?.totalPages}
+                                        page={currentPage}
+                                        onChange={handlePageChange}
+                                    />
+                                </Box>
+                            )}
+                        </>
+                    ) : <NoOrdersFound text={translation('noOrdersFound')} />
+                )}
+            </CenteredLayout>
+        </>
     )
 }
 

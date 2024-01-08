@@ -10,6 +10,8 @@ import {
     Pagination, Snackbar, Typography
 } from '@mui/material'
 
+import Head from 'next/head'
+
 import withAuth from '@/hoc/withAuth'
 import withAdminAuth from '@/hoc/withAdminAuth'
 
@@ -23,13 +25,11 @@ import { hideSnackbar } from '@/slices/snackbarSlice'
 import CenteredLayout from '@/components/common/CenteredLayout'
 import BackButton from '@/components/common/button/BackButton'
 import CenteredBox from '@/components/common/CenteredBox'
+import NoOrdersFound from '@/components/common/NoResultsFound'
 
 import OrdersFilter from '@/components/order/OrdersFilter'
 import AdminOrdersStatisticsDisplay from '@/components/order/admin/AdminOrdersStatisticsDisplay'
 import AdminOrdersTable from '@/components/order/admin/AdminOrdersTable'
-
-import NoOrdersFound from '@/components/common/NoResultsFound'
-
 
 const AdminOrdersPage: FC = () => {
     const dispatch = useDispatch()
@@ -58,78 +58,86 @@ const AdminOrdersPage: FC = () => {
     )
 
     return (
-        <CenteredLayout>
-            <BackButton location='/' />
+        <>
+            <Head>
+                <title>
+                    {translation('title')} - {translation('orderManagement')}
+                </title>
+            </Head>
 
-            <Box sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                mb: 3
-            }}>
-                <Typography variant="h6" component="h1" fontWeight={600}>
-                    {translation('orderPanel')}
-                </Typography>
+            <CenteredLayout>
+                <BackButton location='/' />
 
-                <OrdersFilter
-                    filteredDate={filteredDate}
-                    setFilteredDateAndResetPage={setFilteredDateAndResetPage}
-                    filteredStatus={filteredStatus}
-                    setFilteredStatusAndResetPage={setFilteredStatusAndResetPage}
-                />
-            </Box>
+                <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    mb: 3
+                }}>
+                    <Typography variant="h6" component="h1" fontWeight={600}>
+                        {translation('orderManagement')}
+                    </Typography>
 
-            <Divider sx={{ mb: 3 }} />
+                    <OrdersFilter
+                        filteredDate={filteredDate}
+                        setFilteredDateAndResetPage={setFilteredDateAndResetPage}
+                        filteredStatus={filteredStatus}
+                        setFilteredStatusAndResetPage={setFilteredStatusAndResetPage}
+                    />
+                </Box>
 
-            <Box display="flex">
-                <AdminOrdersStatisticsDisplay
-                    count={statistics?.deliveredToday}
-                    label={translation('orderDeliveredToday')}
-                />
+                <Divider sx={{ mb: 3 }} />
 
-                <AdminOrdersStatisticsDisplay
-                    count={statistics?.pending}
-                    label={translation('pendingOrders')}
-                />
+                <Box display="flex">
+                    <AdminOrdersStatisticsDisplay
+                        count={statistics?.deliveredToday}
+                        label={translation('orderDeliveredToday')}
+                    />
 
-                <AdminOrdersStatisticsDisplay
-                    count={statistics?.delivering}
-                    label={translation('incomingOrders')}
-                />
-            </Box>
+                    <AdminOrdersStatisticsDisplay
+                        count={statistics?.pending}
+                        label={translation('pendingOrders')}
+                    />
 
-            {currentOrders?.content && (
-                currentOrders.content.length > 0 ? (
-                    <>
-                        <AdminOrdersTable orders={currentOrders.content} />
+                    <AdminOrdersStatisticsDisplay
+                        count={statistics?.delivering}
+                        label={translation('incomingOrders')}
+                    />
+                </Box>
 
-                        {currentOrders.totalPages > 1 && (
-                            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}>
-                                <Pagination
-                                    count={currentOrders.totalPages}
-                                    page={currentPage}
-                                    onChange={handlePageChange}
-                                />
-                            </Box>
-                        )}
-                    </>
-                ) : <NoOrdersFound text={translation('noOrdersFound')} />
-            )}
+                {currentOrders?.content && (
+                    currentOrders.content.length > 0 ? (
+                        <>
+                            <AdminOrdersTable orders={currentOrders.content} />
 
-            <Snackbar
-                open={open}
-                autoHideDuration={6000}
-                onClose={handleCloseSnackbar}
-            >
-                <Alert
+                            {currentOrders.totalPages > 1 && (
+                                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}>
+                                    <Pagination
+                                        count={currentOrders.totalPages}
+                                        page={currentPage}
+                                        onChange={handlePageChange}
+                                    />
+                                </Box>
+                            )}
+                        </>
+                    ) : <NoOrdersFound text={translation('noOrdersFound')} />
+                )}
+
+                <Snackbar
+                    open={open}
+                    autoHideDuration={6000}
                     onClose={handleCloseSnackbar}
-                    severity="success"
-                    sx={{ width: '100%' }}
                 >
-                    {message}
-                </Alert>
-            </Snackbar>
-        </CenteredLayout>
+                    <Alert
+                        onClose={handleCloseSnackbar}
+                        severity="success"
+                        sx={{ width: '100%' }}
+                    >
+                        {message}
+                    </Alert>
+                </Snackbar>
+            </CenteredLayout>
+        </>
     )
 }
 

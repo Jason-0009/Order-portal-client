@@ -1,8 +1,10 @@
-import { FC, Fragment } from 'react'
+import { FC } from 'react'
 
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
+import Head from 'next/head'
 
 import { Box, SxProps, Divider, Pagination, Typography } from '@mui/material'
 
@@ -37,68 +39,76 @@ const OrderPage: FC = () => {
     const formattedDate = order?.date && locale && formatDateLocale(order.date, locale)
 
     return (
-        <CenteredLayout>
-            <BackButton location='/orders' />
+        <>
+            <Head>
+                <title>
+                    {translation('title')} - {translation('orderLabel')} #{order?.id}
+                </title>
+            </Head>
 
-            <Typography variant="h6" component="h1" fontWeight={600} mb={1}>
-                {translation('orderLabel')} <Box component="span" color='link.main'>
-                    #{order?.id}
+            <CenteredLayout>
+                <BackButton location='/orders' />
+
+                <Typography variant="h6" component="h1" fontWeight={600} mb={1}>
+                    {translation('orderLabel')} <Box component="span" color='link.main'>
+                        #{order?.id}
+                    </Box>
+                </Typography>
+
+                <Box display="flex">
+                    <Typography width={50} variant="body2" sx={infoTextStyle}>
+                        {translation('totalLabel')}:
+                    </Typography>
+
+                    <Typography variant="body2" sx={valueTextStyle}>
+                        €{order?.totalPrice}
+                    </Typography>
                 </Box>
-            </Typography>
 
-            <Box display="flex">
-                <Typography width={50} variant="body2" sx={infoTextStyle}>
-                    {translation('totalLabel')}:
-                </Typography>
+                <Box display="flex">
+                    <Typography width={50} variant="body2" sx={infoTextStyle}>
+                        {translation('dateLabel')}:
+                    </Typography>
 
-                <Typography variant="body2" sx={valueTextStyle}>
-                    €{order?.totalPrice}
-                </Typography>
-            </Box>
-
-            <Box display="flex">
-                <Typography width={50} variant="body2" sx={infoTextStyle}>
-                    {translation('dateLabel')}:
-                </Typography>
-
-                <Typography variant="body2" sx={valueTextStyle}>
-                    {formattedDate}
-                </Typography>
-            </Box>
-
-            <Box display="flex">
-                <Typography width={50} variant="body2" sx={infoTextStyle}>
-                    {translation('statusLabel')}:
-                </Typography>
-
-                {order && <OrderStatusIndicator status={order.status} size='small' />}
-            </Box>
-
-            <Typography variant="h6" component="h1" fontWeight={600} mb={2} mt={5}>
-                {translation('products')}
-            </Typography>
-
-            <Divider sx={{ mb: 5 }} />
-
-            {currentProducts && order &&
-                <ProductsTable
-                    products={currentProducts}
-                    orderItems={order?.items}
-                />}
-
-            {Number(currentProducts?.totalPages) > 1 && (
-                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-                    <Pagination
-                        color="secondary"
-                        count={currentProducts?.totalPages}
-                        page={currentPage}
-                        onChange={handlePageChange}
-                        sx={{ mt: 5 }}
-                    />
+                    <Typography variant="body2" sx={valueTextStyle}>
+                        {formattedDate}
+                    </Typography>
                 </Box>
-            )}
 
-        </CenteredLayout>
+                <Box display="flex">
+                    <Typography width={50} variant="body2" sx={infoTextStyle}>
+                        {translation('statusLabel')}:
+                    </Typography>
+
+                    {order && <OrderStatusIndicator status={order.status} size='small' />}
+                </Box>
+
+                <Typography variant="h6" component="h1" fontWeight={600} mb={2} mt={5}>
+                    {translation('products')}
+                </Typography>
+
+                <Divider sx={{ mb: 5 }} />
+
+                {currentProducts && order &&
+                    <ProductsTable
+                        products={currentProducts}
+                        orderItems={order?.items}
+                    />}
+
+                {Number(currentProducts?.totalPages) > 1 && (
+                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+                        <Pagination
+                            color="secondary"
+                            count={currentProducts?.totalPages}
+                            page={currentPage}
+                            onChange={handlePageChange}
+                            sx={{ mt: 5 }}
+                        />
+                    </Box>
+                )}
+
+            </CenteredLayout>
+        </>
     )
 }
 

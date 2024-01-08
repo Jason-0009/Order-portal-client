@@ -1,13 +1,14 @@
 import { FC, useState, ChangeEvent } from 'react'
 
-import { useDispatch } from 'react-redux'
-
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
+import Head from 'next/head'
+
 import {
     Box, Typography, Divider, List,
-    Pagination, TextField, InputAdornment, IconButton} from '@mui/material'
+    Pagination, TextField, InputAdornment, IconButton
+} from '@mui/material'
 
 import { Close } from '@mui/icons-material'
 
@@ -22,6 +23,7 @@ import NoResultsFound from '@/components/common/NoResultsFound'
 
 import UserListItem from '@/components/user/UserListItem'
 
+
 const AdminUsersPage: FC = () => {
     const [searchTerm, setSearchTerm] = useState('')
 
@@ -35,83 +37,91 @@ const AdminUsersPage: FC = () => {
     const clearSearch = () => setSearchTerm('')
 
     return (
-        <CenteredLayout>
-            <BackButton location='/' />
+        <>
+            <Head>
+                <title>
+                    {translation('title')} - {translation('userManagement')}
+                </title>
+            </Head>
 
-            <Box sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                mb: 2
-            }}>
-                <Typography variant="h6" component="h1" fontWeight={600}>
-                    {translation('userManagement')}
-                </Typography>
+            <CenteredLayout>
+                <BackButton location='/' />
 
-                <TextField
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                    label={translation('search')}
-                    variant="outlined"
-                    size="small"
-                    InputLabelProps={{
-                        sx: {
-                            fontSize: '0.85em',
-                            color: 'text.primary',
-                            pl: 1,
-                            '&.Mui-focused': {
-                                color: 'text.secondary'
+                <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    mb: 2
+                }}>
+                    <Typography variant="h6" component="h1" fontWeight={600}>
+                        {translation('userManagement')}
+                    </Typography>
+
+                    <TextField
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        label={translation('search')}
+                        variant="outlined"
+                        size="small"
+                        InputLabelProps={{
+                            sx: {
+                                fontSize: '0.85em',
+                                color: 'text.primary',
+                                pl: 1,
+                                '&.Mui-focused': {
+                                    color: 'text.secondary'
+                                }
                             }
-                        }
-                    }}
-                    InputProps={{
-                        sx: {
-                            borderRadius: '20px',
-                            backgroundColor: 'secondary.main',
-                            color: 'text.secondary',
-                            fontSize: '0.85em',
-                            pb: 0.4
-                        },
-                        endAdornment: searchTerm && (
-                            <InputAdornment position="end">
-                                <IconButton
-                                    edge="end"
-                                    size="small"
-                                    onClick={clearSearch}
-                                >
-                                    <Close sx={{ fontSize: '0.85em' }} />
-                                </IconButton>
-                            </InputAdornment>
-                        )
-                    }}
-                    sx={{
-                        width: '200px',
-                        "& fieldset": {
-                            border: 'none'
-                        }
-                    }}
-                />
-            </Box>
+                        }}
+                        InputProps={{
+                            sx: {
+                                borderRadius: '20px',
+                                backgroundColor: 'secondary.main',
+                                color: 'text.secondary',
+                                fontSize: '0.85em',
+                                pb: 0.4
+                            },
+                            endAdornment: searchTerm && (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        edge="end"
+                                        size="small"
+                                        onClick={clearSearch}
+                                    >
+                                        <Close sx={{ fontSize: '0.85em' }} />
+                                    </IconButton>
+                                </InputAdornment>
+                            )
+                        }}
+                        sx={{
+                            width: '200px',
+                            "& fieldset": {
+                                border: 'none'
+                            }
+                        }}
+                    />
+                </Box>
 
-            <Divider sx={{ mb: 3 }} />
+                <Divider sx={{ mb: 3 }} />
 
-            <List>
-                {currentUsers?.content && (
-                    currentUsers.content.length > 0 ? currentUsers.content.map(user =>
-                        <UserListItem user={user} />) :
-                        <NoResultsFound text={translation('noUsersFound')} />
+                <List>
+                    {currentUsers?.content && (
+                        currentUsers.content.length > 0 ? currentUsers.content.map(user =>
+                            <UserListItem user={user} />) :
+                            <NoResultsFound text={translation('noUsersFound')} />
+                    )}
+                </List>
+
+                {Number(currentUsers?.totalPages) > 1 && (
+                    <Pagination
+                        color="secondary"
+                        count={currentUsers?.totalPages}
+                        page={currentPage}
+                        onChange={handlePageChange}
+                    />
                 )}
-            </List>
-
-            {Number(currentUsers?.totalPages) > 1 && (
-                <Pagination
-                    color="secondary"
-                    count={currentUsers?.totalPages}
-                    page={currentPage}
-                    onChange={handlePageChange}
-                />
-            )}
-        </CenteredLayout>
+            </CenteredLayout>
+        </>
     )
 }
 
