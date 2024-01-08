@@ -61,7 +61,7 @@ const UserProfileMenu: FC = () => {
 
                     <ConfirmButton
                         onClick={handleLogout}
-                        size='regular'
+                        size='medium'
                         text={translation('logout')}
                     />
                 </Box>

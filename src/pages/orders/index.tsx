@@ -33,7 +33,7 @@ const OrdersPage: FC = () => {
 
     if (isLoading) return (
         <CenteredBox>
-            <CircularProgress color="info" />
+            <CircularProgress color="error" />
         </CenteredBox>
     )
 

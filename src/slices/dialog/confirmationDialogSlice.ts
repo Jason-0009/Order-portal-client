@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-interface ConfirmationDialogState {
-    isOpen: boolean;
+type ConfirmationDialogState = {
+    isOpen: boolean
 }
 
 const initialState: ConfirmationDialogState = {

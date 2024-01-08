@@ -1,29 +1,41 @@
 import { FC } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 
 import {
+    Alert,
     Box, CircularProgress, Divider,
-    Pagination, Typography
+    Pagination, Snackbar, Typography
 } from '@mui/material'
 
 import withAuth from '@/hoc/withAuth'
 import withAdminAuth from '@/hoc/withAdminAuth'
 
+import { RootState } from '@/store'
+
 import useOrders from '@/hooks/order/useOrders'
 import useOrderStatistics from '@/hooks/order/useOrderStatistics'
+
+import { hideSnackbar } from '@/slices/snackbarSlice'
 
 import CenteredLayout from '@/components/common/CenteredLayout'
 import BackButton from '@/components/common/button/BackButton'
 import CenteredBox from '@/components/common/CenteredBox'
 
 import OrdersFilter from '@/components/order/OrdersFilter'
-import StatisticsDisplay from '@/components/order/admin/StatisticsDisplay'
+import AdminOrdersStatisticsDisplay from '@/components/order/admin/AdminOrdersStatisticsDisplay'
 import AdminOrdersTable from '@/components/order/admin/AdminOrdersTable'
+
 import NoOrdersFound from '@/components/common/NoResultsFound'
 
+
 const AdminOrdersPage: FC = () => {
+    const dispatch = useDispatch()
+    const { open, message } = useSelector((state: RootState) => state.snackbar)
+    const { t: translation } = useTranslation()
+
     const {
         currentOrders,
         isLoading,
@@ -35,13 +47,13 @@ const AdminOrdersPage: FC = () => {
         setFilteredStatusAndResetPage,
     } = useOrders('/orders')
 
-    const { t: translation } = useTranslation()
-
     const { statistics } = useOrderStatistics()
+
+    const handleCloseSnackbar = () => dispatch(hideSnackbar())
 
     if (isLoading) return (
         <CenteredBox>
-            <CircularProgress color="info" />
+            <CircularProgress color="error" />
         </CenteredBox>
     )
 
@@ -70,17 +82,17 @@ const AdminOrdersPage: FC = () => {
             <Divider sx={{ mb: 3 }} />
 
             <Box display="flex">
-                <StatisticsDisplay
+                <AdminOrdersStatisticsDisplay
                     count={statistics?.deliveredToday}
                     label={translation('orderDeliveredToday')}
                 />
 
-                <StatisticsDisplay
+                <AdminOrdersStatisticsDisplay
                     count={statistics?.pending}
                     label={translation('pendingOrders')}
                 />
 
-                <StatisticsDisplay
+                <AdminOrdersStatisticsDisplay
                     count={statistics?.delivering}
                     label={translation('incomingOrders')}
                 />
@@ -103,6 +115,20 @@ const AdminOrdersPage: FC = () => {
                     </>
                 ) : <NoOrdersFound text={translation('noOrdersFound')} />
             )}
+
+            <Snackbar
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleCloseSnackbar}
+            >
+                <Alert
+                    onClose={handleCloseSnackbar}
+                    severity="success"
+                    sx={{ width: '100%' }}
+                >
+                    {message}
+                </Alert>
+            </Snackbar>
         </CenteredLayout>
     )
 }

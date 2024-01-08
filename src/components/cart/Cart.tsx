@@ -7,7 +7,7 @@ import { Box, Typography, Pagination, Divider } from '@mui/material'
 
 import { RootState } from '@/store'
 
-import { openDialog } from '@/slices/confirmationDialogSlice'
+import { openDialog } from '@/slices/dialog/confirmationDialogSlice'
 
 import CartItem from './CartItem'
 import ConfirmButton from '../common/button/ConfirmButton'

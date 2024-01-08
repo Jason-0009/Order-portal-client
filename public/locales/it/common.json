@@ -55,5 +55,6 @@
     "admin": "Amministratore",
     "search": "Cerca",
     "noOrdersFound": "Nessun ordine trovato",
-    "noUsersFound": "Nessun utente trovato"
+    "noUsersFound": "Nessun utente trovato",
+    "statusUpdatedSuccessfully": "Stato aggiornato con successo!"
 }

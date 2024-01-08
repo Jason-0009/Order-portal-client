@@ -2,6 +2,8 @@ import { FC, useState, MouseEvent } from 'react'
 
 import { useTranslation } from 'next-i18next'
 
+import { enUS, it } from 'date-fns/locale'
+
 import { Box, Typography, IconButton, Popover, List, ListItemButton } from '@mui/material'
 import { Clear, DateRange, ExpandMore, FilterList } from '@mui/icons-material'
 
@@ -30,8 +32,13 @@ const OrdersFilter: FC<OrderFilterProps> = ({
     const [calendarAnchorElement, setCalendarAnchorElement] = useState<HTMLElement | null>(null)
     const [statusAnchorElement, setStatusAnchorElement] = useState<HTMLElement | null>(null)
 
-    const { t: translation } = useTranslation()
+    const { i18n, t: translation } = useTranslation()
     const ORDER_STATUS_TEXTS = useOrderStatusTexts()
+
+    const locales: { [key: string]: Locale } = {
+        en: enUS,
+        it: it
+    }
 
     const handleCalendarOpen = (event: MouseEvent<HTMLElement>) =>
         setCalendarAnchorElement(event.currentTarget)
@@ -65,7 +72,7 @@ const OrdersFilter: FC<OrderFilterProps> = ({
                 <ExpandMore sx={{ fontSize: '0.7em' }} />
             </IconButton>
 
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={locales[i18n.language]}>
                 <Popover
                     open={!!calendarAnchorElement}
                     anchorEl={calendarAnchorElement}

@@ -7,20 +7,21 @@ import { useTranslation } from 'next-i18next'
 
 import {
     Dialog, DialogTitle, DialogContent, DialogContentText,
-    DialogActions, Button, Typography, lighten
+    DialogActions, Button, Typography
 } from '@mui/material'
 
 import { RootState } from '@/store'
 
-import { closeDialog } from '@/slices/confirmationDialogSlice'
+import { closeDialog } from '@/slices/dialog/confirmationDialogSlice'
 import { clearCart } from '@/slices/cartSlice'
 
 import postOrder from '@/api/order/postOrder'
 
+import ConfirmButton from '../common/button/ConfirmButton'
+
 import CartItemType from '@/types/CartItem.type'
 import OrderStatus from '@/types/order/OrderStatus.enum'
 import Order from '@/types/order/Order.type'
-import ConfirmButton from '../common/button/ConfirmButton'
 
 const createOrder = (cart: CartItemType[], totalPrice: number): Order => ({
     totalPrice,
@@ -60,16 +61,16 @@ const ConfirmationDialog: FC = () => {
 
     return (
         <Dialog open={isOpen} onClose={handleClose} PaperProps={{
-            sx: {
+            sx: theme => ({
                 backgroundColor: 'secondary.main',
                 backgroundImage: 'none',
-                opacity: 1,
                 pt: 1,
                 pb: 3,
                 pl: 2,
                 pr: 3,
-                borderRadius: '15px'
-            }
+                borderRadius: '20px',
+                boxShadow: `0px 0px 14.4px 0px ${theme.palette.secondary.main}`
+            })
         }}>
             <DialogTitle sx={{ fontSize: '1.1em', fontWeight: 600 }}>
                 {translation('confirmYourOrder')}
@@ -88,12 +89,15 @@ const ConfirmationDialog: FC = () => {
             <DialogActions>
                 <Button
                     variant="outlined"
+                    size="small"
                     color="inherit"
                     onClick={handleClose}
                     sx={theme => ({
                         borderRadius: '20px',
                         backgroundColor: 'primary.main',
                         textTransform: 'none',
+                        width: '30%',
+                        height: '35px',
                         border: 'none',
                         boxShadow: `0px 0px 10px 0px ${theme.palette.primary.main}`
                     })}
@@ -101,23 +105,11 @@ const ConfirmationDialog: FC = () => {
                     {translation('cancel')}
                 </Button>
 
-                <Button
-                    variant="contained"
+                <ConfirmButton
+                    text={translation('confirm')}
+                    size='small'
                     onClick={handleConfirm}
-                    autoFocus
-                    sx={theme => ({
-                        borderRadius: '20px',
-                        backgroundColor: 'buttonBackground.main',
-                        textTransform: 'none',
-                        boxShadow: `0px 0px 10px 0px ${theme.palette.buttonBackground?.main}`,
-                        '&:hover': {
-                            backgroundColor: lighten(theme.palette.buttonBackground?.main || '', 0.2),
-                            boxShadow: `0px 0px 15px 4px ${lighten(theme.palette.buttonBackground?.main || '', 0.2)}`,
-                        }
-                    })}
-                >
-                    {translation('confirm')}
-                </Button>
+                />
             </DialogActions>
         </Dialog>
     )

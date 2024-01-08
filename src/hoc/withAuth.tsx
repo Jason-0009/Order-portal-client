@@ -19,7 +19,7 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
 
         if (isLoading) return (
             <CenteredBox>
-                <CircularProgress color="info" />
+                <CircularProgress color="error" />
             </CenteredBox>
         )
 

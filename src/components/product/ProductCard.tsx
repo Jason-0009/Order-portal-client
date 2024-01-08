@@ -30,7 +30,6 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
 
     return (
         <Card sx={theme => ({
-            boxShadow: `0px 4px 4px 0px ${theme.palette.secondary.main}`,
             borderRadius: '20px',
             overflow: 'visible',
             mt: 12

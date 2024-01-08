@@ -1,12 +1,13 @@
 import { FC, useState, ChangeEvent } from 'react'
 
-import {
-    Box, Typography, Divider, List,
-    Pagination, TextField, InputAdornment, IconButton
-} from '@mui/material'
+import { useDispatch } from 'react-redux'
 
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
+import {
+    Box, Typography, Divider, List,
+    Pagination, TextField, InputAdornment, IconButton} from '@mui/material'
 
 import { Close } from '@mui/icons-material'
 
@@ -24,8 +25,9 @@ import UserListItem from '@/components/user/UserListItem'
 const AdminUsersPage: FC = () => {
     const [searchTerm, setSearchTerm] = useState('')
 
-    const { currentUsers, currentPage, handlePageChange } = useUsers(searchTerm)
     const { t: translation } = useTranslation()
+
+    const { currentUsers, currentPage, handlePageChange } = useUsers(searchTerm)
 
     const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) =>
         setSearchTerm(event.target.value)

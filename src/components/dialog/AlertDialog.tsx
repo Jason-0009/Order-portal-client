@@ -13,7 +13,7 @@ import { Warning } from '@mui/icons-material'
 
 import { RootState } from '@/store'
 
-import { hideAlert } from '@/slices/alertDialogSlice'
+import { hideAlert } from '@/slices/dialog/alertDialogSlice'
 
 const AlertDialog: FC = () => {
     const dispatch = useDispatch()
@@ -55,7 +55,12 @@ const AlertDialog: FC = () => {
             </DialogContent>
 
             <DialogActions sx={{ justifyContent: 'center', pt: 0 }}>
-                <Button onClick={handleClose} color="info" autoFocus>
+                <Button
+                    onClick={handleClose}
+                    color="info"
+                    sx={{ borderRadius: '20px' }}
+                    autoFocus
+                >
                     OK
                 </Button>
             </DialogActions>

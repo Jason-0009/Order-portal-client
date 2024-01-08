@@ -17,7 +17,7 @@ import { ExpandMore } from '@mui/icons-material'
 import useUser from '@/hooks/user/useUser'
 import { useOrderStatusTexts } from '@/hooks/useOrderStatusTexts'
 
-import { showAlert } from '@/slices/alertDialogSlice'
+import { showAlert } from '@/slices/dialog/alertDialogSlice'
 
 import updateOrderStatus from '@/api/order/updateOrderStatus'
 
@@ -32,6 +32,7 @@ import OrderStatus from '@/types/order/OrderStatus.enum'
 import StatusPalette from '@/types/palette/StatusPalette.type'
 
 import ORDER_STATUS_STYLES from '@/constants/OrderStatusStyles'
+import { showSnackbar } from '@/slices/snackbarSlice'
 
 type AdminOrdersTableBodyProps = {
     order: Order,
@@ -92,6 +93,8 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
             id && await updateOrderStatus(id, newStatus)
 
             setSelectedStatus(newStatus)
+
+            dispatch(showSnackbar(translation('statusUpdatedSuccessfully')))
         } catch (error: unknown) {
             const { response } = error as AxiosError
             const errorMessage = translation(response?.data as string)

@@ -47,27 +47,27 @@ const OrderPage: FC = () => {
             </Typography>
 
             <Box display="flex">
-                <Typography width={50} variant="caption" sx={infoTextStyle}>
+                <Typography width={50} variant="body2" sx={infoTextStyle}>
                     {translation('totalLabel')}:
                 </Typography>
 
-                <Typography variant="caption" sx={valueTextStyle}>
+                <Typography variant="body2" sx={valueTextStyle}>
                     €{order?.totalPrice}
                 </Typography>
             </Box>
 
             <Box display="flex">
-                <Typography width={50} variant="caption" sx={infoTextStyle}>
+                <Typography width={50} variant="body2" sx={infoTextStyle}>
                     {translation('dateLabel')}:
                 </Typography>
 
-                <Typography variant="caption" sx={valueTextStyle}>
+                <Typography variant="body2" sx={valueTextStyle}>
                     {formattedDate}
                 </Typography>
             </Box>
 
             <Box display="flex">
-                <Typography width={50} variant="caption" sx={infoTextStyle}>
+                <Typography width={50} variant="body2" sx={infoTextStyle}>
                     {translation('statusLabel')}:
                 </Typography>
 

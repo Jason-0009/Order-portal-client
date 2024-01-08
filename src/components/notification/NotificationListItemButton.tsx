@@ -55,16 +55,17 @@ const NotificationListItemButton: FC<NotificationListItemProps> = ({ notificatio
             sx={{
                 flexDirection: 'column',
                 alignItems: 'start',
+                py: 1,
                 '&:hover': {
                     backgroundColor: 'primary.main'
                 }
             }}
         >
-            <Typography variant="body2">
+            <Typography variant="body2" fontSize='0.85em'>
                 {translation(messageCode)}
             </Typography>
 
-            <Typography variant="caption" color="text.secondary">
+            <Typography variant="caption" fontSize='0.75em' color="text.secondary">
                 {formattedDate}
             </Typography>
         </ListItemButton>

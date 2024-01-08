@@ -2,12 +2,12 @@ import { FC } from 'react'
 
 import { Box, Typography } from '@mui/material'
 
-type StatisticsDisplayProps = {
+type AdminOrdersStatisticsDisplayProps = {
     count: number | undefined,
     label: string
 }
 
-const StatisticsDisplay: FC<StatisticsDisplayProps> = ({ count, label }) => (
+const AdminOrdersStatisticsDisplay: FC<AdminOrdersStatisticsDisplayProps> = ({ count, label }) => (
     <Box width={230} height={70} sx={theme => ({
         borderRadius: '20px',
         backgroundColor: 'secondary.main',
@@ -25,4 +25,4 @@ const StatisticsDisplay: FC<StatisticsDisplayProps> = ({ count, label }) => (
     </Box>
 )
 
-export default StatisticsDisplay
+export default AdminOrdersStatisticsDisplay

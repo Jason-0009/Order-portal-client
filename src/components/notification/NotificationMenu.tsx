@@ -117,14 +117,19 @@ const NotificationMenu: FC = () => {
                                     textTransform: 'none',
                                     fontWeight: 600,
                                     fontSize: '0.75rem',
-                                    ml: 1
+                                    ml: 1,
+                                    py: 0.5,
+                                    borderRadius: '20px',
+                                    '&:hover': {
+                                        backgroundColor: 'primary.main'
+                                    }
                                 }}
                             >
                                 {translation('clearAll')}
                             </Button>
 
                             <List sx={{ pt: 0 }}>
-                                {notifications.map((notification, index) => {
+                                {notifications.map(notification => {
                                     const { id } = notification
 
                                     return (

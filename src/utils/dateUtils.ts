@@ -1,8 +1,6 @@
 import { format, formatDistanceToNow } from 'date-fns'
 import { enUS, it } from 'date-fns/locale'
 
-type Locale = typeof enUS | typeof it
-
 const locales: { [key: string]: Locale } = { en: enUS, it: it }
 
 export const formatDistanceToNowLocale = (dateInput: string, localeKey: string): string => {
