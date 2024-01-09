@@ -36,7 +36,7 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
             </CenteredBox>
         )
 
-        if (!isAuthenticated) return (
+        if (isAuthenticated === false) return (
             <CenteredBox>
                 <Button
                     onClick={handleAuth}
