@@ -16,7 +16,7 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
         const { t: translation } = useTranslation()
 
         const { isAuthenticated, isLoading, axiosError } = useAuth()
-
+        
         const handleAuth = () => window.location.href =
             `${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization/google`
 
@@ -36,7 +36,7 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
             </CenteredBox>
         )
 
-        if (isAuthenticated === false) return (
+        if (!isAuthenticated) return (
             <CenteredBox>
                 <Button
                     onClick={handleAuth}
