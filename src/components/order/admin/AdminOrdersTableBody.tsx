@@ -59,7 +59,11 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
     const { locale } = useRouter()
     const { t: translation } = useTranslation()
 
-    const { data: user } = useQuery('user', () => fetchUser(customerId))
+    const { data: user } = useQuery(['user', customerId], () => fetchUser(customerId), {
+        enabled: !!customerId,
+    })
+
+    console.log({ user })
     const ORDER_STATUS_TEXTS = useOrderStatusTexts()
 
     const formattedDate = date && locale && formatDistanceToNowLocale(date, locale)
