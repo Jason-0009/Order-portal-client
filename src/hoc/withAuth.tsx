@@ -1,11 +1,14 @@
-import { ComponentType } from 'react'
+import { ComponentType, useEffect } from 'react'
 
+import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'next-i18next'
 
-import { Button, CircularProgress, Typography } from '@mui/material'
-import { SyncProblem, Google } from '@mui/icons-material'
+import { Button } from '@mui/material'
+import { Google } from '@mui/icons-material'
 
-import useAuth from '@/hooks/useAuth'
+import { RootState } from '@/store'
+
+import { setIsAuthenticated } from '@/slices/authSlice'
 
 import CenteredBox from '@/components/common/CenteredBox'
 
@@ -13,28 +16,20 @@ import getDisplayName from '@/utils/getDisplayName'
 
 const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
     const WithAuth = (props: P) => {
+        const isAuthenticated = useSelector((state: RootState) => state.auth)
         const { t: translation } = useTranslation()
+        const dispatch = useDispatch()
 
-        const { isAuthenticated, isLoading, axiosError } = useAuth()
-        
+        useEffect(() => {
+            const token = localStorage.getItem('token')
+
+            if (!token) return
+
+            dispatch(setIsAuthenticated(true))
+        }, [dispatch])
+
         const handleAuth = () => window.location.href =
             `${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization/google`
-
-        if (isLoading) return (
-            <CenteredBox>
-                <CircularProgress color="error" />
-            </CenteredBox>
-        )
-
-        if (axiosError?.code === 'ERR_NETWORK') return (
-            <CenteredBox>
-                <SyncProblem color="error" />
-
-                <Typography>
-                    {translation('connectionErrorMessage')}
-                </Typography>
-            </CenteredBox>
-        )
 
         if (!isAuthenticated) return (
             <CenteredBox>

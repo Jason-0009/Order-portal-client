@@ -7,7 +7,6 @@ import {
     ListItemText, MenuItem, Select, SelectChangeEvent, lighten
 } from '@mui/material'
 
-import useAuth from '@/hooks/useAuth'
 import useUserProfile from '@/hooks/user/useUserProfile'
 
 import updateUserRole from '@/api/user/updateUserRole'
@@ -23,8 +22,7 @@ type UserListItemProps = {
 const UserListItem: FC<UserListItemProps> = ({ user }) => {
     const { t: translation } = useTranslation()
 
-    const { isAuthenticated } = useAuth()
-    const { userProfile } = useUserProfile(isAuthenticated)
+    const { userProfile } = useUserProfile()
 
     if (userProfile?.id === user.id) return null
 

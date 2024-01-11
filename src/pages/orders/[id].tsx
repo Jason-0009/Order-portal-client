@@ -4,13 +4,14 @@ import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
+import { useQuery } from 'react-query'
+
 import Head from 'next/head'
 
 import { Box, SxProps, Divider, Pagination, Typography } from '@mui/material'
 
 import withAuth from '@/hoc/withAuth'
 
-import useOrder from '@/hooks/order/useOrder'
 import useProducts from '@/hooks/useProducts'
 
 import CenteredLayout from '@/components/common/CenteredLayout'
@@ -22,11 +23,14 @@ import ProductsTable from '@/components/product/ProductsTable'
 
 import { formatDateLocale } from '@/utils/dateUtils'
 
+import fetchOrderById from '@/api/order/fetchOrderById'
+
 const OrderPage: FC = () => {
     const { query, locale } = useRouter()
     const { id } = query
 
-    const order = useOrder(id as string)
+    const { data: order } = useQuery(['order', id], () => fetchOrderById(id as string),
+        { enabled: !!id })
 
     const itemIds = order?.items.map(item => item.id)
 

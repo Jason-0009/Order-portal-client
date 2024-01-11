@@ -1,5 +1,7 @@
 import { FC, useState, useEffect } from 'react'
 
+import { useSelector } from 'react-redux'
+
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
@@ -9,18 +11,19 @@ import {
     SelectChangeEvent, Typography, lighten
 } from '@mui/material'
 
-import useAuth from '@/hooks/useAuth'
+import { RootState } from '@/store'
+
 import useUserProfile from '@/hooks/user/useUserProfile'
 
 import updateUserPreferredLanguage from '@/api/user/updateUserPreferredLanguage'
 
 const LanguageSelector: FC = () => {
     const router = useRouter()
+    const isAuthenticated = useSelector((state: RootState) => state.auth)
     const { i18n } = useTranslation()
     const [locale, setLocale] = useState(i18n.language)
 
-    const { isAuthenticated } = useAuth()
-    const { userProfile } = useUserProfile(isAuthenticated)
+    const { userProfile } = useUserProfile()
 
     useEffect(() => {
         if (locale === router.locale) return

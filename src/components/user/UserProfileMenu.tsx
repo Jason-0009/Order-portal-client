@@ -1,5 +1,7 @@
 import { FC, MouseEvent, useState } from 'react'
 
+import { useDispatch } from 'react-redux'
+
 import { useTranslation } from 'next-i18next'
 
 import {
@@ -7,23 +9,31 @@ import {
     Typography, Divider, Button
 } from '@mui/material'
 
-import useAuth from '@/hooks/useAuth'
 import useUserProfile from '@/hooks/user/useUserProfile'
+
 import ConfirmButton from '../common/button/ConfirmButton'
+
+import { setIsAuthenticated } from '@/slices/authSlice'
 
 const UserProfileMenu: FC = () => {
     const [profileMenuAnchorElement, setProfileMenuAnchorElement] = useState<HTMLElement | null>(null)
 
-    const { isAuthenticated } = useAuth()
-    const { userProfile } = useUserProfile(isAuthenticated)
+    const { userProfile } = useUserProfile()
     const { t: translation } = useTranslation()
+    const dispatch = useDispatch()
 
     const handleProfileMenuOpen = (event: MouseEvent<HTMLElement>) =>
         setProfileMenuAnchorElement(event.currentTarget as HTMLElement)
 
     const handleProfileMenuClose = () => setProfileMenuAnchorElement(null)
 
-    const handleLogout = () => window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/logout`
+    const handleLogout = () => {
+        localStorage.removeItem('token')
+
+        dispatch(setIsAuthenticated(false))
+
+        window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/logout`
+    }
 
     return (
         <>

@@ -1,12 +1,14 @@
 import { FC } from 'react'
 
+import { useSelector } from 'react-redux'
+
 import { useTranslation } from 'next-i18next'
 import NextLink from 'next/link'
 
 import { Link, AppBar, Toolbar, Typography, IconButton, Box } from '@mui/material'
 import { LocalPizza } from '@mui/icons-material'
 
-import useAuth from '@/hooks/useAuth'
+import { RootState } from '@/store'
 
 import Routes from './Routes'
 import NotificationMenu from './notification/NotificationMenu'
@@ -15,10 +17,10 @@ import UserProfileMenu from './user/UserProfileMenu'
 import LanguageSelector from './selector/LanguageSelector'
 import ThemeSelector from './selector/ThemeSelector'
 
-const Navbar: FC = () => {
-    const { t: translation } = useTranslation()
 
-    const { isAuthenticated } = useAuth()
+const Navbar: FC = () => {
+    const isAuthenticated = useSelector((state: RootState) => state.auth)
+    const { t: translation } = useTranslation()
 
     return (
         <AppBar position="relative" sx={{

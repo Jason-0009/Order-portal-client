@@ -1,7 +1,10 @@
-import { FC } from 'react'
-import { useSelector } from 'react-redux'
+import { FC, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
+import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
+import { useQuery } from 'react-query'
 
 import Head from 'next/head'
 
@@ -10,8 +13,6 @@ import { Box } from '@mui/material'
 import withAuth from '@/hoc/withAuth'
 
 import { RootState } from '@/store'
-
-import { useTranslation } from 'next-i18next'
 
 import ProductSelection from '@/components/product/ProductSelection'
 import Cart from '@/components/cart/Cart'

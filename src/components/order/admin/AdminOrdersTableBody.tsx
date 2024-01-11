@@ -1,5 +1,6 @@
 import { FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useQuery } from 'react-query'
 
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
@@ -14,7 +15,8 @@ import {
 } from '@mui/material'
 import { ExpandMore } from '@mui/icons-material'
 
-import useUser from '@/hooks/user/useUser'
+import fetchUser from '@/api/user/fetchUser'
+
 import { useOrderStatusTexts } from '@/hooks/useOrderStatusTexts'
 
 import { showAlert } from '@/slices/dialog/alertDialogSlice'
@@ -24,6 +26,8 @@ import updateOrderStatus from '@/api/order/updateOrderStatus'
 import AdminOrderDetailsTable from './AdminOrderDetailsTable'
 import AlertDialog from '@/components/dialog/AlertDialog'
 
+import { showSnackbar } from '@/slices/snackbarSlice'
+
 import { formatDistanceToNowLocale } from '@/utils/dateUtils'
 import toCamelCase from '@/utils/toCamelCase'
 
@@ -32,7 +36,6 @@ import OrderStatus from '@/types/order/OrderStatus.enum'
 import StatusPalette from '@/types/palette/StatusPalette.type'
 
 import ORDER_STATUS_STYLES from '@/constants/OrderStatusStyles'
-import { showSnackbar } from '@/slices/snackbarSlice'
 
 type AdminOrdersTableBodyProps = {
     order: Order,
@@ -56,7 +59,7 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
     const { locale } = useRouter()
     const { t: translation } = useTranslation()
 
-    const user = useUser(customerId)
+    const { data: user } = useQuery('user', () => fetchUser(customerId))
     const ORDER_STATUS_TEXTS = useOrderStatusTexts()
 
     const formattedDate = date && locale && formatDistanceToNowLocale(date, locale)
