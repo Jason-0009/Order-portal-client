@@ -15,7 +15,7 @@ import { Close } from '@mui/icons-material'
 import withAuth from '@/hoc/withAuth'
 import withAdminAuth from '@/hoc/withAdminAuth'
 
-import useUsers from '@/hooks/user/useUsers'
+import useUsers from '@/hooks/useUsers'
 
 import BackButton from '@/components/common/button/BackButton'
 import CenteredLayout from '@/components/common/CenteredLayout'

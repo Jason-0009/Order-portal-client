@@ -1,10 +1,6 @@
-import { useTranslation } from 'next-i18next'
-
 import OrderStatus from '@/types/order/OrderStatus.enum'
 
-export const useOrderStatusTexts = () => {
-    const { t: translation } = useTranslation()
-
+const getOrderStatusTexts = (translation: (key: string) => string) => {
     return {
         [OrderStatus.PENDING]: translation('statusPending'),
         [OrderStatus.IN_CHARGE]: translation('statusInCharge'),
@@ -12,3 +8,5 @@ export const useOrderStatusTexts = () => {
         [OrderStatus.DELIVERED]: translation('statusDelivered')
     }
 }
+
+export default getOrderStatusTexts

@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import { useQuery } from 'react-query'
 
 import { useTranslation } from 'next-i18next'
 import NextLink from 'next/link'
@@ -6,7 +7,7 @@ import NextLink from 'next/link'
 import { Link, AppBar, Toolbar, Typography, IconButton, Box } from '@mui/material'
 import { LocalPizza } from '@mui/icons-material'
 
-import useAuth from '@/hooks/useAuth'
+import checkAuth from '@/api/checkAuth'
 
 import Routes from './Routes'
 import NotificationMenu from './notification/NotificationMenu'
@@ -18,7 +19,7 @@ import ThemeSelector from './selector/ThemeSelector'
 const Navbar: FC = () => {
     const { t: translation } = useTranslation()
 
-    const { isAuthenticated } = useAuth()
+    const { data: isAuthenticated } = useQuery('auth', checkAuth)
 
     return (
         <AppBar position="relative" sx={{

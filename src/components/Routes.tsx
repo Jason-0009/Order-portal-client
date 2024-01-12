@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import { useQuery } from 'react-query'
 
 import { useRouter } from 'next/router'
 import NextLink from 'next/link'
@@ -7,18 +8,20 @@ import { useTranslation } from 'next-i18next'
 import { Link, IconButton, Typography } from '@mui/material'
 import { LocalShipping, ManageAccounts, ViewList } from '@mui/icons-material'
 
-import useAuth from '@/hooks/useAuth'
-import useUserProfile from '@/hooks/user/useUserProfile'
+import checkAuth from '@/api/checkAuth'
+
+import fetchUserProfile from '@/api/user/fetchUserProfile'
 
 import UserRole from '@/types/user/UserRole.enum'
 import Route from '@/types/Route.type'
 
-
 const Routes: FC = () => {
     const router = useRouter()
 
-    const { isAuthenticated } = useAuth()
-    const { userProfile } = useUserProfile(isAuthenticated)
+    const { data: isAuthenticated } = useQuery('auth', checkAuth)
+    const { data: userProfile } = useQuery('userProfile', fetchUserProfile,
+        { enabled: !!isAuthenticated })
+        
     const { t: translation } = useTranslation()
 
     const isAdmin = userProfile?.role === UserRole.ADMIN

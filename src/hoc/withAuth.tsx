@@ -1,11 +1,14 @@
 import { ComponentType } from 'react'
+import { useQuery } from 'react-query'
+
+import { AxiosError } from 'axios'
 
 import { useTranslation } from 'next-i18next'
 
 import { Button, CircularProgress, Typography } from '@mui/material'
 import { SyncProblem, Google } from '@mui/icons-material'
 
-import useAuth from '@/hooks/useAuth'
+import checkAuth from '@/api/checkAuth'
 
 import CenteredBox from '@/components/common/CenteredBox'
 
@@ -15,7 +18,8 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
     const WithAuth = (props: P) => {
         const { t: translation } = useTranslation()
 
-        const { isAuthenticated, isLoading, axiosError } = useAuth()
+        const { data: isAuthenticated, isLoading, error } = useQuery('auth', checkAuth)
+        const axiosError = error as AxiosError | undefined
 
         const handleAuth = () => window.location.href =
             `${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization/google`

@@ -1,4 +1,5 @@
 import { FC, useState, useEffect } from 'react'
+import { useQuery } from 'react-query'
 
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
@@ -6,11 +7,12 @@ import Image from 'next/image'
 
 import {
     Select, Box, MenuItem, 
-    SelectChangeEvent, Typography, lighten
+    SelectChangeEvent, Typography
 } from '@mui/material'
 
-import useAuth from '@/hooks/useAuth'
-import useUserProfile from '@/hooks/user/useUserProfile'
+import checkAuth from '@/api/checkAuth'
+
+import fetchUserProfile from '@/api/user/fetchUserProfile'
 
 import updateUserPreferredLanguage from '@/api/user/updateUserPreferredLanguage'
 
@@ -19,8 +21,9 @@ const LanguageSelector: FC = () => {
     const { i18n } = useTranslation()
     const [locale, setLocale] = useState(i18n.language)
 
-    const { isAuthenticated } = useAuth()
-    const { userProfile } = useUserProfile(isAuthenticated)
+    const { data: isAuthenticated } = useQuery('auth', checkAuth)
+    const { data: userProfile } = useQuery('userProfile', fetchUserProfile,
+        { enabled: !!isAuthenticated })
 
     useEffect(() => {
         if (locale === router.locale) return

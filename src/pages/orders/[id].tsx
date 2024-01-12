@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import { useQuery } from 'react-query'
 
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
@@ -10,8 +11,9 @@ import { Box, SxProps, Divider, Pagination, Typography } from '@mui/material'
 
 import withAuth from '@/hoc/withAuth'
 
-import useOrder from '@/hooks/order/useOrder'
 import useProducts from '@/hooks/useProducts'
+
+import fetchOrderById from '@/api/order/fetchOrderById'
 
 import CenteredLayout from '@/components/common/CenteredLayout'
 import BackButton from '@/components/common/button/BackButton'
@@ -26,8 +28,9 @@ const OrderPage: FC = () => {
     const { query, locale } = useRouter()
     const { id } = query
 
-    const order = useOrder(id as string)
-
+    const { data: order } = useQuery(['order', id], () => fetchOrderById(id as string),
+        { enabled: !!id })
+        
     const itemIds = order?.items.map(item => item.id)
 
     const { currentProducts, currentPage, handlePageChange } = useProducts(false, 5, itemIds)

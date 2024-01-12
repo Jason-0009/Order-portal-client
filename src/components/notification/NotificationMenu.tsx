@@ -1,4 +1,5 @@
-import { FC, Fragment, MouseEvent, useState } from 'react'
+import { FC, MouseEvent, useState } from 'react'
+import { useQuery } from 'react-query'
 
 import { useTranslation } from 'next-i18next'
 
@@ -9,19 +10,23 @@ import {
 
 import { Notifications, NotificationsActive } from '@mui/icons-material'
 
-import useAuth from '@/hooks/useAuth'
 import useNotifications from '@/hooks/useNotifications'
-import useUserProfile from '@/hooks/user/useUserProfile'
+
+import checkAuth from '@/api/checkAuth'
+import fetchUserProfile from '@/api/user/fetchUserProfile'
 
 import NotificationListItemButton from './NotificationListItemButton'
+
 
 const NotificationMenu: FC = () => {
     const [notificationMenuAnchorElement,
         setNotificationMenuAnchorElement] = useState<HTMLElement | null>(null)
 
-    const { isAuthenticated } = useAuth()
+    const { data: isAuthenticated } = useQuery('auth', checkAuth)
     const { notifications, handleNotificationRead, clearAllNotifications } = useNotifications()
-    const { userProfile } = useUserProfile(isAuthenticated)
+    const { data: userProfile } = useQuery('userProfile', fetchUserProfile,
+        { enabled: !!isAuthenticated })
+
     const { t: translation } = useTranslation()
 
     const unreadNotificationCount = notifications

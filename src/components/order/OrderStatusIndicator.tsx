@@ -1,9 +1,10 @@
 import { FC } from 'react'
 
+import { useTranslation } from 'next-i18next'
+
 import { Box, Typography } from '@mui/material'
 
-import { useOrderStatusTexts } from '@/hooks/useOrderStatusTexts'
-
+import getOrderStatusTexts from '@/utils/getOrderStatusTexts'
 import toCamelCase from '@/utils/toCamelCase'
 
 import OrderStatus from '@/types/order/OrderStatus.enum'
@@ -11,13 +12,17 @@ import StatusPalette from '@/types/palette/StatusPalette.type'
 
 import ORDER_STATUS_STYLES from '@/constants/OrderStatusStyles'
 
+
+
 type OrderStateIndicatorProps = {
     status: OrderStatus,
     size: 'regular' | 'small'
 }
 
 const OrderStatusIndicator: FC<OrderStateIndicatorProps> = ({ status, size }) => {
-    const ORDER_STATUS_TEXTS = useOrderStatusTexts()
+    const { t: translation } = useTranslation()
+    
+    const ORDER_STATUS_TEXTS = getOrderStatusTexts(translation)
 
     const style = ORDER_STATUS_STYLES[status]
     const text = ORDER_STATUS_TEXTS[status]

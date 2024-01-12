@@ -1,5 +1,6 @@
 import { FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useQuery } from 'react-query'
 
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
@@ -14,16 +15,16 @@ import {
 } from '@mui/material'
 import { ExpandMore } from '@mui/icons-material'
 
-import useUser from '@/hooks/user/useUser'
-import { useOrderStatusTexts } from '@/hooks/useOrderStatusTexts'
-
+import { showSnackbar } from '@/slices/snackbarSlice'
 import { showAlert } from '@/slices/dialog/alertDialogSlice'
 
+import fetchUser from '@/api/user/fetchUser'
 import updateOrderStatus from '@/api/order/updateOrderStatus'
 
 import AdminOrderDetailsTable from './AdminOrderDetailsTable'
 import AlertDialog from '@/components/dialog/AlertDialog'
 
+import getOrderStatusTexts from '@/utils/getOrderStatusTexts'
 import { formatDistanceToNowLocale } from '@/utils/dateUtils'
 import toCamelCase from '@/utils/toCamelCase'
 
@@ -32,7 +33,6 @@ import OrderStatus from '@/types/order/OrderStatus.enum'
 import StatusPalette from '@/types/palette/StatusPalette.type'
 
 import ORDER_STATUS_STYLES from '@/constants/OrderStatusStyles'
-import { showSnackbar } from '@/slices/snackbarSlice'
 
 type AdminOrdersTableBodyProps = {
     order: Order,
@@ -55,9 +55,9 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
     const [selectedStatus, setSelectedStatus] = useState(status)
     const { locale } = useRouter()
     const { t: translation } = useTranslation()
+    const { data: user } = useQuery(['user', customerId], () => fetchUser(customerId))
 
-    const user = useUser(customerId)
-    const ORDER_STATUS_TEXTS = useOrderStatusTexts()
+    const ORDER_STATUS_TEXTS = getOrderStatusTexts(translation)
 
     const formattedDate = date && locale && formatDistanceToNowLocale(date, locale)
     const orderStatuses = Object.values(OrderStatus)

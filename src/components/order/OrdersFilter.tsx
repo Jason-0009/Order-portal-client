@@ -10,11 +10,12 @@ import { Clear, DateRange, ExpandMore, FilterList } from '@mui/icons-material'
 import { LocalizationProvider, DateCalendar } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 
-import { useOrderStatusTexts } from '@/hooks/useOrderStatusTexts'
+import getOrderStatusTexts from '@/utils/getOrderStatusTexts'
 
 import OrderStatus from '@/types/order/OrderStatus.enum'
 
 import ORDER_STATUS_STYLES from '@/constants/OrderStatusStyles'
+
 
 type OrderFilterProps = {
     filteredDate: Date | null,
@@ -33,7 +34,7 @@ const OrdersFilter: FC<OrderFilterProps> = ({
     const [statusAnchorElement, setStatusAnchorElement] = useState<HTMLElement | null>(null)
 
     const { i18n, t: translation } = useTranslation()
-    const ORDER_STATUS_TEXTS = useOrderStatusTexts()
+    const ORDER_STATUS_TEXTS = getOrderStatusTexts(translation)
 
     const locales: { [key: string]: Locale } = {
         en: enUS,

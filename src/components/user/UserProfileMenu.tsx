@@ -1,4 +1,5 @@
 import { FC, MouseEvent, useState } from 'react'
+import { useQuery } from 'react-query'
 
 import { useTranslation } from 'next-i18next'
 
@@ -7,15 +8,18 @@ import {
     Typography, Divider
 } from '@mui/material'
 
-import useAuth from '@/hooks/useAuth'
-import useUserProfile from '@/hooks/user/useUserProfile'
+import checkAuth from '@/api/checkAuth'
+
+import fetchUserProfile from '@/api/user/fetchUserProfile'
+
 import ConfirmButton from '../common/button/ConfirmButton'
 
 const UserProfileMenu: FC = () => {
     const [profileMenuAnchorElement, setProfileMenuAnchorElement] = useState<HTMLElement | null>(null)
-
-    const { isAuthenticated } = useAuth()
-    const { userProfile } = useUserProfile(isAuthenticated)
+    
+    const { data: isAuthenticated } = useQuery('auth', checkAuth)
+    const { data: userProfile } = useQuery('userProfile', fetchUserProfile,
+        { enabled: !!isAuthenticated })
     const { t: translation } = useTranslation()
 
     const handleProfileMenuOpen = (event: MouseEvent<HTMLElement>) =>

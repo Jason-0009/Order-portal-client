@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import { useQuery } from 'react-query'
 
 import { useTranslation } from 'next-i18next'
 
@@ -7,8 +8,8 @@ import {
     ListItemText, MenuItem, Select, SelectChangeEvent, lighten
 } from '@mui/material'
 
-import useAuth from '@/hooks/useAuth'
-import useUserProfile from '@/hooks/user/useUserProfile'
+import checkAuth from '@/api/checkAuth'
+import fetchUserProfile from '@/api/user/fetchUserProfile'
 
 import updateUserRole from '@/api/user/updateUserRole'
 
@@ -23,9 +24,10 @@ type UserListItemProps = {
 const UserListItem: FC<UserListItemProps> = ({ user }) => {
     const { t: translation } = useTranslation()
 
-    const { isAuthenticated } = useAuth()
-    const { userProfile } = useUserProfile(isAuthenticated)
-
+    const { data: isAuthenticated } = useQuery('auth', checkAuth)
+    const { data: userProfile } = useQuery('userProfile', fetchUserProfile,
+        { enabled: !!isAuthenticated })
+        
     if (userProfile?.id === user.id) return null
 
     const roleTexts: Record<UserRole, string> = {
