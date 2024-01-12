@@ -1,19 +1,8 @@
-<<<<<<< HEAD
 import { FC } from 'react'
 import { useSelector } from 'react-redux'
 
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-=======
-import { FC, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-
-import { useTranslation } from 'next-i18next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-
-import { useQuery } from 'react-query'
-
->>>>>>> ef4442a7fcd9330fd6d88aff9a36ea616b943c46
 import Head from 'next/head'
 
 import { Box } from '@mui/material'
@@ -22,11 +11,8 @@ import withAuth from '@/hoc/withAuth'
 
 import { RootState } from '@/store'
 
-<<<<<<< HEAD
 import { useTranslation } from 'next-i18next'
 
-=======
->>>>>>> ef4442a7fcd9330fd6d88aff9a36ea616b943c46
 import ProductSelection from '@/components/product/ProductSelection'
 import Cart from '@/components/cart/Cart'
 

@@ -4,21 +4,13 @@ import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-<<<<<<< HEAD
-=======
-import { useQuery } from 'react-query'
-
->>>>>>> ef4442a7fcd9330fd6d88aff9a36ea616b943c46
 import Head from 'next/head'
 
 import { Box, SxProps, Divider, Pagination, Typography } from '@mui/material'
 
 import withAuth from '@/hoc/withAuth'
 
-<<<<<<< HEAD
 import useOrder from '@/hooks/order/useOrder'
-=======
->>>>>>> ef4442a7fcd9330fd6d88aff9a36ea616b943c46
 import useProducts from '@/hooks/useProducts'
 
 import CenteredLayout from '@/components/common/CenteredLayout'
@@ -30,11 +22,6 @@ import ProductsTable from '@/components/product/ProductsTable'
 
 import { formatDateLocale } from '@/utils/dateUtils'
 
-<<<<<<< HEAD
-=======
-import fetchOrderById from '@/api/order/fetchOrderById'
-
->>>>>>> ef4442a7fcd9330fd6d88aff9a36ea616b943c46
 const OrderPage: FC = () => {
     const { query, locale } = useRouter()
     const { id } = query
@@ -44,12 +31,6 @@ const OrderPage: FC = () => {
 =======
     const { data: order } = useQuery(['order', id], () => fetchOrderById(id as string),
         { enabled: !!id })
->>>>>>> ef4442a7fcd9330fd6d88aff9a36ea616b943c46
-
-    const itemIds = order?.items.map(item => item.id)
-
-    const { currentProducts, currentPage, handlePageChange } = useProducts(false, 5, itemIds)
-    const { t: translation } = useTranslation()
 
     const infoTextStyle: SxProps = { color: 'text.primary', fontWeight: 600, mb: 1 }
     const valueTextStyle: SxProps = { ...infoTextStyle, color: 'text.secondary' }
