@@ -1,9 +1,5 @@
 import { FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
-<<<<<<< HEAD
-=======
-import { useQuery } from 'react-query'
->>>>>>> ef4442a7fcd9330fd6d88aff9a36ea616b943c46
 
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
@@ -18,12 +14,7 @@ import {
 } from '@mui/material'
 import { ExpandMore } from '@mui/icons-material'
 
-<<<<<<< HEAD
 import useUser from '@/hooks/user/useUser'
-=======
-import fetchUser from '@/api/user/fetchUser'
-
->>>>>>> ef4442a7fcd9330fd6d88aff9a36ea616b943c46
 import { useOrderStatusTexts } from '@/hooks/useOrderStatusTexts'
 
 import { showAlert } from '@/slices/dialog/alertDialogSlice'
@@ -33,11 +24,6 @@ import updateOrderStatus from '@/api/order/updateOrderStatus'
 import AdminOrderDetailsTable from './AdminOrderDetailsTable'
 import AlertDialog from '@/components/dialog/AlertDialog'
 
-<<<<<<< HEAD
-=======
-import { showSnackbar } from '@/slices/snackbarSlice'
-
->>>>>>> ef4442a7fcd9330fd6d88aff9a36ea616b943c46
 import { formatDistanceToNowLocale } from '@/utils/dateUtils'
 import toCamelCase from '@/utils/toCamelCase'
 
@@ -46,10 +32,7 @@ import OrderStatus from '@/types/order/OrderStatus.enum'
 import StatusPalette from '@/types/palette/StatusPalette.type'
 
 import ORDER_STATUS_STYLES from '@/constants/OrderStatusStyles'
-<<<<<<< HEAD
 import { showSnackbar } from '@/slices/snackbarSlice'
-=======
->>>>>>> ef4442a7fcd9330fd6d88aff9a36ea616b943c46
 
 type AdminOrdersTableBodyProps = {
     order: Order,
@@ -73,15 +56,7 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
     const { locale } = useRouter()
     const { t: translation } = useTranslation()
 
-<<<<<<< HEAD
     const user = useUser(customerId)
-=======
-    const { data: user } = useQuery(['user', customerId], () => fetchUser(customerId), {
-        enabled: !!customerId,
-    })
-
-    console.log({ user })
->>>>>>> ef4442a7fcd9330fd6d88aff9a36ea616b943c46
     const ORDER_STATUS_TEXTS = useOrderStatusTexts()
 
     const formattedDate = date && locale && formatDistanceToNowLocale(date, locale)

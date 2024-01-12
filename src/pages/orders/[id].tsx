@@ -26,11 +26,12 @@ const OrderPage: FC = () => {
     const { query, locale } = useRouter()
     const { id } = query
 
-<<<<<<< HEAD
     const order = useOrder(id as string)
-=======
-    const { data: order } = useQuery(['order', id], () => fetchOrderById(id as string),
-        { enabled: !!id })
+
+    const itemIds = order?.items.map(item => item.id)
+
+    const { currentProducts, currentPage, handlePageChange } = useProducts(false, 5, itemIds)
+    const { t: translation } = useTranslation()
 
     const infoTextStyle: SxProps = { color: 'text.primary', fontWeight: 600, mb: 1 }
     const valueTextStyle: SxProps = { ...infoTextStyle, color: 'text.secondary' }

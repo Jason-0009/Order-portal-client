@@ -9,10 +9,7 @@ import {
 
 import { Notifications, NotificationsActive } from '@mui/icons-material'
 
-<<<<<<< HEAD
 import useAuth from '@/hooks/useAuth'
-=======
->>>>>>> ef4442a7fcd9330fd6d88aff9a36ea616b943c46
 import useNotifications from '@/hooks/useNotifications'
 import useUserProfile from '@/hooks/user/useUserProfile'
 
@@ -22,14 +19,9 @@ const NotificationMenu: FC = () => {
     const [notificationMenuAnchorElement,
         setNotificationMenuAnchorElement] = useState<HTMLElement | null>(null)
 
-<<<<<<< HEAD
     const { isAuthenticated } = useAuth()
     const { notifications, handleNotificationRead, clearAllNotifications } = useNotifications()
     const { userProfile } = useUserProfile(isAuthenticated)
-=======
-    const { notifications, handleNotificationRead, clearAllNotifications } = useNotifications()
-    const { userProfile } = useUserProfile()
->>>>>>> ef4442a7fcd9330fd6d88aff9a36ea616b943c46
     const { t: translation } = useTranslation()
 
     const unreadNotificationCount = notifications

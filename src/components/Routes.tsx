@@ -7,10 +7,7 @@ import { useTranslation } from 'next-i18next'
 import { Link, IconButton, Typography } from '@mui/material'
 import { LocalShipping, ManageAccounts, ViewList } from '@mui/icons-material'
 
-<<<<<<< HEAD
 import useAuth from '@/hooks/useAuth'
-=======
->>>>>>> ef4442a7fcd9330fd6d88aff9a36ea616b943c46
 import useUserProfile from '@/hooks/user/useUserProfile'
 
 import UserRole from '@/types/user/UserRole.enum'
@@ -20,12 +17,8 @@ import Route from '@/types/Route.type'
 const Routes: FC = () => {
     const router = useRouter()
 
-<<<<<<< HEAD
     const { isAuthenticated } = useAuth()
     const { userProfile } = useUserProfile(isAuthenticated)
-=======
-    const { userProfile } = useUserProfile()
->>>>>>> ef4442a7fcd9330fd6d88aff9a36ea616b943c46
     const { t: translation } = useTranslation()
 
     const isAdmin = userProfile?.role === UserRole.ADMIN
