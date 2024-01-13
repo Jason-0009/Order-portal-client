@@ -20,7 +20,7 @@ import { RootState } from '@/store'
 import useOrders from '@/hooks/order/useOrders'
 import useOrderStatistics from '@/hooks/order/useOrderStatistics'
 
-import { hideSnackbar } from '@/slices/snackbarSlice'
+import { hideOrdersSnackbar } from '@/slices/snackbar/ordersSnackbarSlice'
 
 import CenteredLayout from '@/components/common/CenteredLayout'
 import BackButton from '@/components/common/button/BackButton'
@@ -32,8 +32,8 @@ import AdminOrdersStatisticsDisplay from '@/components/order/admin/AdminOrdersSt
 import AdminOrdersTable from '@/components/order/admin/AdminOrdersTable'
 
 const AdminOrdersPage: FC = () => {
+    const { open, message } = useSelector((state: RootState) => state.ordersSnackbar)
     const dispatch = useDispatch()
-    const { open, message } = useSelector((state: RootState) => state.snackbar)
     const { t: translation } = useTranslation()
 
     const {
@@ -49,7 +49,7 @@ const AdminOrdersPage: FC = () => {
 
     const { statistics } = useOrderStatistics()
 
-    const handleCloseSnackbar = () => dispatch(hideSnackbar())
+    const handleCloseSnackbar = () => dispatch(hideOrdersSnackbar())
 
     if (isLoading) return (
         <CenteredBox>

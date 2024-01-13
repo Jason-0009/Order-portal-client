@@ -6,7 +6,7 @@ import fetchProducts from '@/api/fetchProducts'
 const useProducts = (fetchAll = true, size: number, itemIds?: string[]) => {
     const [currentPage, setCurrentPage] = useState(1)
 
-    const { data: currentProducts } = useQuery(
+    const { data: currentProducts, isLoading } = useQuery(
         ['products', currentPage], () => fetchProducts(currentPage - 1, size, itemIds),
         { keepPreviousData: true, enabled: fetchAll || !!(itemIds && itemIds.length > 0) }
     )
@@ -15,6 +15,7 @@ const useProducts = (fetchAll = true, size: number, itemIds?: string[]) => {
 
     return {
         currentProducts,
+        isLoading,
         currentPage,
         handlePageChange,
     }

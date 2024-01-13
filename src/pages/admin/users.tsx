@@ -1,4 +1,5 @@
 import { FC, useState, ChangeEvent } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -7,7 +8,8 @@ import Head from 'next/head'
 
 import {
     Box, Typography, Divider, List,
-    Pagination, TextField, InputAdornment, IconButton
+    Pagination, TextField, InputAdornment,
+    IconButton, CircularProgress, Snackbar, Alert
 } from '@mui/material'
 
 import { Close } from '@mui/icons-material'
@@ -15,26 +17,39 @@ import { Close } from '@mui/icons-material'
 import withAuth from '@/hoc/withAuth'
 import withAdminAuth from '@/hoc/withAdminAuth'
 
+import { RootState } from '@/store'
+
 import useUsers from '@/hooks/useUsers'
+
+import { hideUsersSnackbar } from '@/slices/snackbar/usersSnackbarSlice'
 
 import BackButton from '@/components/common/button/BackButton'
 import CenteredLayout from '@/components/common/CenteredLayout'
 import NoResultsFound from '@/components/common/NoResultsFound'
+import CenteredBox from '@/components/common/CenteredBox'
 
 import UserListItem from '@/components/user/UserListItem'
 
-
 const AdminUsersPage: FC = () => {
+    const { open, message } = useSelector((state: RootState) => state.usersSnackbar)
+    const dispatch = useDispatch()
     const [searchTerm, setSearchTerm] = useState('')
-
     const { t: translation } = useTranslation()
 
-    const { currentUsers, currentPage, handlePageChange } = useUsers(searchTerm)
+    const { currentUsers, isLoading, currentPage, handlePageChange } = useUsers(searchTerm)
 
     const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) =>
         setSearchTerm(event.target.value)
 
     const clearSearch = () => setSearchTerm('')
+
+    const handleCloseSnackbar = () => dispatch(hideUsersSnackbar())
+
+    if (isLoading) return (
+        <CenteredBox>
+            <CircularProgress color="error" />
+        </CenteredBox>
+    )
 
     return (
         <>
@@ -106,10 +121,15 @@ const AdminUsersPage: FC = () => {
 
                 <List>
                     {currentUsers?.content && (
-                        currentUsers.content.length > 0 ? currentUsers.content.map(user =>
-                            <UserListItem key={user.id} user={user} />) :
-                            <NoResultsFound text={translation('noUsersFound')} />
+                        currentUsers.content.length > 0 ? currentUsers.content.map(user => {
+                            const { id } = user
+
+                            return (
+                                <UserListItem key={id} user={user} />
+                            )
+                        }) : <NoResultsFound text={translation('noUsersFound')} />
                     )}
+
                 </List>
 
                 {Number(currentUsers?.totalPages) > 1 && (
@@ -120,6 +140,20 @@ const AdminUsersPage: FC = () => {
                         onChange={handlePageChange}
                     />
                 )}
+
+                <Snackbar
+                    open={open}
+                    autoHideDuration={6000}
+                    onClose={handleCloseSnackbar}
+                >
+                    <Alert
+                        onClose={handleCloseSnackbar}
+                        severity="success"
+                        sx={{ width: '100%' }}
+                    >
+                        {message}
+                    </Alert>
+                </Snackbar>
             </CenteredLayout>
         </>
     )

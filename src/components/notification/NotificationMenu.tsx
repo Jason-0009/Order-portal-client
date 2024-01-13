@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next'
 
 import {
     IconButton, Badge, Popover, Box,
-    Typography, Button, List, Divider
+    Typography, Button, List, CircularProgress
 } from '@mui/material'
 
 import { Notifications, NotificationsActive } from '@mui/icons-material'
@@ -15,17 +15,22 @@ import useNotifications from '@/hooks/useNotifications'
 import checkAuth from '@/api/checkAuth'
 import fetchUserProfile from '@/api/user/fetchUserProfile'
 
-import NotificationListItemButton from './NotificationListItemButton'
+import CenteredBox from '../common/CenteredBox'
 
+import NotificationListItemButton from './NotificationListItemButton'
 
 const NotificationMenu: FC = () => {
     const [notificationMenuAnchorElement,
         setNotificationMenuAnchorElement] = useState<HTMLElement | null>(null)
 
     const { data: isAuthenticated } = useQuery('auth', checkAuth)
-    const { notifications, handleNotificationRead, clearAllNotifications } = useNotifications()
     const { data: userProfile } = useQuery('userProfile', fetchUserProfile,
         { enabled: !!isAuthenticated })
+
+    const {
+        notifications, isLoading, 
+        handleNotificationRead, clearAllNotifications
+    } = useNotifications(userProfile?.id)
 
     const { t: translation } = useTranslation()
 
@@ -42,6 +47,12 @@ const NotificationMenu: FC = () => {
 
         clearAllNotifications(userProfile.id)
     }
+
+    if (isLoading) return (
+        <CenteredBox>
+            <CircularProgress color="error" />
+        </CenteredBox>
+    )
 
     return (
         <>

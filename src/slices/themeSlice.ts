@@ -2,19 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export type ThemeState = 'light' | 'dark'
 
-const getInitialTheme = (): ThemeState => {
-    if (typeof window !== 'undefined')
-        return localStorage.getItem('theme') as ThemeState || 'light'
+const getInitialTheme = (): ThemeState => typeof window !== 'undefined' ?
+    (localStorage.getItem('theme') as ThemeState || 'light') : 'light'
 
-    return 'light'
-}
-
-const setBrowserTheme = (theme: ThemeState): ThemeState => {
-    if (typeof window !== 'undefined') localStorage.setItem('theme', theme)
-
-    return theme
-}
-
+const setBrowserTheme = (theme: ThemeState): ThemeState =>
+    (typeof window !== 'undefined' && localStorage.setItem('theme', theme), theme)
+    
 const initialState: ThemeState = getInitialTheme()
 
 const themeSlice = createSlice({

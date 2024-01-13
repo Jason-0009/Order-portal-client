@@ -10,21 +10,21 @@ const initialState: SnackbarState = {
     message: '',
 }
 
-const snackbarSlice = createSlice({
-    name: 'snackbar',
+const usersSnackbarSlice = createSlice({
+    name: 'usersSnackbar',
     initialState,
     reducers: {
-        showSnackbar: (state, action: PayloadAction<string>) => {
+        showUsersSnackbar: (state, action: PayloadAction<string>) => {
             state.open = true
             state.message = action.payload
         },
-        hideSnackbar: (state) => {
+        hideUsersSnackbar: (state) => {
             state.open = false
             state.message = ''
         }
     }
 })
 
-export const { showSnackbar, hideSnackbar } = snackbarSlice.actions
+export const { showUsersSnackbar, hideUsersSnackbar } = usersSnackbarSlice.actions
 
-export default snackbarSlice.reducer
+export default usersSnackbarSlice.reducer

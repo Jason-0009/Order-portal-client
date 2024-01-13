@@ -2,17 +2,24 @@ import { FC } from 'react'
 
 import { useTranslation } from 'next-i18next'
 
-import { Typography, Grid, Pagination, Box } from '@mui/material'
+import { Typography, Grid, Pagination, Box, CircularProgress } from '@mui/material'
 
 import useProducts from '@/hooks/useProducts'
 
 import CenteredLayout from '../common/CenteredLayout'
+import CenteredBox from '../common/CenteredBox'
 import ProductCard from './ProductCard'
 
 const ProductSelection: FC = () => {
-    const { currentProducts, currentPage, handlePageChange, } = useProducts(true, 9)
+    const { currentProducts, isLoading, currentPage, handlePageChange } = useProducts(true, 9)
 
     const { t: translation } = useTranslation()
+
+    if (isLoading) return (
+        <CenteredBox>
+            <CircularProgress color="error" />
+        </CenteredBox>
+    )
 
     return (
         <CenteredLayout>

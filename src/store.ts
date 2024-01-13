@@ -6,7 +6,8 @@ import cartReducer from '@/slices/cartSlice'
 import alertDialogReducer from '@/slices/dialog/alertDialogSlice'
 import confirmationDialogReducer from '@/slices/dialog/confirmationDialogSlice'
 
-import snackbarReducer from '@/slices/snackbarSlice'
+import ordersSnackbarReducer from '@/slices/snackbar/ordersSnackbarSlice'
+import usersSnackbarReducer from '@/slices/snackbar/usersSnackbarSlice'
 
 export const store = configureStore({
     reducer: {
@@ -14,7 +15,8 @@ export const store = configureStore({
         cart: cartReducer,
         alertDialog: alertDialogReducer,
         confirmationDialog: confirmationDialogReducer,
-        snackbar: snackbarReducer
+        ordersSnackbar: ordersSnackbarReducer,
+        usersSnackbar: usersSnackbarReducer
     }
 })
 

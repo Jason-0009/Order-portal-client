@@ -11,8 +11,10 @@ import AppNotificationData from '@/types/notification/AppNotificationData.type'
 
 const SOCKET_URL = `${process.env.NEXT_PUBLIC_WS_URL}/notifications`
 
-const useNotifications = () => {
-    const { data: fetchedNotifications } = useQuery('notifications', fetchNotifications)
+const useNotifications = (userId: string | undefined) => {
+    const { data: fetchedNotifications, isLoading } = useQuery('notifications',
+        () => fetchNotifications(userId as string), { enabled: !!userId })
+
     const [notifications, setNotifications] = useState<AppNotification[]>([])
 
     const notificationIdsRef = useRef<Set<string>>(new Set())
@@ -79,7 +81,10 @@ const useNotifications = () => {
         notificationIdsRef.current.clear()
     }
 
-    return { notifications, handleNotificationRead, clearAllNotifications }
+    return {
+        notifications, isLoading,
+        handleNotificationRead, clearAllNotifications
+    }
 }
 
 export default useNotifications

@@ -7,7 +7,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import Head from 'next/head'
 
-import { Box, SxProps, Divider, Pagination, Typography } from '@mui/material'
+import { Box, SxProps, Divider, Pagination, Typography, CircularProgress } from '@mui/material'
 
 import withAuth from '@/hoc/withAuth'
 
@@ -16,6 +16,7 @@ import useProducts from '@/hooks/useProducts'
 import fetchOrderById from '@/api/order/fetchOrderById'
 
 import CenteredLayout from '@/components/common/CenteredLayout'
+import CenteredBox from '@/components/common/CenteredBox'
 import BackButton from '@/components/common/button/BackButton'
 
 import OrderStatusIndicator from '@/components/order/OrderStatusIndicator'
@@ -28,9 +29,9 @@ const OrderPage: FC = () => {
     const { query, locale } = useRouter()
     const { id } = query
 
-    const { data: order } = useQuery(['order', id], () => fetchOrderById(id as string),
-        { enabled: !!id })
-        
+    const { data: order, isLoading } = useQuery(['order', id],
+        () => fetchOrderById(id as string), { enabled: !!id })
+
     const itemIds = order?.items.map(item => item.id)
 
     const { currentProducts, currentPage, handlePageChange } = useProducts(false, 5, itemIds)
@@ -40,6 +41,12 @@ const OrderPage: FC = () => {
     const valueTextStyle: SxProps = { ...infoTextStyle, color: 'text.secondary' }
 
     const formattedDate = order?.date && locale && formatDateLocale(order.date, locale)
+
+    if (isLoading) return (
+        <CenteredBox>
+            <CircularProgress color="error" />
+        </CenteredBox>
+    )
 
     return (
         <>
@@ -105,7 +112,6 @@ const OrderPage: FC = () => {
                             count={currentProducts?.totalPages}
                             page={currentPage}
                             onChange={handlePageChange}
-                            sx={{ mt: 5 }}
                         />
                     </Box>
                 )}

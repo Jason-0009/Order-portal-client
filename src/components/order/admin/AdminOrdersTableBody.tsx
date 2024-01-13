@@ -15,7 +15,7 @@ import {
 } from '@mui/material'
 import { ExpandMore } from '@mui/icons-material'
 
-import { showSnackbar } from '@/slices/snackbarSlice'
+import { showOrdersSnackbar } from '@/slices/snackbar/ordersSnackbarSlice'
 import { showAlert } from '@/slices/dialog/alertDialogSlice'
 
 import fetchUser from '@/api/user/fetchUser'
@@ -94,7 +94,7 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
 
             setSelectedStatus(newStatus)
 
-            dispatch(showSnackbar(translation('statusUpdatedSuccessfully')))
+            dispatch(showOrdersSnackbar(translation('statusUpdatedSuccessfully')))
         } catch (error: unknown) {
             const { response } = error as AxiosError
             const errorMessage = translation(response?.data as string)

@@ -1,16 +1,18 @@
 import { FC } from 'react'
 import { useQuery } from 'react-query'
+import { useDispatch } from 'react-redux'
 
 import { useTranslation } from 'next-i18next'
 
 import {
     Avatar, ListItem, ListItemAvatar,
-    ListItemText, MenuItem, Select, SelectChangeEvent, lighten
+    ListItemText, MenuItem, Select, SelectChangeEvent
 } from '@mui/material'
+
+import { showUsersSnackbar } from '@/slices/snackbar/usersSnackbarSlice'
 
 import checkAuth from '@/api/checkAuth'
 import fetchUserProfile from '@/api/user/fetchUserProfile'
-
 import updateUserRole from '@/api/user/updateUserRole'
 
 import User from '@/types/user/User.type'
@@ -22,14 +24,13 @@ type UserListItemProps = {
 }
 
 const UserListItem: FC<UserListItemProps> = ({ user }) => {
+    const dispatch = useDispatch()
     const { t: translation } = useTranslation()
 
     const { data: isAuthenticated } = useQuery('auth', checkAuth)
     const { data: userProfile } = useQuery('userProfile', fetchUserProfile,
         { enabled: !!isAuthenticated })
         
-    if (userProfile?.id === user.id) return null
-
     const roleTexts: Record<UserRole, string> = {
         [UserRole.USER]: translation('user'),
         [UserRole.ADMIN]: translation('admin')
@@ -39,7 +40,13 @@ const UserListItem: FC<UserListItemProps> = ({ user }) => {
         const newRole = event?.target.value as UserRole
 
         await updateUserRole(user.id, newRole)
+
+        console.log('updated role')
+
+        dispatch(showUsersSnackbar(translation('roleUpdatedSuccessfully')))
     }
+
+    if (userProfile?.id === user.id) return null
 
     return (
         <ListItem sx={theme => ({
