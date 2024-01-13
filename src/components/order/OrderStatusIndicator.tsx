@@ -12,8 +12,6 @@ import StatusPalette from '@/types/palette/StatusPalette.type'
 
 import ORDER_STATUS_STYLES from '@/constants/OrderStatusStyles'
 
-
-
 type OrderStateIndicatorProps = {
     status: OrderStatus,
     size: 'regular' | 'small'

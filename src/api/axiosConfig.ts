@@ -10,6 +10,8 @@ axios.interceptors.request.use((config) => {
     
     const csrfToken = getCookie('XSRF-TOKEN')
 
+    console.log(csrfToken)
+
     config.headers['X-XSRF-TOKEN'] = csrfToken
 
     return config
