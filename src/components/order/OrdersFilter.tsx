@@ -10,11 +10,10 @@ import { Clear, DateRange, ExpandMore, FilterList } from '@mui/icons-material'
 import { LocalizationProvider, DateCalendar } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 
-import getOrderStatusTexts from '@/utils/getOrderStatusTexts'
-
 import OrderStatus from '@/types/order/OrderStatus.enum'
 
 import ORDER_STATUS_STYLES from '@/constants/OrderStatusStyles'
+import ORDER_STATUS_TEXT_CODES from '@/constants/OrderStatusTextCodes'
 
 
 type OrderFilterProps = {
@@ -34,7 +33,6 @@ const OrdersFilter: FC<OrderFilterProps> = ({
     const [statusAnchorElement, setStatusAnchorElement] = useState<HTMLElement | null>(null)
 
     const { i18n, t: translation } = useTranslation()
-    const ORDER_STATUS_TEXTS = getOrderStatusTexts(translation)
 
     const locales: { [key: string]: Locale } = {
         en: enUS,
@@ -132,6 +130,8 @@ const OrdersFilter: FC<OrderFilterProps> = ({
 
                         const selectedStatusStyle = ORDER_STATUS_STYLES[status]
 
+                        const text = translation(ORDER_STATUS_TEXT_CODES[status])
+
                         return (
                             <ListItemButton
                                 key={status}
@@ -147,7 +147,7 @@ const OrdersFilter: FC<OrderFilterProps> = ({
                                     }
                                 }}
                             >
-                                {ORDER_STATUS_TEXTS[status]}
+                                {text}
                             </ListItemButton>
                         )
                     })}

@@ -24,7 +24,6 @@ import updateOrderStatus from '@/api/order/updateOrderStatus'
 import AdminOrderDetailsTable from './AdminOrderDetailsTable'
 import AlertDialog from '@/components/dialog/AlertDialog'
 
-import getOrderStatusTexts from '@/utils/getOrderStatusTexts'
 import { formatDistanceToNowLocale } from '@/utils/dateUtils'
 import toCamelCase from '@/utils/toCamelCase'
 
@@ -33,6 +32,7 @@ import OrderStatus from '@/types/order/OrderStatus.enum'
 import StatusPalette from '@/types/palette/StatusPalette.type'
 
 import ORDER_STATUS_STYLES from '@/constants/OrderStatusStyles'
+import ORDER_STATUS_TEXT_CODES from '@/constants/OrderStatusTextCodes'
 
 type AdminOrdersTableBodyProps = {
     order: Order,
@@ -57,7 +57,7 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
     const { t: translation } = useTranslation()
     const { data: user } = useQuery(['user', customerId], () => fetchUser(customerId))
 
-    const ORDER_STATUS_TEXTS = getOrderStatusTexts(translation)
+    const text = translation(ORDER_STATUS_TEXT_CODES[status])
 
     const formattedDate = date && locale && formatDistanceToNowLocale(date, locale)
     const orderStatuses = Object.values(OrderStatus)
@@ -192,7 +192,7 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
                                         }
                                     }}
                                 >
-                                    {ORDER_STATUS_TEXTS[status]}
+                                    {text}
                                 </MenuItem>
                             )
                         })}
