@@ -2,10 +2,8 @@ import { FC } from 'react'
 
 import { useTranslation } from 'next-i18next'
 
-import { Box, Button, CircularProgress, List, Typography } from '@mui/material'
+import { Box, Button, List, Typography } from '@mui/material'
 import { NotificationsActive } from '@mui/icons-material'
-
-import CenteredBox from '../common/CenteredBox'
 
 import NotificationListItemButton from './NotificationListItemButton'
 
@@ -13,24 +11,16 @@ import AppNotification from '@/types/notification/AppNotification.type'
 
 type NotificationPopoverContentProps = {
     notifications: AppNotification[],
-    isLoading: boolean,
     handleClearAllNotifications: () => void,
     handleNotificationRead: (notificationId: string) => Promise<void>
 }
 
 const NotificationPopoverContent: FC<NotificationPopoverContentProps> = ({
     notifications,
-    isLoading,
     handleClearAllNotifications,
     handleNotificationRead
 }) => {
     const { t: translation } = useTranslation()
-    
-    if (isLoading) return (
-        <CenteredBox>
-            <CircularProgress color="error" />
-        </CenteredBox>
-    )
 
     return (
         <Box sx={{
