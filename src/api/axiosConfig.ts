@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import Cookies from 'js-cookie'
+import { getCookie} from 'cookies-next'
 
 axios.defaults.baseURL = `${process.env.NEXT_PUBLIC_API_URL}/api`
 axios.defaults.withCredentials = true
@@ -8,9 +8,7 @@ axios.defaults.withCredentials = true
 axios.interceptors.request.use((config) => {
     if (config.method === 'GET') return config
     
-    const csrfToken = Cookies.get('XSRF-TOKEN')
-
-    console.log(csrfToken)
+    const csrfToken = getCookie('XSRF-TOKEN')
 
     config.headers['X-XSRF-TOKEN'] = csrfToken
 
