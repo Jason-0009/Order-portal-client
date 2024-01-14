@@ -3,7 +3,7 @@ import { useQuery } from 'react-query'
 
 import {
     IconButton, Badge, Popover
-    } from '@mui/material'
+} from '@mui/material'
 
 import { Notifications } from '@mui/icons-material'
 
@@ -25,8 +25,7 @@ const NotificationMenu: FC = () => {
     const { notifications, isLoading,
         handleNotificationRead, clearAllNotifications } = useNotifications(userProfile?.id)
 
-    const unreadNotificationCount = notifications
-        .filter(notification => !notification.readStatus).length
+    const unreadNotificationCount = notifications?.filter(notification => !notification.readStatus).length
 
     const handleNotificationMenuOpen = (event: MouseEvent<HTMLElement>) =>
         setNotificationMenuAnchorElement(event.currentTarget)

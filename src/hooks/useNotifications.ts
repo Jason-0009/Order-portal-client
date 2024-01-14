@@ -15,7 +15,7 @@ const useNotifications = (userId: string | undefined) => {
     const { data: fetchedNotifications, isLoading } = useQuery('notifications',
         () => fetchNotifications(userId as string), { enabled: !!userId })
 
-    const [notifications, setNotifications] = useState<AppNotification[]>([])
+    const [notifications, setNotifications] = useState<AppNotification[]>()
 
     const notificationIdsRef = useRef<Set<string>>(new Set())
 
@@ -34,7 +34,7 @@ const useNotifications = (userId: string | undefined) => {
 
         notificationIdsRef.current.add(id)
 
-        setNotifications(previousNotifications => [notification, ...previousNotifications])
+        setNotifications(previousNotifications => [notification, ...(previousNotifications || [])])
     }
 
     const handleFetchedNotifications = (fetchedNotifications: AppNotification[]) => {
@@ -47,7 +47,7 @@ const useNotifications = (userId: string | undefined) => {
         ...uniqueFetchedNotifications.map(({ id }) => id)])
 
         setNotifications(previousNotifications =>
-            [...previousNotifications, ...uniqueFetchedNotifications])
+            [...(previousNotifications || []), ...uniqueFetchedNotifications])
     }
 
     useEffect(() => {
@@ -67,10 +67,10 @@ const useNotifications = (userId: string | undefined) => {
     const handleNotificationRead = async (notificationId: string) => {
         await markNotificationAsRead(notificationId)
 
-        setNotifications(currentNotifications =>
-            [...currentNotifications.map(notification =>
-                notification.id === notificationId ?
-                    { ...notification, readStatus: true } : notification)])
+    setNotifications(currentNotifications =>
+        currentNotifications?.map(notification =>
+            notification.id === notificationId ?
+                { ...notification, readStatus: true } : notification))
     }
 
     const clearAllNotifications = async (userId: string) => {
@@ -81,10 +81,7 @@ const useNotifications = (userId: string | undefined) => {
         notificationIdsRef.current.clear()
     }
 
-    return {
-        notifications, isLoading,
-        handleNotificationRead, clearAllNotifications
-    }
+    return { notifications, isLoading, handleNotificationRead, clearAllNotifications }
 }
 
 export default useNotifications
