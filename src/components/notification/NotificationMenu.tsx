@@ -3,7 +3,7 @@ import { useQuery } from 'react-query'
 
 import {
     IconButton, Badge, Popover
-} from '@mui/material'
+    } from '@mui/material'
 
 import { Notifications } from '@mui/icons-material'
 
@@ -22,7 +22,8 @@ const NotificationMenu: FC = () => {
     const { data: userProfile } = useQuery('userProfile', fetchUserProfile,
         { enabled: !!isAuthenticated })
 
-    const { notifications, handleNotificationRead, clearAllNotifications } = useNotifications(userProfile?.id)
+    const { notifications, isLoading,
+        handleNotificationRead, clearAllNotifications } = useNotifications(userProfile?.id)
 
     const unreadNotificationCount = notifications
         .filter(notification => !notification.readStatus).length
@@ -70,6 +71,7 @@ const NotificationMenu: FC = () => {
             >
                 <NotificationPopoverContent
                     notifications={notifications}
+                    isLoading={isLoading}
                     handleClearAllNotifications={handleClearAllNotifications}
                     handleNotificationRead={handleNotificationRead}
                 />
