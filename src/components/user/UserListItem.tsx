@@ -41,8 +41,6 @@ const UserListItem: FC<UserListItemProps> = ({ user }) => {
 
         await updateUserRole(user.id, newRole)
 
-        console.log('updated role')
-
         dispatch(showUsersSnackbar(translation('roleUpdatedSuccessfully')))
     }
 

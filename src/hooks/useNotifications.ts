@@ -12,10 +12,10 @@ import AppNotificationData from '@/types/notification/AppNotificationData.type'
 const SOCKET_URL = `${process.env.NEXT_PUBLIC_WS_URL}/notifications`
 
 const useNotifications = (userId: string | undefined) => {
-    const { data: fetchedNotifications, isLoading } = useQuery('notifications',
+    const { data: fetchedNotifications, isLoading } = useQuery(['notifications', userId],
         () => fetchNotifications(userId as string), { enabled: !!userId })
 
-    const [notifications, setNotifications] = useState<AppNotification[]>()
+    const [notifications, setNotifications] = useState<AppNotification[] | null>(null)
 
     const notificationIdsRef = useRef<Set<string>>(new Set())
 
@@ -41,8 +41,6 @@ const useNotifications = (userId: string | undefined) => {
         const uniqueFetchedNotifications = fetchedNotifications.filter(({ id }) =>
             !notificationIdsRef.current.has(id))
 
-        if (uniqueFetchedNotifications.length === 0) return
-
         notificationIdsRef.current = new Set([...notificationIdsRef.current,
         ...uniqueFetchedNotifications.map(({ id }) => id)])
 
@@ -52,11 +50,9 @@ const useNotifications = (userId: string | undefined) => {
 
     useEffect(() => {
         if (lastMessage) {
-            try {
-                handleWebSocketMessage(lastMessage)
-            } catch (error) {
-                throw error
-            }
+            handleWebSocketMessage(lastMessage)
+
+            return
         }
 
         if (!fetchedNotifications) return
@@ -67,10 +63,10 @@ const useNotifications = (userId: string | undefined) => {
     const handleNotificationRead = async (notificationId: string) => {
         await markNotificationAsRead(notificationId)
 
-    setNotifications(currentNotifications =>
-        currentNotifications?.map(notification =>
-            notification.id === notificationId ?
-                { ...notification, readStatus: true } : notification))
+        setNotifications(currentNotifications =>
+            (currentNotifications || []).map(notification =>
+                notification.id === notificationId ?
+                    { ...notification, readStatus: true } : notification))
     }
 
     const clearAllNotifications = async (userId: string) => {

@@ -10,7 +10,7 @@ import NotificationListItemButton from './NotificationListItemButton'
 import AppNotification from '@/types/notification/AppNotification.type'
 
 type NotificationPopoverContentProps = {
-    notifications: AppNotification[] | undefined,
+    notifications: AppNotification[] | null,
     isLoading: boolean,
     handleClearAllNotifications: () => void,
     handleNotificationRead: (notificationId: string) => Promise<void>
