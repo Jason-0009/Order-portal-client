@@ -19,7 +19,7 @@ type NotificationPopoverContentProps = {
 }
 
 const NotificationPopoverContent: FC<NotificationPopoverContentProps> = ({
-    notifications,
+    notifications = [],
     isLoading,
     handleClearAllNotifications,
     handleNotificationRead
@@ -62,56 +62,55 @@ const NotificationPopoverContent: FC<NotificationPopoverContentProps> = ({
                 }}>
                     <CircularProgress color="error" />
                 </Box>
-            ) : notifications && (
-                notifications.length > 0 ? (
-                    <>
-                        <Button
-                            onClick={handleClearAllNotifications}
-                            variant="text"
-                            sx={{
-                                color: 'red',
-                                textTransform: 'none',
-                                fontWeight: 600,
-                                fontSize: '0.75rem',
-                                ml: 1,
-                                py: 0.5,
-                                borderRadius: '20px',
-                                '&:hover': {
-                                    backgroundColor: 'primary.main'
-                                }
-                            }}
-                        >
-                            {translation('clearAll')}
-                        </Button>
+            ) : notifications.length > 0 ? (
+                <>
+                    <Button
+                        onClick={handleClearAllNotifications}
+                        variant="text"
+                        sx={{
+                            color: 'red',
+                            textTransform: 'none',
+                            fontWeight: 600,
+                            fontSize: '0.75rem',
+                            ml: 1,
+                            py: 0.5,
+                            borderRadius: '20px',
+                            '&:hover': {
+                                backgroundColor: 'primary.main'
+                            }
+                        }}
+                    >
+                        {translation('clearAll')}
+                    </Button>
 
-                        <List sx={{ pt: 0 }}>
-                            {notifications.map(notification => {
-                                const { id } = notification
+                    <List sx={{ pt: 0 }}>
+                        {notifications.map(notification => {
+                            const { id } = notification
 
-                                return (
-                                    <NotificationListItemButton
-                                        key={id}
-                                        notification={notification}
-                                        handleNotificationRead={handleNotificationRead}
-                                    />
-                                )
-                            })}
-                        </List>
-                    </>
-                ) : (
-                    <Box sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        mt: 4
-                    }}>
-                        <NotificationsActive sx={{ fontSize: '5em', mb: 0.5 }} />
+                            return (
+                                <NotificationListItemButton
+                                    key={id}
+                                    notification={notification}
+                                    handleNotificationRead={handleNotificationRead}
+                                />
+                            )
+                        })}
+                    </List>
+                </>
+            ) : (
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    mt: 4
+                }}>
+                    <NotificationsActive sx={{ fontSize: '5em', mb: 0.5 }} />
 
-                        <Typography variant="body2">
-                            {translation('noNotifications')}
-                        </Typography>
-                    </Box>
-                ))}
+                    <Typography variant="body2">
+                        {translation('noNotifications')}
+                    </Typography>
+                </Box>
+            )}
         </Box>
     )
 }
