@@ -27,7 +27,7 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
 
     const tableCellStyle: SxProps = {
         pt: 3,
-        fontSize: '14px',
+        fontSize: { xs: '11px', sm: '12px', md: '13px', lg: '14px' },
         fontWeight: 600,
         color: 'text.primary'
     }
@@ -40,7 +40,12 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
             }}>
                 <TableHead>
                     <TableRow>
-                        <TableCell sx={{ ...tableCellStyle, width: '30%', pl: 4 }}>
+                        <TableCell sx={{
+                            ...tableCellStyle,
+                            width: '25%',
+                            pl: 4
+                        }}
+                        >
                             Id
                         </TableCell>
 
@@ -71,11 +76,12 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
                             color: 'text.secondary',
                             pt: isFirstItem ? 4 : 2,
                             pb: isLastItem ? 4 : 2,
+                            fontSize: { xs: '11px', sm: '12px', md: '13px', lg: '14px' }
                         }
 
                         return (
                             <TableRow key={id}>
-                                <TableCell sx={{ ...tableCellStyle, pl: 4 }}>
+                                <TableCell sx={{ ...tableCellStyle, pl: 4, overflowWrap: 'break-word' }}>
                                     <Link
                                         component={NextLink}
                                         href={`/orders/${id}`}

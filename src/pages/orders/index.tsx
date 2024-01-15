@@ -53,11 +53,15 @@ const OrdersPage: FC = () => {
 
                 <Box sx={{
                     display: 'flex',
+                    flexDirection: { xs: 'column', sm: 'row' },
+                    alignItems: { xs: 'normal', sm: 'center' },
                     justifyContent: 'space-between',
-                    alignItems: 'center',
                     mb: 3
                 }}>
-                    <Typography variant="h6" component="h1" fontWeight={600}>
+                    <Typography variant="h6" component="h1" fontWeight={600} sx={{
+                        fontSize: { xs: '0.9em', sm: '1em', md: '1.1em', lg: '1.2em' },
+                        mb: { xs: 1, sm: 0 }
+                    }}>
                         {translation('orderHistory')}
                     </Typography>
 
@@ -77,12 +81,17 @@ const OrdersPage: FC = () => {
                             <OrdersTable orders={currentOrders.content} />
 
                             {Number(currentOrders?.totalPages) > 1 && (
-                                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 6 }}>
+                                <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
                                     <Pagination
                                         color='secondary'
                                         count={currentOrders?.totalPages}
                                         page={currentPage}
                                         onChange={handlePageChange}
+                                        sx={{
+                                            '& .MuiPaginationItem-root': {
+                                                fontSize: { xs: '0.7rem', sm: '0.8rem' }
+                                            }
+                                        }}
                                     />
                                 </Box>
                             )}

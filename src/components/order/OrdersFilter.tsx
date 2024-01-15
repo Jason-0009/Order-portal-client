@@ -63,12 +63,17 @@ const OrdersFilter: FC<OrderFilterProps> = ({
         })}>
             <DateRange sx={{ fontSize: '0.95em' }} />
 
-            <Typography variant="body1" sx={{ ml: 0.5, fontSize: '0.85em' }}>
+            <Typography variant="body1" sx={{
+                ml: 0.5,
+                fontSize: { xs: '0.7em', sm: '0.75em', md: '0.8em', lg: '0.85em' }
+            }}>
                 {translation('sortByDate')}
             </Typography>
 
             <IconButton onClick={handleCalendarOpen} sx={{ p: 0.2 }}>
-                <ExpandMore sx={{ fontSize: '0.7em' }} />
+                <ExpandMore sx={{
+                    fontSize: '0.7em'
+                }} />
             </IconButton>
 
             <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={locales[i18n.language]}>
@@ -102,7 +107,10 @@ const OrdersFilter: FC<OrderFilterProps> = ({
 
             <FilterList sx={{ ml: 1, fontSize: '0.95em' }} />
 
-            <Typography variant="body1" sx={{ ml: 0.5, fontSize: '0.85em' }}>
+            <Typography variant="body1" sx={{
+                ml: 0.5,
+                fontSize: { xs: '0.7em', sm: '0.75em', md: '0.8em', lg: '0.85em' }
+            }}>
                 {translation('sortByStatus')}
             </Typography>
 
@@ -137,6 +145,7 @@ const OrdersFilter: FC<OrderFilterProps> = ({
                                 key={status}
                                 onClick={() => setFilteredStatusAndResetPage(status)}
                                 sx={{
+                                    fontSize: { xs: '0.8em', sm: '0.9em', md: '0.95em', lg: '1em' },
                                     backgroundColor: filteredStatus === status ?
                                         selectedStatusStyle.backgroundColor : 'secondary.main',
                                     color: filteredStatus === status ?

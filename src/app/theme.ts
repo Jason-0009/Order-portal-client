@@ -71,6 +71,7 @@ const lightTheme = createTheme({
                 body: {
                     "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
                         width: '8px',
+                        height: '8px',
                         borderRadius: '8px',
                         backgroundColor: "#F2F2F2",
                     },
@@ -151,12 +152,13 @@ const darkTheme = createTheme({
                 body: {
                     "& *::-webkit-scrollbar": {
                         width: '8px',
+                        height: '8px',
                         borderRadius: '8px',
                         backgroundColor: "#171717",
                     },
                     "& *::-webkit-scrollbar-thumb": {
                         borderRadius: '8px',
-                        backgroundColor: '#BEBEBE'
+                        backgroundColor: '#BEBEBE',
                     }
                 }
             }

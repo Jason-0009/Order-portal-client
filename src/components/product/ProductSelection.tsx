@@ -24,7 +24,8 @@ const ProductSelection: FC = () => {
     return (
         <CenteredLayout>
             <Typography variant="h6" component="h1" fontWeight={600} sx={{
-                fontSize: { xs: '1.1em', sm: '1.15em', md: '1.25em' }
+                fontSize: { xs: '1.1em', sm: '1.15em', md: '1.25em' },
+                textAlign: { xs: 'center', sm: 'start' }
             }}>
                 {translation('selectProduct')}
             </Typography>

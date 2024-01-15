@@ -45,7 +45,7 @@ const Cart: FC = () => {
             justifyContent: 'center',
             backgroundColor: 'secondary.main',
             height: '100%',
-            px: 3
+            p: 3,
         }}>
             <Typography variant="h6" sx={{
                 fontWeight: 600,
@@ -58,11 +58,14 @@ const Cart: FC = () => {
             <Divider sx={{ mb: 3 }} />
 
             {currentPageItems.map(item =>
-                <CartItem key={item.product.id} item={item} />
+                <CartItem key={item.product.id} item={item}/>
             )}
 
             {totalPageCount > 1 && (
-                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Box sx={{
+                    display: 'flex',
+                    justifyContent: { sm: 'start', md: 'center' }
+                }}>
                     <Pagination
                         count={totalPageCount}
                         page={currentPage}
@@ -71,7 +74,7 @@ const Cart: FC = () => {
                             '& .MuiPaginationItem-root': {
                                 fontSize: { xs: '0.7em', sm: '0.8em' }
                             },
-                            mb: 1
+                            mb: 3
                         }}
                     />
                 </Box>
