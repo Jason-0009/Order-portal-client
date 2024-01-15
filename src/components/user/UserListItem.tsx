@@ -109,7 +109,7 @@ const UserListItem: FC<UserListItemProps> = ({ user }) => {
                                 backgroundColor: 'primary.main',
                                 fontSize: { xs: '0.7em', sm: '0.75em', md: '0.8em', lg: '0.85em' },
                                 '&.MuiMenuItem-root': {
-                                    marginTop: isFirstItem ? { xs: '-0.75em', lg: '-0.6em' } : 'auto',
+                                    marginTop: isFirstItem ? { xs: '-0.7em', lg: '-0.6em' } : 'auto',
                                     marginBottom: isLastItem ? { xs: '-0.75em', lg: '-0.6em' } : 'auto',
                                     '&.Mui-selected': {
                                         backgroundColor: 'primary.main'
