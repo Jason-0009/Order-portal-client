@@ -4,7 +4,10 @@ import React, { FC } from 'react'
 import { useTranslation } from 'next-i18next'
 import NextLink from 'next/link'
 
-import { Link, AppBar, Toolbar, Typography, IconButton, Box } from '@mui/material'
+import {
+    Link, AppBar, Toolbar,
+    Typography, IconButton, Box, Theme, useMediaQuery
+} from '@mui/material'
 import { LocalPizza } from '@mui/icons-material'
 
 import DrawerMenu from './DrawerMenu'
@@ -12,6 +15,7 @@ import MenuItems from './MenuItems'
 
 const Navbar: FC = () => {
     const { t: translation } = useTranslation()
+    const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'))
 
     return (
         <AppBar sx={{
@@ -40,11 +44,7 @@ const Navbar: FC = () => {
                     </IconButton>
                 </Link>
 
-                <Box sx={{ display: { xs: 'none', lg: 'flex' } }}>
-                    <MenuItems />
-                </Box>
-
-                <DrawerMenu />
+                {isDesktop ? <MenuItems /> : <DrawerMenu />}
             </Toolbar>
         </AppBar>
     )
