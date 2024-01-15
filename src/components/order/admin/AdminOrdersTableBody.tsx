@@ -66,9 +66,10 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
     const { data: user } = useQuery(['user', customerId], () => fetchUser(customerId))
 
     const formattedDate = date && locale && formatDistanceToNowLocale(date, locale)
-    const orderStatuses = Object.values(OrderStatus)
 
+    const orderStatuses = Object.values(OrderStatus)
     const isCurrentRowOpen = id && openRows[id]
+    
     const statusKey = toCamelCase(status)
 
     const isFirstItem = index === 0
@@ -86,7 +87,7 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
         pb: isLastItem ? 1 : 0
     }
 
-    const selectedStatusStyle = ORDER_STATUS_STYLES[selectedStatus]
+    const selectedStatusStyle = ORDER_STATUS_STYLES[order.status]
 
     const handleChange = async (event: SelectChangeEvent) => {
         const newStatus = event.target.value as OrderStatus
@@ -154,7 +155,7 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
 
                 <TableCell sx={tableCellStyle}>
                     <Select
-                        value={selectedStatus}
+                        value={order.status}
                         onChange={handleChange}
                         disabled={status === OrderStatus.DELIVERED}
                         IconComponent={({ className }) => {
@@ -184,8 +185,6 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
                         })}
                     >
                         {orderStatuses.map((status, index, array) => {
-                            const statusStyle = ORDER_STATUS_STYLES[status]
-
                             const isFirstItem = index === 0
                             const isLastItem = index === array.length - 1
 
@@ -198,8 +197,8 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
                                     sx={{
                                         fontSize: { xs: '0.7em', sm: '0.75em', md: '0.8em', lg: '0.85em' },
                                         '&.Mui-selected': {
-                                            color: statusStyle.color,
-                                            backgroundColor: statusStyle.backgroundColor
+                                            color: selectedStatusStyle.color,
+                                            backgroundColor: selectedStatusStyle.backgroundColor
                                         },
                                         '&.MuiMenuItem-root': {
                                             marginTop: isFirstItem ? { xs: '-0.7em', lg: '-0.6em' } : 'auto',

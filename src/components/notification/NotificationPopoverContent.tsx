@@ -92,7 +92,7 @@ const NotificationPopoverContent: FC<NotificationPopoverContentProps> = ({
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
-                        mt: { xs: 1, sm: 2, md: 3, lg: 4 }
+                        mt: { xs: 1, sm: 3, lg: 4 }
                     }}>
                         <NotificationsActive sx={{
                             fontSize: { xs: '3em', sm: '4em', lg: '5em' },
