@@ -2,8 +2,8 @@ import { FC } from 'react'
 
 import { useTranslation } from 'next-i18next'
 
-import { Box, Button, CircularProgress, List, Typography } from '@mui/material'
 import { NotificationsActive } from '@mui/icons-material'
+import { Box, Button, CircularProgress, List, Typography } from '@mui/material'
 
 import NotificationListItemButton from './NotificationListItemButton'
 

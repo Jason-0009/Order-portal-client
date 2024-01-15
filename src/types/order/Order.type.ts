@@ -1,5 +1,5 @@
-import OrderStatus from './OrderStatus.enum'
 import OrderItem from './OrderItem.type'
+import OrderStatus from './OrderStatus.enum'
 
 type Order = {
     id?: string,

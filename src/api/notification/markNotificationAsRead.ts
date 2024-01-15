@@ -1,4 +1,4 @@
-import axios, { AxiosResponse, AxiosRequestConfig } from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 const markNotificationAsRead = async (notificationId: string): Promise<AxiosResponse> => {
     const config: AxiosRequestConfig = {

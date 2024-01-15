@@ -1,13 +1,17 @@
-import { FC, useState, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 
 import { useTranslation } from 'next-i18next'
-import { useRouter } from 'next/router'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 
 import {
-    Select, Box, MenuItem,
-    SelectChangeEvent, Typography, IconButton, useMediaQuery, Theme
+    Box, MenuItem,
+    Select,
+    SelectChangeEvent,
+    Theme,
+    Typography,
+    useMediaQuery
 } from '@mui/material'
 
 import checkAuth from '@/api/checkAuth'

@@ -1,11 +1,11 @@
-import React, { ComponentType } from 'react'
+import { ComponentType } from 'react'
 
 import { useQuery } from 'react-query'
 
 import { useTranslation } from 'next-i18next'
 
-import { Box, Typography } from '@mui/material'
 import { Error } from '@mui/icons-material'
+import { Box, Typography } from '@mui/material'
 
 import checkAuth from '@/api/checkAuth'
 import fetchUserProfile from '@/api/user/fetchUserProfile'

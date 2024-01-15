@@ -13,8 +13,8 @@ import { RootState } from '@/store'
 
 import { useTranslation } from 'next-i18next'
 
-import ProductSelection from '@/components/product/ProductSelection'
 import Cart from '@/components/cart/Cart'
+import ProductSelection from '@/components/product/ProductSelection'
 
 const IndexPage: FC = () => {
   const { t: translation } = useTranslation()

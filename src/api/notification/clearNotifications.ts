@@ -1,4 +1,4 @@
-import axios, { AxiosResponse, AxiosRequestConfig } from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 const clearNotifications = async (userId: string): Promise<AxiosResponse> => {
     const config: AxiosRequestConfig = {

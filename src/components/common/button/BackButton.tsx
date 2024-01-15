@@ -4,8 +4,8 @@ import { useRouter } from 'next/router'
 
 import { useTranslation } from 'next-i18next'
 
-import { Box, IconButton, SxProps, Typography } from '@mui/material'
 import { ArrowBackIos } from '@mui/icons-material'
+import { Box, IconButton, SxProps, Typography } from '@mui/material'
 
 type BackButtonProps = {
     location: string

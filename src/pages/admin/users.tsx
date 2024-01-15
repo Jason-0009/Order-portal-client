@@ -1,4 +1,4 @@
-import { FC, useState, ChangeEvent } from 'react'
+import { ChangeEvent, FC, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { useTranslation } from 'next-i18next'
@@ -7,15 +7,20 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 
 import {
-    Box, Typography, Divider, List,
-    Pagination, TextField, InputAdornment,
-    IconButton, CircularProgress, Snackbar, Alert
+    Alert,
+    CircularProgress,
+    Divider,
+    IconButton,
+    InputAdornment,
+    List,
+    Snackbar,
+    TextField
 } from '@mui/material'
 
 import { Close } from '@mui/icons-material'
 
-import withAuth from '@/hoc/withAuth'
 import withAdminAuth from '@/hoc/withAdminAuth'
+import withAuth from '@/hoc/withAuth'
 
 import { RootState } from '@/store'
 
@@ -23,15 +28,15 @@ import useUsers from '@/hooks/useUsers'
 
 import { hideUsersSnackbar } from '@/slices/snackbar/usersSnackbarSlice'
 
-import BackButton from '@/components/common/button/BackButton'
-import CenteredLayout from '@/components/common/layout/CenteredLayout'
-import PageTitle from '@/components/common/page/PageTitle'
-import PageHeader from '@/components/common/page/PageHeader'
 import NoResultsFound from '@/components/common/NoResultsFound'
+import BackButton from '@/components/common/button/BackButton'
 import CenteredBox from '@/components/common/layout/CenteredBox'
+import CenteredLayout from '@/components/common/layout/CenteredLayout'
+import PageHeader from '@/components/common/page/PageHeader'
+import PageTitle from '@/components/common/page/PageTitle'
 
-import UserListItem from '@/components/user/UserListItem'
 import PaginationComponent from '@/components/common/PaginationComponent'
+import UserListItem from '@/components/user/UserListItem'
 
 const AdminUsersPage: FC = () => {
     const { open, message } = useSelector((state: RootState) => state.usersSnackbar)

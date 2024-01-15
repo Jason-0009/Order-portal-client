@@ -1,13 +1,13 @@
 import { FC } from 'react'
 import { useQuery } from 'react-query'
 
-import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useRouter } from 'next/router'
 
 import Head from 'next/head'
 
-import { Box, SxProps, Divider, Typography, CircularProgress } from '@mui/material'
+import { Box, CircularProgress, Divider, SxProps, Typography } from '@mui/material'
 
 import withAuth from '@/hoc/withAuth'
 
@@ -15,11 +15,11 @@ import useProducts from '@/hooks/useProducts'
 
 import fetchOrderById from '@/api/order/fetchOrderById'
 
-import CenteredLayout from '@/components/common/layout/CenteredLayout'
-import CenteredBox from '@/components/common/layout/CenteredBox'
-import BackButton from '@/components/common/button/BackButton'
-import PageTitle from '@/components/common/page/PageTitle'
 import PaginationComponent from '@/components/common/PaginationComponent'
+import BackButton from '@/components/common/button/BackButton'
+import CenteredBox from '@/components/common/layout/CenteredBox'
+import CenteredLayout from '@/components/common/layout/CenteredLayout'
+import PageTitle from '@/components/common/page/PageTitle'
 
 import OrderStatusIndicator from '@/components/order/OrderStatusIndicator'
 

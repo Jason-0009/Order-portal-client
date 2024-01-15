@@ -4,8 +4,12 @@ import { useQuery } from 'react-query'
 import { useTranslation } from 'next-i18next'
 
 import {
-    IconButton, Avatar, Popover, Box,
-    Typography, Divider
+    Avatar,
+    Box,
+    Divider,
+    IconButton,
+    Popover,
+    Typography
 } from '@mui/material'
 
 import checkAuth from '@/api/checkAuth'

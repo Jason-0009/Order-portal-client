@@ -1,28 +1,36 @@
 import { FC, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { useQuery } from 'react-query'
+import { useDispatch } from 'react-redux'
 
-import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import NextLink from 'next/link'
+import { useRouter } from 'next/router'
 
 import { AxiosError } from 'axios'
 
-import {
-    SxProps, TableBody, TableRow, TableCell,
-    IconButton, Collapse, Select, MenuItem,
-    SelectChangeEvent, Link, Typography, Avatar, Box
-} from '@mui/material'
 import { ExpandMore } from '@mui/icons-material'
+import {
+    Avatar, Box,
+    Collapse,
+    IconButton,
+    Link,
+    MenuItem,
+    Select,
+    SelectChangeEvent,
+    SxProps, TableBody,
+    TableCell,
+    TableRow,
+    Typography
+} from '@mui/material'
 
-import { showOrdersSnackbar } from '@/slices/snackbar/ordersSnackbarSlice'
 import { showAlert } from '@/slices/dialog/alertDialogSlice'
+import { showOrdersSnackbar } from '@/slices/snackbar/ordersSnackbarSlice'
 
-import fetchUser from '@/api/user/fetchUser'
 import updateOrderStatus from '@/api/order/updateOrderStatus'
+import fetchUser from '@/api/user/fetchUser'
 
-import AdminOrderDetailsTable from './AdminOrderDetailsTable'
 import AlertDialog from '@/components/dialog/AlertDialog'
+import AdminOrderDetailsTable from './AdminOrderDetailsTable'
 
 import { formatDistanceToNowLocale } from '@/utils/dateUtils'
 import toCamelCase from '@/utils/toCamelCase'

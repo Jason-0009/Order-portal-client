@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef } from 'react'
 
-import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
 
 import { ListItemButton, Typography } from '@mui/material'
 

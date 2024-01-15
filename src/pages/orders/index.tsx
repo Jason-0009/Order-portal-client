@@ -5,19 +5,19 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import Head from 'next/head'
 
-import { Divider, Box, CircularProgress } from '@mui/material'
+import { CircularProgress, Divider } from '@mui/material'
 
 import withAuth from '@/hoc/withAuth'
 
 import useOrders from '@/hooks/order/useOrders'
 
-import CenteredLayout from '@/components/common/layout/CenteredLayout'
-import BackButton from '@/components/common/button/BackButton'
-import PageTitle from '@/components/common/page/PageTitle'
 import NoOrdersFound from '@/components/common/NoResultsFound'
-import PageHeader from '@/components/common/page/PageHeader'
-import CenteredBox from '@/components/common/layout/CenteredBox'
 import PaginationComponent from '@/components/common/PaginationComponent'
+import BackButton from '@/components/common/button/BackButton'
+import CenteredBox from '@/components/common/layout/CenteredBox'
+import CenteredLayout from '@/components/common/layout/CenteredLayout'
+import PageHeader from '@/components/common/page/PageHeader'
+import PageTitle from '@/components/common/page/PageTitle'
 
 import OrdersFilter from '@/components/order/OrdersFilter'
 import OrdersTable from '@/components/order/OrdersTable'

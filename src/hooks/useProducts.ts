@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from 'react'
+import { ChangeEvent, useState } from 'react'
 import { useQuery } from 'react-query'
 
 import fetchProducts from '@/api/fetchProducts'

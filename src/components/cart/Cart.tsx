@@ -1,17 +1,17 @@
-import { FC, useEffect, useState, ChangeEvent } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { ChangeEvent, FC, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { useTranslation } from 'next-i18next'
 
-import { Box, Typography, Pagination, Divider } from '@mui/material'
+import { Box, Divider, Pagination, Typography } from '@mui/material'
 
 import { RootState } from '@/store'
 
 import { openDialog } from '@/slices/dialog/confirmationDialogSlice'
 
-import CartItem from './CartItem'
 import ConfirmButton from '../common/button/ConfirmButton'
 import ConfirmationDialog from '../dialog/ConfirmationDialog'
+import CartItem from './CartItem'
 
 const ITEMS_PER_PAGE = 3
 

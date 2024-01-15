@@ -4,8 +4,10 @@ import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 
 import {
-    Card, CardContent, CardMedia,
-    Typography, CardActionArea, Box
+    Card,
+    CardActionArea,
+    CardContent, CardMedia,
+    Typography
 } from '@mui/material'
 
 import { addToCart } from '@/slices/cartSlice'

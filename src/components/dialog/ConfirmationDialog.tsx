@@ -1,27 +1,31 @@
 import { FC } from 'react'
 
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
 
 import {
-    Dialog, DialogTitle, DialogContent, DialogContentText,
-    DialogActions, Button, Typography
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent, DialogContentText,
+    DialogTitle,
+    Typography
 } from '@mui/material'
 
 import { RootState } from '@/store'
 
-import { closeDialog } from '@/slices/dialog/confirmationDialogSlice'
 import { clearCart } from '@/slices/cartSlice'
+import { closeDialog } from '@/slices/dialog/confirmationDialogSlice'
 
 import postOrder from '@/api/order/postOrder'
 
 import ConfirmButton from '../common/button/ConfirmButton'
 
 import CartItemType from '@/types/CartItem.type'
-import OrderStatus from '@/types/order/OrderStatus.enum'
 import Order from '@/types/order/Order.type'
+import OrderStatus from '@/types/order/OrderStatus.enum'
 
 const createOrder = (cart: CartItemType[], totalPrice: number): Order => ({
     totalPrice,

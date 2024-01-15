@@ -1,13 +1,13 @@
-import { useState, useEffect, ChangeEvent } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import useWebSocket from 'react-use-websocket'
 
 import fetchOrders from '@/api/order/fetchOrders'
 
-import OrderStatus from '@/types/order/OrderStatus.enum'
 import PagedResponse from '@/types/PagedResponse.type'
 import Order from '@/types/order/Order.type'
 import OrderData from '@/types/order/OrderData.type'
+import OrderStatus from '@/types/order/OrderStatus.enum'
 
 const SOCKET_URL = `${process.env.NEXT_PUBLIC_WS_URL}/orders`
 

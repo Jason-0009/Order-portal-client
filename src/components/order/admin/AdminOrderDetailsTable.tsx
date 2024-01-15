@@ -1,19 +1,25 @@
 import { FC } from 'react'
 
-import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
 
 import Image from 'next/image'
 
 import {
-    SxProps, TableContainer, Table, TableHead, TableRow,
-    TableCell, TableBody, Pagination, Box, useMediaQuery, Theme
+    SxProps,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead, TableRow,
+    Theme,
+    useMediaQuery
 } from '@mui/material'
 
 import useProducts from '@/hooks/useProducts'
 
-import Order from '@/types/order/Order.type'
 import PaginationComponent from '@/components/common/PaginationComponent'
+import Order from '@/types/order/Order.type'
 
 type AdminOrderDetailsTableProps = {
     order: Order,

@@ -1,22 +1,25 @@
-import { FC, Fragment } from 'react'
+import { FC } from 'react'
 import { useQuery } from 'react-query'
 
-import { useRouter } from 'next/router'
-import NextLink from 'next/link'
 import { useTranslation } from 'next-i18next'
+import NextLink from 'next/link'
+import { useRouter } from 'next/router'
 
-import {
-    Link, IconButton, Typography,
-    Divider, useTheme, useMediaQuery, SxProps, Box, Theme
-} from '@mui/material'
 import { LocalShipping, ManageAccounts, ViewList } from '@mui/icons-material'
+import {
+    Box,
+    IconButton,
+    Link,
+    SxProps,
+    Typography
+} from '@mui/material'
 
 import checkAuth from '@/api/checkAuth'
 
 import fetchUserProfile from '@/api/user/fetchUserProfile'
 
-import UserRole from '@/types/user/UserRole.enum'
 import Route from '@/types/Route.type'
+import UserRole from '@/types/user/UserRole.enum'
 
 const Routes: FC = () => {
     const router = useRouter()
@@ -29,7 +32,7 @@ const Routes: FC = () => {
 
     const isAdmin = userProfile?.role === UserRole.ADMIN
     const iconStyle: SxProps = {
-        fontSize: { xs: '0.65em', sm:'0.75em', md: '0.85em', lg: '0.9em' },
+        fontSize: { xs: '0.65em', sm: '0.75em', md: '0.85em', lg: '0.9em' },
         mr: 0.2
     }
 

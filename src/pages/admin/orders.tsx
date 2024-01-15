@@ -1,19 +1,19 @@
 import { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import {
     Alert,
     Box, CircularProgress, Divider,
-    Pagination, Snackbar, Typography
+    Snackbar
 } from '@mui/material'
 
 import Head from 'next/head'
 
-import withAuth from '@/hoc/withAuth'
 import withAdminAuth from '@/hoc/withAdminAuth'
+import withAuth from '@/hoc/withAuth'
 
 import { RootState } from '@/store'
 
@@ -22,17 +22,17 @@ import useOrderStatistics from '@/hooks/order/useOrderStatistics'
 
 import { hideOrdersSnackbar } from '@/slices/snackbar/ordersSnackbarSlice'
 
-import CenteredLayout from '@/components/common/layout/CenteredLayout'
 import BackButton from '@/components/common/button/BackButton'
 import CenteredBox from '@/components/common/layout/CenteredBox'
-import PaginationComponent from '@/components/common/PaginationComponent'
+import CenteredLayout from '@/components/common/layout/CenteredLayout'
+import NoOrdersFound from '@/components/common/NoResultsFound'
 import PageHeader from '@/components/common/page/PageHeader'
 import PageTitle from '@/components/common/page/PageTitle'
-import NoOrdersFound from '@/components/common/NoResultsFound'
+import PaginationComponent from '@/components/common/PaginationComponent'
 
-import OrdersFilter from '@/components/order/OrdersFilter'
 import AdminOrdersStatisticsDisplay from '@/components/order/admin/AdminOrdersStatisticsDisplay'
 import AdminOrdersTable from '@/components/order/admin/AdminOrdersTable'
+import OrdersFilter from '@/components/order/OrdersFilter'
 
 const AdminOrdersPage: FC = () => {
     const { open, message } = useSelector((state: RootState) => state.ordersSnackbar)

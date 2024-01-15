@@ -1,8 +1,8 @@
 import { FC } from 'react'
 
-import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 
 import {
     SxProps, Table, TableBody,
@@ -12,8 +12,8 @@ import {
 
 import formatIngredients from '@/utils/formatIngredients'
 
-import Product from '@/types/Product.type'
 import PagedResponse from '@/types/PagedResponse.type'
+import Product from '@/types/Product.type'
 import OrderItem from '@/types/order/OrderItem.type'
 
 type ProductsTableProps = {

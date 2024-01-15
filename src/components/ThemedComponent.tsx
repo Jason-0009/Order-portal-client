@@ -3,12 +3,12 @@ import { useSelector } from 'react-redux'
 
 import { QueryClient, QueryClientProvider } from 'react-query'
 
-import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
+import { ThemeProvider } from '@mui/material/styles'
 
 import { RootState } from '@/store'
 
-import { lightTheme, darkTheme } from '@/app/theme'
+import { darkTheme, lightTheme } from '@/app/theme'
 
 type ThemedComponentProps = {
     children: ReactNode

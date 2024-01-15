@@ -5,8 +5,8 @@ import { AxiosError } from 'axios'
 
 import { useTranslation } from 'next-i18next'
 
+import { Google, SyncProblem } from '@mui/icons-material'
 import { Button, CircularProgress, Typography } from '@mui/material'
-import { SyncProblem, Google } from '@mui/icons-material'
 
 import checkAuth from '@/api/checkAuth'
 

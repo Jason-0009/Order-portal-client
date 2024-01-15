@@ -1,4 +1,4 @@
-import axios, { AxiosResponse, AxiosRequestConfig } from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 const updateUserPreferredLanguage = async (userId: string, preferredLanguage: string): Promise<AxiosResponse> => {
     const config: AxiosRequestConfig = {

@@ -2,7 +2,7 @@ import { FC } from 'react'
 
 import { useQuery } from 'react-query'
 
-import { Box, Theme, useMediaQuery, useTheme } from '@mui/material'
+import { Box, Theme, useMediaQuery } from '@mui/material'
 
 import checkAuth from '@/api/checkAuth'
 

@@ -2,13 +2,13 @@ import { FC } from 'react'
 
 import { useTranslation } from 'next-i18next'
 
-import { Typography, Grid, CircularProgress } from '@mui/material'
+import { CircularProgress, Grid } from '@mui/material'
 
 import useProducts from '@/hooks/useProducts'
 
 import PaginationComponent from '../common/PaginationComponent'
-import CenteredLayout from '../common/layout/CenteredLayout'
 import CenteredBox from '../common/layout/CenteredBox'
+import CenteredLayout from '../common/layout/CenteredLayout'
 import PageTitle from '../common/page/PageTitle'
 
 import ProductCard from './ProductCard'

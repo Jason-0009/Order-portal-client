@@ -1,14 +1,19 @@
 
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 import { useTranslation } from 'next-i18next'
 import NextLink from 'next/link'
 
-import {
-    Link, AppBar, Toolbar,
-    Typography, IconButton, Box, Theme, useMediaQuery
-} from '@mui/material'
 import { LocalPizza } from '@mui/icons-material'
+import {
+    AppBar,
+    IconButton,
+    Link,
+    Theme,
+    Toolbar,
+    Typography,
+    useMediaQuery
+} from '@mui/material'
 
 import DrawerMenu from './DrawerMenu'
 import MenuItems from './MenuItems'

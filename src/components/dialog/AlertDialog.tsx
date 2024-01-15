@@ -5,8 +5,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'next-i18next'
 
 import {
-    Dialog, DialogTitle, DialogContent,
-    DialogContentText, DialogActions, Button
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle
 } from '@mui/material'
 
 import { Warning } from '@mui/icons-material'

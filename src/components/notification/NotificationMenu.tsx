@@ -2,7 +2,9 @@ import { FC, MouseEvent, useState } from 'react'
 import { useQuery } from 'react-query'
 
 import {
-    IconButton, Badge, Popover
+    Badge,
+    IconButton,
+    Popover
 } from '@mui/material'
 
 import { Notifications } from '@mui/icons-material'

@@ -1,10 +1,13 @@
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 
-import {
-    Box, IconButton, Drawer,
-    useMediaQuery, useTheme, Theme
-} from '@mui/material'
 import { Menu } from '@mui/icons-material'
+import {
+    Box,
+    Drawer,
+    IconButton,
+    Theme,
+    useMediaQuery, useTheme
+} from '@mui/material'
 
 import MenuItems from './MenuItems'
 

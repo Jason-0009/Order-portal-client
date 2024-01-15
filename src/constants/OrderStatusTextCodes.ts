@@ -1,5 +1,3 @@
-import { SxProps } from '@mui/material'
-
 import OrderStatus from '@/types/order/OrderStatus.enum'
 
 const ORDER_STATUS_TEXT_CODES = {

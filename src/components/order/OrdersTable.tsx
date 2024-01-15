@@ -1,11 +1,10 @@
 import { FC } from 'react'
 
-import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import NextLink from 'next/link'
+import { useRouter } from 'next/router'
 
 import {
-    Box,
     Link, SxProps, Table, TableBody,
     TableCell, TableContainer,
     TableHead, TableRow

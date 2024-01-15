@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
 import useWebSocket from 'react-use-websocket'
 
+import clearNotifications from '@/api/notification/clearNotifications'
 import fetchNotifications from '@/api/notification/fetchNotifications'
 import markNotificationAsRead from '@/api/notification/markNotificationAsRead'
-import clearNotifications from '@/api/notification/clearNotifications'
 
 import AppNotification from '@/types/notification/AppNotification.type'
 import AppNotificationData from '@/types/notification/AppNotificationData.type'

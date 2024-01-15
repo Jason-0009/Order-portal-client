@@ -1,8 +1,8 @@
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { IconButton, SxProps, Theme, useMediaQuery } from '@mui/material'
+import { IconButton, SxProps } from '@mui/material'
 
-import { Brightness7, Brightness4 } from '@mui/icons-material'
+import { Brightness4, Brightness7 } from '@mui/icons-material'
 
 import { RootState } from '@/store'
 

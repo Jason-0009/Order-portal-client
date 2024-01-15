@@ -1,14 +1,20 @@
 import { FC } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { useRouter } from 'next/router'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 
-import {
-    Box, Typography, Select, MenuItem,
-    SelectChangeEvent, IconButton, useMediaQuery, Theme
-} from '@mui/material'
 import { Delete } from '@mui/icons-material'
+import {
+    Box,
+    IconButton,
+    MenuItem,
+    Select,
+    SelectChangeEvent,
+    Theme,
+    Typography,
+    useMediaQuery
+} from '@mui/material'
 
 import { changeQuantity, removeFromCart } from '@/slices/cartSlice'
 
