@@ -203,7 +203,7 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
                                         },
                                         '&.MuiMenuItem-root': {
                                             marginTop: isFirstItem ? { xs: '-0.7em', lg: '-0.6em' } : 'auto',
-                                            marginBottom: isLastItem ? { xs: '-0.7em', lg: '-0.6em' } : 'auto',
+                                            marginBottom: isLastItem ? { xs: '-0.75em', lg: '-0.6em' } : 'auto',
                                             backgroundColor: 'secondary.main',
                                             '&:hover': {
                                                 backgroundColor: 'primary.main'
