@@ -15,7 +15,7 @@ export default function ThemeSelector() {
     const handleThemeChange = () => {
         if (theme === 'light') {
             dispatch(setTheme('dark'))
-            
+
             return
         }
 
@@ -24,7 +24,12 @@ export default function ThemeSelector() {
 
     return (
         <IconButton
-            sx={{ mr: 1 }}
+            sx={{
+                mr: 1,
+                '&:hover': {
+                    backgroundColor: 'primary.main'
+                }
+            }}
             onClick={handleThemeChange}
             color='inherit'
         >

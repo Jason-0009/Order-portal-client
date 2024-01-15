@@ -3,7 +3,7 @@ import { FC, useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 
-import { Button, ListItem, ListItemButton, Typography } from '@mui/material'
+import { ListItemButton, Typography } from '@mui/material'
 
 import { formatDistanceToNowLocale } from '@/utils/dateUtils'
 

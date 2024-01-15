@@ -49,31 +49,37 @@ const Cart: FC = () => {
         }}>
             <Typography variant="h6" sx={{
                 fontWeight: 600,
-                mb: 3
+                mb: 3,
+                fontSize: { xs: '0.9rem', sm: '1.25rem' }
             }}>
                 {translation('myOrder')}
             </Typography>
 
-            <Divider sx={{ mb: 1 }} />
+            <Divider sx={{ mb: 3 }} />
 
             {currentPageItems.map(item =>
                 <CartItem key={item.product.id} item={item} />
             )}
 
             {totalPageCount > 1 && (
-                <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                     <Pagination
                         count={totalPageCount}
                         page={currentPage}
                         onChange={handlePageChange}
+                        sx={{
+                            '& .MuiPaginationItem-root': {
+                                fontSize: { xs: '0.7em', sm: '0.8em' }
+                            },
+                            mb: 1
+                        }}
                     />
                 </Box>
             )}
 
             <Box sx={{
                 display: 'flex',
-                justifyContent: 'center',
-                p: 2
+                justifyContent: 'center'
             }}>
                 <ConfirmButton
                     text={translation('confirmOrder')}

@@ -1,5 +1,5 @@
-import { FC } from 'react'
-import { useQuery } from 'react-query'
+
+import React, { FC } from 'react'
 
 import { useTranslation } from 'next-i18next'
 import NextLink from 'next/link'
@@ -7,22 +7,14 @@ import NextLink from 'next/link'
 import { Link, AppBar, Toolbar, Typography, IconButton, Box } from '@mui/material'
 import { LocalPizza } from '@mui/icons-material'
 
-import checkAuth from '@/api/checkAuth'
-
-import Routes from './Routes'
-import NotificationMenu from './notification/NotificationMenu'
-import UserProfileMenu from './user/UserProfileMenu'
-
-import LanguageSelector from './selector/LanguageSelector'
-import ThemeSelector from './selector/ThemeSelector'
+import DrawerMenu from './DrawerMenu'
+import MenuItems from './MenuItems'
 
 const Navbar: FC = () => {
     const { t: translation } = useTranslation()
 
-    const { data: isAuthenticated } = useQuery('auth', checkAuth)
-
     return (
-        <AppBar position="relative" sx={{
+        <AppBar sx={{
             fontFamily: 'Heebo',
             backgroundColor: 'secondary.main',
             backgroundImage: 'none',
@@ -31,13 +23,16 @@ const Navbar: FC = () => {
             <Toolbar sx={{ justifyContent: 'space-between' }}>
                 <Link component={NextLink} href="/" color="inherit">
                     <IconButton color="inherit" disableRipple>
-                        <LocalPizza />
+                        <LocalPizza sx={{
+                            fontSize: { xs: '0.8em', sm: '1em' },
+                        }} />
 
                         <Typography variant="h6" sx={{
                             textTransform: 'uppercase',
                             textShadow: '0px 0px 10px currentColor',
                             fontWeight: 700,
                             letterSpacing: '1px',
+                            fontSize: { xs: '0.6em', sm: '0.8em' },
                             ml: 1
                         }}>
                             {translation('title')}
@@ -45,19 +40,11 @@ const Navbar: FC = () => {
                     </IconButton>
                 </Link>
 
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    {isAuthenticated && <Routes />}
-
-                    <LanguageSelector />
-                    <ThemeSelector />
-
-                    {isAuthenticated && (
-                        <>
-                            <NotificationMenu />
-                            <UserProfileMenu />
-                        </>
-                    )}
+                <Box sx={{ display: { xs: 'none', lg: 'flex' } }}>
+                    <MenuItems />
                 </Box>
+
+                <DrawerMenu />
             </Toolbar>
         </AppBar>
     )

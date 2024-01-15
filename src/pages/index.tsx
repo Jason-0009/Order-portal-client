@@ -29,7 +29,10 @@ const IndexPage: FC = () => {
       </Head>
 
       <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-        <Box sx={{ width: '63%', marginRight: '2%' }}>
+        <Box sx={{
+          width: cart.length > 0 ? '63%' : '100%',
+          marginRight: cart.length > 0 ? '2%' : '0'
+        }}>
           <ProductSelection />
         </Box>
 
@@ -39,6 +42,7 @@ const IndexPage: FC = () => {
           </Box>
         )}
       </Box>
+
     </>
   )
 }

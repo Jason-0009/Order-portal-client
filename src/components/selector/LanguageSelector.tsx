@@ -6,8 +6,8 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 
 import {
-    Select, Box, MenuItem, 
-    SelectChangeEvent, Typography
+    Select, Box, MenuItem,
+    SelectChangeEvent, Typography, IconButton
 } from '@mui/material'
 
 import checkAuth from '@/api/checkAuth'
@@ -51,7 +51,16 @@ const LanguageSelector: FC = () => {
             value={locale}
             onChange={handleLocaleChange}
             sx={{
-                mr: 0.5,
+                '& .MuiSelect-select': {
+                    paddingRight: 4,
+                    paddingLeft: 2,
+                    paddingTop: 1,
+                    paddingBottom: 1
+                 },
+                '&:hover': {
+                    backgroundColor: 'primary.main',
+                    borderRadius: '20px'
+                },
                 "& fieldset": {
                     border: 'none'
                 }

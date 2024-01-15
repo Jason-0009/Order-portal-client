@@ -16,7 +16,7 @@ import ConfirmButton from '../common/button/ConfirmButton'
 
 const UserProfileMenu: FC = () => {
     const [profileMenuAnchorElement, setProfileMenuAnchorElement] = useState<HTMLElement | null>(null)
-    
+
     const { data: isAuthenticated } = useQuery('auth', checkAuth)
     const { data: userProfile } = useQuery('userProfile', fetchUserProfile,
         { enabled: !!isAuthenticated })
@@ -31,7 +31,11 @@ const UserProfileMenu: FC = () => {
 
     return (
         <>
-            <IconButton color="inherit" onClick={handleProfileMenuOpen}>
+            <IconButton color="inherit" onClick={handleProfileMenuOpen} sx={{
+                '&:hover': {
+                    backgroundColor: 'primary.main'
+                }
+            }}>
                 <Avatar src={userProfile?.imageUrl} />
             </IconButton>
 

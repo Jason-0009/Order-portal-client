@@ -23,24 +23,35 @@ const ProductSelection: FC = () => {
 
     return (
         <CenteredLayout>
-            <Typography variant="h6" component="h1" fontWeight={600}>
+            <Typography variant="h6" component="h1" fontWeight={600} sx={{
+                fontSize: { xs: '1.1em', sm: '1.15em', md: '1.25em' }
+            }}>
                 {translation('selectProduct')}
             </Typography>
 
-            <Grid container spacing={4}>
-                {currentProducts?.content.map(product => (
-                    <Grid item xs={12} sm={6} md={4} key={product.id}>
-                        <ProductCard product={product} />
-                    </Grid>
-                ))}
+            <Grid container spacing={4} alignItems="stretch">
+                {currentProducts?.content.map(product => {
+                    const { id } = product
+
+                    return (
+                        <Grid item xs={12} sm={6} md={4} key={id}>
+                            <ProductCard product={product} />
+                        </Grid>
+                    )
+                })}
             </Grid>
 
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 6, mb: 1 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
                 <Pagination
                     color="secondary"
                     count={currentProducts?.totalPages}
                     page={currentPage}
                     onChange={handlePageChange}
+                    sx={{
+                        '& .MuiPaginationItem-root': {
+                            fontSize: { xs: '0.7rem', sm: '0.8rem' }
+                        }
+                    }}
                 />
             </Box>
         </CenteredLayout>

@@ -61,8 +61,25 @@ const lightTheme = createTheme({
                 }
             }
         },
-        badgeBackground: { 
-            main: '#FFCCCB' 
+        badgeBackground: {
+            main: '#FFCCCB'
+        }
+    },
+    components: {
+        MuiCssBaseline: {
+            styleOverrides: {
+                body: {
+                    "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
+                        width: '8px',
+                        borderRadius: '8px',
+                        backgroundColor: "#F2F2F2",
+                    },
+                    "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
+                        borderRadius: '8px',
+                        backgroundColor: '#5D5D5D'
+                    }
+                }
+            }
         }
     }
 })
@@ -124,8 +141,25 @@ const darkTheme = createTheme({
                 }
             }
         },
-        badgeBackground: { 
-            main: '#8B0000' 
+        badgeBackground: {
+            main: '#8B0000'
+        }
+    },
+    components: {
+        MuiCssBaseline: {
+            styleOverrides: {
+                body: {
+                    "& *::-webkit-scrollbar": {
+                        width: '8px',
+                        borderRadius: '8px',
+                        backgroundColor: "#171717",
+                    },
+                    "& *::-webkit-scrollbar-thumb": {
+                        borderRadius: '8px',
+                        backgroundColor: '#BEBEBE'
+                    }
+                }
+            }
         }
     }
 })

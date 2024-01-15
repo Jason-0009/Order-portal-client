@@ -7,7 +7,7 @@ type CenteredLayoutProps = {
 }
 
 const CenteredLayout: FC<CenteredLayoutProps> = ({ children }) => (
-    <Box sx={{ display: 'flex', flexDirection: 'column', m: 5 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', px: 6, pt: 15 }}>
         {children}
     </Box>
 )

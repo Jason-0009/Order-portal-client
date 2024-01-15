@@ -5,6 +5,7 @@ import { useTranslation } from 'next-i18next'
 import NextLink from 'next/link'
 
 import {
+    Box,
     Link, SxProps, Table, TableBody,
     TableCell, TableContainer,
     TableHead, TableRow

@@ -6,7 +6,7 @@ import Image from 'next/image'
 
 import {
     Box, Typography, Select, MenuItem,
-    SelectChangeEvent, IconButton
+    SelectChangeEvent, IconButton, useTheme, useMediaQuery
 } from '@mui/material'
 import { Delete } from '@mui/icons-material'
 
@@ -24,6 +24,9 @@ const CartItem: FC<CartItemProps> = ({ item }) => {
     const { locale } = useRouter()
     const dispatch = useDispatch()
 
+    const theme = useTheme()
+    const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'))
+
     const handleRemoveFromCart = () => dispatch(removeFromCart(product.id))
 
     const handleQuantityChange = (event: SelectChangeEvent<number>) =>
@@ -32,27 +35,38 @@ const CartItem: FC<CartItemProps> = ({ item }) => {
     return (
         <Box sx={{
             display: 'flex',
-            alignItems: 'center',
-            height: '70px'
+            flexDirection: isMobileOrTablet ? 'column' : 'row',
+            height: 'auto',
+            mb: 4
         }}>
             <Image
                 src={product.imageUrl}
                 alt="Cart item"
                 width={40}
                 height={40}
+                style={{
+                    marginRight: isMobileOrTablet ? 0 : '10px',
+                    marginBottom: isMobileOrTablet ? '5px' : 0
+                }}
             />
 
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 flexGrow: 1,
-                ml: 1
             }}>
-                <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                <Typography variant="body2" sx={{
+                    fontWeight: 600,
+                    fontSize: { xs: '0.75em', sm: '0.75em', md: '0.88em' },
+                    mb: isMobileOrTablet ? 0.5 : 0
+                }}>
                     {locale && product.name[locale]}
                 </Typography>
 
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color="text.secondary" sx={{
+                    fontSize: { xs: '0.75em', sm: '0.88em' },
+                    mb: isMobileOrTablet ? 1 : 0
+                }}>
                     €{product.price}
                 </Typography>
             </Box>
@@ -89,7 +103,7 @@ const CartItem: FC<CartItemProps> = ({ item }) => {
                     SelectDisplayProps={{
                         style: {
                             fontWeight: 600,
-                            fontSize: '0.8em'
+                            fontSize: isMobileOrTablet ? '0.7em' : '0.8em'
                         }
                     }}
                 >
@@ -97,19 +111,22 @@ const CartItem: FC<CartItemProps> = ({ item }) => {
                         const isFirstItem = index === 0
                         const isLastItem = index === array.length - 1
 
-                        return (<MenuItem
-                            key={value}
-                            value={value + 1}
-                            sx={{
-                                fontSize: '0.8em',
-                                '&.MuiMenuItem-root': {
-                                    marginTop: isFirstItem ? '-0.6em' : 'auto',
-                                    marginBottom: isLastItem ? '-0.6em' : 'auto'
-                                }
-                            }}
-                        >
-                            {value + 1}
-                        </MenuItem>)
+                        return (
+                            <MenuItem
+                                key={value}
+                                value={value + 1}
+                                sx={{
+                                    backgroundColor: 'secondary.main',
+                                    fontSize: { xs: '0.7em', sm: '0.8em' },
+                                    '&.MuiMenuItem-root': {
+                                        marginTop: isFirstItem ? '-0.6em' : 'auto',
+                                        marginBottom: isLastItem ? '-0.6em' : 'auto'
+                                    }
+                                }}
+                            >
+                                {value + 1}
+                            </MenuItem>
+                        )
                     })}
                 </Select>
             </Box>

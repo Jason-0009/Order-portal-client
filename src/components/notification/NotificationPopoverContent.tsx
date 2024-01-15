@@ -29,16 +29,7 @@ const NotificationPopoverContent: FC<NotificationPopoverContentProps> = ({
             backgroundColor: 'secondary.main',
             width: 250,
             height: 250,
-            overflow: 'auto',
-            '&::-webkit-scrollbar': {
-                width: '8px',
-                borderRadius: '8px',
-                backgroundColor: 'secondary.main',
-            },
-            '&::-webkit-scrollbar-thumb': {
-                borderRadius: '8px',
-                backgroundColor: 'text.primary',
-            }
+            overflow: 'auto'
         }}>
             <Box sx={{
                 display: 'flex',

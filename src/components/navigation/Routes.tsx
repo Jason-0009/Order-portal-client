@@ -1,11 +1,14 @@
-import { FC } from 'react'
+import { FC, Fragment } from 'react'
 import { useQuery } from 'react-query'
 
 import { useRouter } from 'next/router'
 import NextLink from 'next/link'
 import { useTranslation } from 'next-i18next'
 
-import { Link, IconButton, Typography } from '@mui/material'
+import {
+    Link, IconButton, Typography,
+    Divider, useTheme, useMediaQuery, SxProps, Box
+} from '@mui/material'
 import { LocalShipping, ManageAccounts, ViewList } from '@mui/icons-material'
 
 import checkAuth from '@/api/checkAuth'
@@ -17,15 +20,20 @@ import Route from '@/types/Route.type'
 
 const Routes: FC = () => {
     const router = useRouter()
+    const theme = useTheme()
+    const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('lg'))
 
     const { data: isAuthenticated } = useQuery('auth', checkAuth)
     const { data: userProfile } = useQuery('userProfile', fetchUserProfile,
         { enabled: !!isAuthenticated })
-        
+
     const { t: translation } = useTranslation()
 
     const isAdmin = userProfile?.role === UserRole.ADMIN
-    const iconStyle = { mr: 0.2, fontSize: '0.8em' }
+    const iconStyle: SxProps = {
+        fontSize: { xs: '0.7em', sm: '0.9em' },
+        mr: 0.2
+    }
 
     const routes: Route[] = [
         ...(isAdmin ? [
@@ -48,26 +56,39 @@ const Routes: FC = () => {
     ]
 
     return (
-        <>
-            {routes.map(({ path, icon, text }) => router.pathname !== path && (
+        <Box sx={{
+            display: 'flex',
+            flexDirection: isMobileOrTablet ? 'column' : 'row',
+            pt: isMobileOrTablet ? 2 : 0,
+            pl: isMobileOrTablet ? 1 : 0
+        }}>
+            {routes.map(({ path, icon, text }, index) => router.pathname !== path && (
                 <Link
                     key={path}
                     component={NextLink}
                     href={path}
                     underline="none"
                     color="inherit"
-                    justifyContent={'center'}
                 >
-                    <IconButton color="inherit" sx={{ mr: 1 }} disableRipple>
+                    <IconButton color="inherit" sx={{
+                        mr: index !== routes.length - 1 ? 1 : 0.5,
+                        '&:hover': {
+                            backgroundColor: 'primary.main',
+                            borderRadius: '20px'
+                        }
+                    }}>
                         {icon}
 
-                        <Typography variant="body2" ml={0.5}>
+                        <Typography variant="body2" sx={{
+                            ml: 1,
+                            fontSize: { xs: '0.5em', sm: '0.55em', lg: '0.6em' }
+                        }}>
                             {text}
                         </Typography>
                     </IconButton>
                 </Link>
             ))}
-        </>
+        </Box>
     )
 }
 

@@ -40,7 +40,12 @@ const NotificationMenu: FC = () => {
 
     return (
         <>
-            <IconButton onClick={handleNotificationMenuOpen} sx={{ mr: 1 }}>
+            <IconButton onClick={handleNotificationMenuOpen} sx={{
+                mr: 1,
+                '&:hover': {
+                    backgroundColor: 'primary.main',
+                }
+            }}>
                 <Badge
                     badgeContent={unreadNotificationCount}
                     sx={{

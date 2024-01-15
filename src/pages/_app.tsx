@@ -7,7 +7,7 @@ import { appWithTranslation } from 'next-i18next'
 import { store } from '@/store'
 
 import ThemedComponent from '@/components/ThemedComponent'
-import Navbar from '@/components/Navbar'
+import Navbar from '@/components/navigation/Navbar'
 
 import { useEffect, useState } from 'react'
 
