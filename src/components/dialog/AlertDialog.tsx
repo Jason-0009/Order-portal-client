@@ -39,13 +39,17 @@ const AlertDialog: FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 fontWeight: 600,
+                fontSize: { xs: '0.85em', sm: '0.9em', md: '1em', lg: '1.25em' }
             }}>
-                <Warning color="warning" sx={{ mr: 1 }} /> {translation('alert')}
+                <Warning color="warning" sx={{
+                    fontSize: '1.25em', 
+                    mr: 1
+                }} /> {translation('alert')}
             </DialogTitle>
 
             <DialogContent>
                 <DialogContentText sx={{
-                    fontSize: '0.9em',
+                    fontSize: { xs: '0.7em', sm : '0.75em', md: '0.8em', lg: '0.9em' },
                     color: 'text.secondary',
                     textAlign: 'center',
                     mb: '-0.6em'
@@ -58,7 +62,10 @@ const AlertDialog: FC = () => {
                 <Button
                     onClick={handleClose}
                     color="info"
-                    sx={{ borderRadius: '20px' }}
+                    sx={{ 
+                        fontSize: { xs: '0.7em', sm: '0.75em', md: '0.8em', lg: '0.85em' },
+                        borderRadius: '20px' 
+                    }}
                     autoFocus
                 >
                     OK

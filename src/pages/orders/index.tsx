@@ -5,20 +5,22 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import Head from 'next/head'
 
-import { Typography, Divider, Pagination, Box, CircularProgress } from '@mui/material'
+import { Divider, Box, CircularProgress } from '@mui/material'
 
 import withAuth from '@/hoc/withAuth'
 
 import useOrders from '@/hooks/order/useOrders'
 
-import CenteredLayout from '@/components/common/CenteredLayout'
+import CenteredLayout from '@/components/common/layout/CenteredLayout'
 import BackButton from '@/components/common/button/BackButton'
-import CenteredBox from '@/components/common/CenteredBox'
+import PageTitle from '@/components/common/page/PageTitle'
+import NoOrdersFound from '@/components/common/NoResultsFound'
+import PageHeader from '@/components/common/page/PageHeader'
+import CenteredBox from '@/components/common/layout/CenteredBox'
+import PaginationComponent from '@/components/common/PaginationComponent'
 
 import OrdersFilter from '@/components/order/OrdersFilter'
 import OrdersTable from '@/components/order/OrdersTable'
-import NoOrdersFound from '@/components/common/NoResultsFound'
-
 
 const OrdersPage: FC = () => {
     const { t: translation } = useTranslation()
@@ -51,19 +53,8 @@ const OrdersPage: FC = () => {
             <CenteredLayout>
                 <BackButton location='/' />
 
-                <Box sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    alignItems: { xs: 'normal', sm: 'center' },
-                    justifyContent: 'space-between',
-                    mb: 3
-                }}>
-                    <Typography variant="h6" component="h1" fontWeight={600} sx={{
-                        fontSize: { xs: '0.9em', sm: '1em', md: '1.1em', lg: '1.2em' },
-                        mb: { xs: 1, sm: 0 }
-                    }}>
-                        {translation('orderHistory')}
-                    </Typography>
+                <PageHeader>
+                    <PageTitle text={translation('orderHistory')} />
 
                     <OrdersFilter
                         filteredDate={filteredDate}
@@ -71,7 +62,7 @@ const OrdersPage: FC = () => {
                         filteredStatus={filteredStatus}
                         setFilteredStatusAndResetPage={setFilteredStatusAndResetPage}
                     />
-                </Box>
+                </PageHeader>
 
                 <Divider sx={{ mb: 5 }} />
 
@@ -81,19 +72,11 @@ const OrdersPage: FC = () => {
                             <OrdersTable orders={currentOrders.content} />
 
                             {Number(currentOrders?.totalPages) > 1 && (
-                                <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
-                                    <Pagination
-                                        color='secondary'
-                                        count={currentOrders?.totalPages}
-                                        page={currentPage}
-                                        onChange={handlePageChange}
-                                        sx={{
-                                            '& .MuiPaginationItem-root': {
-                                                fontSize: { xs: '0.7rem', sm: '0.8rem' }
-                                            }
-                                        }}
-                                    />
-                                </Box>
+                                <PaginationComponent
+                                    count={currentOrders?.totalPages}
+                                    page={currentPage}
+                                    onChange={handlePageChange}
+                                />
                             )}
                         </>
                     ) : <NoOrdersFound text={translation('noOrdersFound')} />

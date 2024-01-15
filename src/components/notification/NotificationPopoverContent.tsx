@@ -37,7 +37,8 @@ const NotificationPopoverContent: FC<NotificationPopoverContentProps> = ({
                 pt: 2,
                 pb: 1
             }}>
-                <Typography variant="body1" fontWeight={600} sx={{
+                <Typography variant="body1" sx={{
+                    fontWeight: 600,
                     fontSize: { xs: '0.8em', sm: '0.85em', lg: '0.9em' }
                 }}>
                     {translation('notifications')}
@@ -76,17 +77,14 @@ const NotificationPopoverContent: FC<NotificationPopoverContentProps> = ({
                         </Button>
 
                         <List sx={{ pt: 0 }}>
-                            {notifications.map(notification => {
-                                const { id } = notification
-
-                                return (
-                                    <NotificationListItemButton
-                                        key={id}
-                                        notification={notification}
-                                        handleNotificationRead={handleNotificationRead}
-                                    />
-                                )
-                            })}
+                            {notifications.map(notification =>
+                                <NotificationListItemButton
+                                    key={notification.id}
+                                    notification={notification}
+                                    handleNotificationRead={handleNotificationRead}
+                                />
+                            )
+                            }
                         </List>
                     </>
                 ) : (

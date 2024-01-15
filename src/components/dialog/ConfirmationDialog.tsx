@@ -72,14 +72,20 @@ const ConfirmationDialog: FC = () => {
                 boxShadow: `0px 0px 14.4px 0px ${theme.palette.secondary.main}`
             })
         }}>
-            <DialogTitle sx={{ fontSize: '1.1em', fontWeight: 600 }}>
+            <DialogTitle sx={{
+                fontSize: { xs: '0.85em', sm: '0.9em', md: '1em', lg: '1.1em' },
+                fontWeight: 600
+            }}>
                 {translation('confirmYourOrder')}
             </DialogTitle>
 
             <DialogContent>
-                <DialogContentText sx={{ fontSize: '0.9em' }}>
+                <DialogContentText sx={{
+                    fontSize: { xs: '0.75em', sm: '0.8em', md: '0.85em', lg: '0.9em' },
+                }}>
                     {translation('orderTotal')} <Typography component="span" sx={{
-                        fontSize: '0.9em', fontWeight: 600
+                        fontSize: '0.9em',
+                        fontWeight: 600
                     }}>
                         €{totalPrice}
                     </Typography>.
@@ -96,8 +102,9 @@ const ConfirmationDialog: FC = () => {
                         borderRadius: '20px',
                         backgroundColor: 'primary.main',
                         textTransform: 'none',
+                        fontSize: { xs: '0.6em', sm: '0.7em', md: '0.75em', lg: '0.8em'},
                         width: '30%',
-                        height: '35px',
+                        height: { xs: '25px', sm: '35px' },
                         border: 'none',
                         boxShadow: `0px 0px 10px 0px ${theme.palette.primary.main}`
                     })}

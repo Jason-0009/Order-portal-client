@@ -7,7 +7,7 @@ import Image from 'next/image'
 import {
     SxProps, Table, TableBody,
     TableCell, TableContainer,
-    TableHead, TableRow
+    TableHead, TableRow, Theme, useMediaQuery
 } from '@mui/material'
 
 import formatIngredients from '@/utils/formatIngredients'
@@ -25,9 +25,12 @@ const ProductsTable: FC<ProductsTableProps> = ({ products, orderItems }) => {
     const { locale } = useRouter()
     const { t: translation } = useTranslation()
 
+    const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'))
+    const isTablet = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
+
     const tableCellStyle: SxProps = {
         pt: 3,
-        fontSize: '14px',
+        fontSize: { xs: '11px', sm: '12px', md: '13px', lg: '14px' },
         fontWeight: 600,
         color: 'text.primary'
     }
@@ -48,11 +51,11 @@ const ProductsTable: FC<ProductsTableProps> = ({ products, orderItems }) => {
                             {translation('menuLabel')}
                         </TableCell>
 
-                        <TableCell sx={{ ...tableCellStyle, width: '10%' }}>
+                        <TableCell sx={{ ...tableCellStyle, width: '15%' }}>
                             {translation('totalLabel')}
                         </TableCell>
 
-                        <TableCell sx={tableCellStyle}>
+                        <TableCell sx={{ ...tableCellStyle, width: '35%' }}>
                             {translation('ingredientsLabel')}
                         </TableCell>
                     </TableRow>
@@ -74,7 +77,8 @@ const ProductsTable: FC<ProductsTableProps> = ({ products, orderItems }) => {
                             borderBottom: 'none',
                             pt: isFirstItem ? 4 : 1,
                             pb: isLastItem ? 4 : 'initial',
-                            color: 'text.secondary'
+                            color: 'text.secondary',
+                            fontSize: { xs: '11px', sm: '12px', md: '13px', lg: '14px' }
                         }
 
                         return (
@@ -82,8 +86,8 @@ const ProductsTable: FC<ProductsTableProps> = ({ products, orderItems }) => {
                                 <TableCell sx={{ ...tableCellStyle, pl: 4 }}>
                                     <Image
                                         src={imageUrl}
-                                        width={40}
-                                        height={40}
+                                        width={isMobile ? 30 : isTablet ? 35 : 40}
+                                        height={isMobile ? 30 : isTablet ? 35 : 40}
                                         alt="Product image"
                                     />
                                 </TableCell>

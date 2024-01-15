@@ -22,9 +22,12 @@ import useOrderStatistics from '@/hooks/order/useOrderStatistics'
 
 import { hideOrdersSnackbar } from '@/slices/snackbar/ordersSnackbarSlice'
 
-import CenteredLayout from '@/components/common/CenteredLayout'
+import CenteredLayout from '@/components/common/layout/CenteredLayout'
 import BackButton from '@/components/common/button/BackButton'
-import CenteredBox from '@/components/common/CenteredBox'
+import CenteredBox from '@/components/common/layout/CenteredBox'
+import PaginationComponent from '@/components/common/PaginationComponent'
+import PageHeader from '@/components/common/page/PageHeader'
+import PageTitle from '@/components/common/page/PageTitle'
 import NoOrdersFound from '@/components/common/NoResultsFound'
 
 import OrdersFilter from '@/components/order/OrdersFilter'
@@ -68,15 +71,8 @@ const AdminOrdersPage: FC = () => {
             <CenteredLayout>
                 <BackButton location='/' />
 
-                <Box sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    mb: 3
-                }}>
-                    <Typography variant="h6" component="h1" fontWeight={600}>
-                        {translation('orderManagement')}
-                    </Typography>
+                <PageHeader>
+                    <PageTitle text={translation('orderManagement')} />
 
                     <OrdersFilter
                         filteredDate={filteredDate}
@@ -84,7 +80,7 @@ const AdminOrdersPage: FC = () => {
                         filteredStatus={filteredStatus}
                         setFilteredStatusAndResetPage={setFilteredStatusAndResetPage}
                     />
-                </Box>
+                </PageHeader>
 
                 <Divider sx={{ mb: 3 }} />
 
@@ -111,13 +107,11 @@ const AdminOrdersPage: FC = () => {
                             <AdminOrdersTable orders={currentOrders.content} />
 
                             {currentOrders.totalPages > 1 && (
-                                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}>
-                                    <Pagination
-                                        count={currentOrders.totalPages}
-                                        page={currentPage}
-                                        onChange={handlePageChange}
-                                    />
-                                </Box>
+                                <PaginationComponent
+                                    count={currentOrders.totalPages}
+                                    page={currentPage}
+                                    onChange={handlePageChange}
+                                />
                             )}
                         </>
                     ) : <NoOrdersFound text={translation('noOrdersFound')} />

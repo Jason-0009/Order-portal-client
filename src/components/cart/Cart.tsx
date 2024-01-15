@@ -45,7 +45,7 @@ const Cart: FC = () => {
             justifyContent: 'center',
             backgroundColor: 'secondary.main',
             height: '100%',
-            p: 3,
+            p: 3
         }}>
             <Typography variant="h6" sx={{
                 fontWeight: 600,

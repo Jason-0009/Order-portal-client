@@ -16,7 +16,10 @@ const BackButton: FC<BackButtonProps> = ({ location }) => {
 
     const { t: translation } = useTranslation()
 
-    const fontSizeStyle: SxProps = { fontSize: { xs: '0.45em', sm: '0.5em', md: '0.55m', lg: '0.58em' } }
+    const fontStyle: SxProps = {
+        fontWeight: 600,
+        fontSize: { xs: '0.45em', sm: '0.5em', md: '0.55m', lg: '0.58em' }
+    }
 
     const goBack = () => router.push(location)
 
@@ -29,9 +32,9 @@ const BackButton: FC<BackButtonProps> = ({ location }) => {
                 disableRipple
                 sx={{ mb: 2 }}
             >
-                <ArrowBackIos sx={fontSizeStyle} />
+                <ArrowBackIos sx={fontStyle} />
 
-                <Typography variant="body2" fontWeight={600} sx={fontSizeStyle}>
+                <Typography variant="body2" sx={fontStyle}>
                     {translation('back')}
                 </Typography>
             </IconButton>

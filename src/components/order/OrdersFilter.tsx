@@ -4,7 +4,7 @@ import { useTranslation } from 'next-i18next'
 
 import { enUS, it } from 'date-fns/locale'
 
-import { Box, Typography, IconButton, Popover, List, ListItemButton } from '@mui/material'
+import { Box, Typography, IconButton, Popover, List, ListItemButton, useMediaQuery, Theme } from '@mui/material'
 import { Clear, DateRange, ExpandMore, FilterList } from '@mui/icons-material'
 
 import { LocalizationProvider, DateCalendar } from '@mui/x-date-pickers'
@@ -32,6 +32,8 @@ const OrdersFilter: FC<OrderFilterProps> = ({
     const [calendarAnchorElement, setCalendarAnchorElement] = useState<HTMLElement | null>(null)
     const [statusAnchorElement, setStatusAnchorElement] = useState<HTMLElement | null>(null)
 
+    const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
+
     const { i18n, t: translation } = useTranslation()
 
     const locales: { [key: string]: Locale } = {
@@ -58,6 +60,7 @@ const OrdersFilter: FC<OrderFilterProps> = ({
             color: 'text.primary',
             backgroundColor: 'secondary.main',
             p: 1,
+            mt: { xs: 1, sm: 0 },
             borderRadius: '10px',
             boxShadow: `0px 2px 8px 0px ${theme.palette.secondary.main}`
         })}>
@@ -65,7 +68,7 @@ const OrdersFilter: FC<OrderFilterProps> = ({
 
             <Typography variant="body1" sx={{
                 ml: 0.5,
-                fontSize: { xs: '0.7em', sm: '0.75em', md: '0.8em', lg: '0.85em' }
+                fontSize: { xs: '0.65em', sm: '0.75em', md: '0.8em', lg: '0.85em' }
             }}>
                 {translation('sortByDate')}
             </Typography>
@@ -109,7 +112,7 @@ const OrdersFilter: FC<OrderFilterProps> = ({
 
             <Typography variant="body1" sx={{
                 ml: 0.5,
-                fontSize: { xs: '0.7em', sm: '0.75em', md: '0.8em', lg: '0.85em' }
+                fontSize: { xs: '0.65em', sm: '0.75em', md: '0.8em', lg: '0.85em' }
             }}>
                 {translation('sortByStatus')}
             </Typography>

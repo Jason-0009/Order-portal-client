@@ -30,7 +30,7 @@ const UserListItem: FC<UserListItemProps> = ({ user }) => {
     const { data: isAuthenticated } = useQuery('auth', checkAuth)
     const { data: userProfile } = useQuery('userProfile', fetchUserProfile,
         { enabled: !!isAuthenticated })
-        
+
     const roleTexts: Record<UserRole, string> = {
         [UserRole.USER]: translation('user'),
         [UserRole.ADMIN]: translation('admin')
@@ -48,26 +48,50 @@ const UserListItem: FC<UserListItemProps> = ({ user }) => {
 
     return (
         <ListItem sx={theme => ({
+            display: 'flex',
+            textAlign: { xs: 'center', sm: 'start' },
             maxWidth: '500px',
             mb: 3,
             backgroundColor: 'secondary.main',
             borderRadius: '20px',
-            boxShadow: `0px 4px 4px 0px ${theme.palette.secondary.main}`
+            boxShadow: `0px 4px 4px 0px ${theme.palette.secondary.main}`,
+            flexDirection: { xs: 'column', sm: 'row' },
         })}>
             <ListItemAvatar>
-                <Avatar alt={user.name} src={user.imageUrl} />
+                <Avatar alt={user.name} src={user.imageUrl} sx={{
+                    width: { xs: 30, sm: 32, md: 35, lg: 40 },
+                    height: { xs: 30, sm: 32, md: 35, lg: 40 },
+                    mt: { xs: 1, sm: 0 }
+                }} />
             </ListItemAvatar>
 
-            <ListItemText primary={user.name} secondary={user.email} />
+            <ListItemText
+                primary={user.name}
+                secondary={user.email} primaryTypographyProps={{
+                    sx: {
+                        fontSize: { xs: '0.85em', sm: '0.9em', md: '0.95em', lg: '1em' }
+                    }
+                }}
+                secondaryTypographyProps={{
+                    sx: {
+                        fontSize: { xs: '0.75em', sm: '0.8em', md: '0.85em', lg: '0.9em' }
+                    }
+                }}
+                sx={{
+                    ml: { xs: '-0.8em', sm: '-0.6em', md: '-0.4em', lg: 0 },
+                    mb: 1
+                }}
+            />
 
             <Select
                 value={user.role}
                 onChange={handleRoleChange}
                 sx={{
-                    height: '35px',
+                    height: { xs: '25px', sm: '30px', md: '32px', lg: '35px' },
                     borderRadius: '10px',
-                    fontSize: '0.85em',
+                    fontSize: { xs: '0.7em', sm: '0.75em', md: '0.8em', lg: '0.85em' },
                     backgroundColor: 'primary.main',
+                    mb: { xs: 1, sm: 0 },
                     "& fieldset": {
                         border: 'none'
                     }
@@ -83,10 +107,10 @@ const UserListItem: FC<UserListItemProps> = ({ user }) => {
                             value={role}
                             sx={{
                                 backgroundColor: 'primary.main',
-                                fontSize: '0.85em',
+                                fontSize: { xs: '0.7em', sm: '0.75em', md: '0.8em', lg: '0.85em' },
                                 '&.MuiMenuItem-root': {
-                                    marginTop: isFirstItem ? '-0.6em' : 'auto',
-                                    marginBottom: isLastItem ? '-0.6em' : 'auto',
+                                    marginTop: isFirstItem ? { xs: '-0.75em', lg: '-0.6em' } : 'auto',
+                                    marginBottom: isLastItem ? { xs: '-0.75em', lg: '-0.6em' } : 'auto',
                                     '&.Mui-selected': {
                                         backgroundColor: 'primary.main'
                                     },

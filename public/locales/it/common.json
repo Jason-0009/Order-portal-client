@@ -1,5 +1,8 @@
 {
     "title": "Awesome Pizza",
+    "loading": "Caricamento...",
+    "networkError": "Errore di rete",
+    "signIn": "Effettua l'accesso",
     "orderManagement": "Gestione degli ordini",
     "userManagement": "Gestione degli utenti",
     "myOrders": "I miei ordini",

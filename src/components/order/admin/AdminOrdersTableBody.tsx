@@ -66,7 +66,12 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
     const isFirstItem = index === 0
     const isLastItem = index === array.length - 1
 
+    const fontSizeStyle: SxProps = {
+        fontSize: { xs: '11px', sm: '12px', md: '13px', lg: '14px' }
+    }
+
     const tableCellStyle: SxProps = {
+        ...fontSizeStyle,
         border: 'none',
         color: 'text.secondary',
         pt: isFirstItem ? 4 : 0,
@@ -117,9 +122,15 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
 
                 <TableCell sx={tableCellStyle}>
                     <Box display='flex' alignItems='center'>
-                        <Avatar src={user?.imageUrl} />
+                        <Avatar src={user?.imageUrl} sx={{
+                            width: { xs: 24, sm: 28, md: 32, lg: 40 },
+                            height: { xs: 24, sm: 28, md: 32, lg: 40 }
+                        }} />
 
-                        <Typography variant="body2" marginLeft={2}>
+                        <Typography variant="body2" sx={{
+                            ...fontSizeStyle,
+                            ml: 2
+                        }}>
                             {user?.name}
                         </Typography>
                     </Box>
@@ -143,15 +154,15 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
 
                             return status !== OrderStatus.DELIVERED &&
                                 <ExpandMore className={className} sx={theme => ({
-                                    fontSize: '20px',
-                                    left: '90px',
+                                    fontSize: { xs: '16px', sm: '18px', md: '19px', lg: '20px' },
+                                    left: { xs: '85px', md: '90px' },
                                     color: `${(theme.palette.status as StatusPalette)[statusKey]?.text.main} !important`
                                 })} />
                         }}
                         sx={theme => ({
                             textAlign: 'center',
-                            width: '140px',
-                            height: '25px',
+                            width: { xs: '130px', md: '140px' },
+                            height: { xs: '20px', sm: '21px', md: '23px', lg: '25px' },
                             borderRadius: '20px',
                             fontSize: '0.95em',
                             fontWeight: 600,
@@ -177,14 +188,14 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
                                     key={status}
                                     value={status}
                                     sx={{
-                                        fontSize: '0.85em',
+                                        fontSize: { xs: '0.7em', sm: '0.75em', md: '0.8em', lg: '0.85em' },
                                         '&.Mui-selected': {
                                             color: statusStyle.color,
                                             backgroundColor: statusStyle.backgroundColor
                                         },
                                         '&.MuiMenuItem-root': {
-                                            marginTop: isFirstItem ? '-0.6em' : 'auto',
-                                            marginBottom: isLastItem ? '-0.6em' : 'auto',
+                                            marginTop: isFirstItem ? { xs: '-0.7em', lg: '-0.6em' } : 'auto',
+                                            marginBottom: isLastItem ? { xs: '-0.7em', lg: '-0.6em' } : 'auto',
                                             backgroundColor: 'secondary.main',
                                             '&:hover': {
                                                 backgroundColor: 'primary.main'
@@ -203,6 +214,7 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
                     <IconButton onClick={onExpand}>
                         <ExpandMore
                             sx={{
+                                fontSize: { xs: '0.7em', sm: '0.75em', md: '0.8em', lg: '0.85em' },
                                 color: isCurrentRowOpen ? 'text.primary' : 'text.secondary',
                                 transform: isCurrentRowOpen ? 'rotate(180deg)' : 'none',
                             }}

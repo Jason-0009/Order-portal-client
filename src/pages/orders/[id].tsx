@@ -7,7 +7,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import Head from 'next/head'
 
-import { Box, SxProps, Divider, Pagination, Typography, CircularProgress } from '@mui/material'
+import { Box, SxProps, Divider, Typography, CircularProgress } from '@mui/material'
 
 import withAuth from '@/hoc/withAuth'
 
@@ -15,9 +15,11 @@ import useProducts from '@/hooks/useProducts'
 
 import fetchOrderById from '@/api/order/fetchOrderById'
 
-import CenteredLayout from '@/components/common/CenteredLayout'
-import CenteredBox from '@/components/common/CenteredBox'
+import CenteredLayout from '@/components/common/layout/CenteredLayout'
+import CenteredBox from '@/components/common/layout/CenteredBox'
 import BackButton from '@/components/common/button/BackButton'
+import PageTitle from '@/components/common/page/PageTitle'
+import PaginationComponent from '@/components/common/PaginationComponent'
 
 import OrderStatusIndicator from '@/components/order/OrderStatusIndicator'
 
@@ -37,7 +39,12 @@ const OrderPage: FC = () => {
     const { currentProducts, currentPage, handlePageChange } = useProducts(false, 5, itemIds)
     const { t: translation } = useTranslation()
 
-    const infoTextStyle: SxProps = { color: 'text.primary', fontWeight: 600, mb: 1 }
+    const infoTextStyle: SxProps = {
+        color: 'text.primary',
+        fontWeight: 600,
+        mb: 1,
+        fontSize: { xs: '0.7em', sm: '0.75em', md: '0.8em', lg: '0.88em' }
+    }
     const valueTextStyle: SxProps = { ...infoTextStyle, color: 'text.secondary' }
 
     const formattedDate = order?.date && locale && formatDateLocale(order.date, locale)
@@ -59,13 +66,11 @@ const OrderPage: FC = () => {
             <CenteredLayout>
                 <BackButton location='/orders' />
 
-                <Typography variant="h6" component="h1" fontWeight={600} mb={1}>
-                    {translation('orderLabel')} <Box component="span" color='link.main'>
-                        #{order?.id}
-                    </Box>
-                </Typography>
+                <PageTitle text={translation('orderLabel')} id={order?.id} />
 
-                <Box display="flex">
+                <Box display="flex" sx={{
+                    mt: 1
+                }}>
                     <Typography width={50} variant="body2" sx={infoTextStyle}>
                         {translation('totalLabel')}:
                     </Typography>
@@ -93,7 +98,12 @@ const OrderPage: FC = () => {
                     {order && <OrderStatusIndicator status={order.status} size='small' />}
                 </Box>
 
-                <Typography variant="h6" component="h1" fontWeight={600} mb={2} mt={5}>
+                <Typography variant="h6" component="h1" sx={{
+                    fontWeight: 600,
+                    mb: 2,
+                    mt: 5,
+                    fontSize: { xs: '0.9em', sm: '1em', md: '1.1em', lg: '1.2em' }
+                }}>
                     {translation('products')}
                 </Typography>
 
@@ -106,14 +116,11 @@ const OrderPage: FC = () => {
                     />}
 
                 {Number(currentProducts?.totalPages) > 1 && (
-                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-                        <Pagination
-                            color="secondary"
-                            count={currentProducts?.totalPages}
-                            page={currentPage}
-                            onChange={handlePageChange}
-                        />
-                    </Box>
+                    <PaginationComponent
+                        count={currentProducts?.totalPages}
+                        page={currentPage}
+                        onChange={handlePageChange}
+                    />
                 )}
 
             </CenteredLayout>

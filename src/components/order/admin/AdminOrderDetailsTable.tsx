@@ -7,12 +7,13 @@ import Image from 'next/image'
 
 import {
     SxProps, TableContainer, Table, TableHead, TableRow,
-    TableCell, TableBody, Pagination, Box
+    TableCell, TableBody, Pagination, Box, useMediaQuery, Theme
 } from '@mui/material'
 
 import useProducts from '@/hooks/useProducts'
 
 import Order from '@/types/order/Order.type'
+import PaginationComponent from '@/components/common/PaginationComponent'
 
 type AdminOrderDetailsTableProps = {
     order: Order,
@@ -30,10 +31,17 @@ const AdminOrderDetailsTable: FC<AdminOrderDetailsTableProps> = ({ order }) => {
         handlePageChange,
     } = useProducts(false, 3, itemIds)
 
-    const tableCellStyle: SxProps = { color: 'text.main', fontWeight: 600 }
+    const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
+    const isTablet = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
+
+    const tableCellStyle: SxProps = {
+        color: 'text.main',
+        fontSize: { xs: '11px', md: '12px', lg: '14px' },
+        fontWeight: 600
+    }
 
     return (
-        <TableContainer sx={{ maxWidth: '80%', ml: 10, mt: 2, overflow: 'hidden' }}>
+        <TableContainer sx={{ maxWidth: '90%', ml: 5, my: 2, overflow: 'hidden' }}>
             <Table>
                 <TableHead>
                     <TableRow>
@@ -69,6 +77,7 @@ const AdminOrderDetailsTable: FC<AdminOrderDetailsTableProps> = ({ order }) => {
                         const tableCellStyle: SxProps = {
                             border: 'none',
                             color: 'text.secondary',
+                            fontSize: { xs: '11px', sm: '12px', md: '13px', lg: '14px' }
                         }
 
                         const formattedIngredients = locale && ingredients[locale] ?
@@ -90,8 +99,8 @@ const AdminOrderDetailsTable: FC<AdminOrderDetailsTableProps> = ({ order }) => {
                                     <Image
                                         src={imageUrl}
                                         alt="Product item"
-                                        width={60}
-                                        height={60}
+                                        width={isMobile ? 40 : isTablet ? 50 : 60}
+                                        height={isMobile ? 40 : isTablet ? 50 : 60}
                                     />
                                 </TableCell>
 
@@ -117,14 +126,12 @@ const AdminOrderDetailsTable: FC<AdminOrderDetailsTableProps> = ({ order }) => {
             </Table>
 
             {Number(currentProducts?.totalPages) > 1 && (
-                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-                    <Pagination
-                        count={currentProducts?.totalPages}
-                        page={currentPage}
-                        onChange={handlePageChange}
-                        sx={{ mt: '-2em', mb: 4 }}
-                    />
-                </Box>
+                <PaginationComponent
+                    count={currentProducts?.totalPages}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                    sx={{ mt: { xs: '-0.6em', sm: 1 }, mb: 2 }}
+                />
             )}
         </TableContainer>
     )

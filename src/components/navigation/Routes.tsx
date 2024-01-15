@@ -20,7 +20,6 @@ import Route from '@/types/Route.type'
 
 const Routes: FC = () => {
     const router = useRouter()
-    const isMobileOrTablet = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
 
     const { data: isAuthenticated } = useQuery('auth', checkAuth)
     const { data: userProfile } = useQuery('userProfile', fetchUserProfile,
@@ -30,7 +29,7 @@ const Routes: FC = () => {
 
     const isAdmin = userProfile?.role === UserRole.ADMIN
     const iconStyle: SxProps = {
-        fontSize: { xs: '0.7em', md: '0.85em', lg: '0.9em' },
+        fontSize: { xs: '0.65em', sm:'0.75em', md: '0.85em', lg: '0.9em' },
         mr: 0.2
     }
 
@@ -57,9 +56,9 @@ const Routes: FC = () => {
     return (
         <Box sx={{
             display: 'flex',
-            flexDirection: isMobileOrTablet ? 'column' : 'row',
-            pt: isMobileOrTablet ? 2 : 0,
-            pl: isMobileOrTablet ? 1 : 0
+            flexDirection: { xs: 'column', lg: 'row' },
+            pt: { xs: 2, lg: 0 },
+            pl: { xs: 0.5, sm: 0.8, md: 0.5, lg: 0 }
         }}>
             {routes.map(({ path, icon, text }, index) => router.pathname !== path && (
                 <Link
@@ -69,12 +68,8 @@ const Routes: FC = () => {
                     underline="none"
                     color="inherit"
                 >
-                    <IconButton color="inherit" sx={{
-                        mr: index !== routes.length - 1 ? 1 : 0.5,
-                        '&:hover': {
-                            backgroundColor: 'primary.main',
-                            borderRadius: '20px'
-                        }
+                    <IconButton color="inherit" disableRipple sx={{
+                        mr: index !== routes.length - 1 ? 1 : 0.5
                     }}>
                         {icon}
 

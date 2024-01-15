@@ -1,5 +1,8 @@
 {
     "title": "Awesome Pizza",
+    "loading": "Loading...",
+    "networkError": "Network error",
+    "signIn": "Sign in",
     "orderManagement": "Order management",
     "userManagement": "User management",
     "myOrders": "My orders",

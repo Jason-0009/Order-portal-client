@@ -23,6 +23,7 @@ const AdminOrdersTable: FC<AdminOrdersTableProps> = ({ orders }) => {
     const tableCellStyle: SxProps = {
         color: 'text.primary',
         fontWeight: 600,
+        fontSize: { xs: '11px', sm: '12px', md: '13px', lg: '14px' },
         pt: 3
     }
 
@@ -62,20 +63,16 @@ const AdminOrdersTable: FC<AdminOrdersTableProps> = ({ orders }) => {
                     </TableRow>
                 </TableHead>
 
-                {orders.map((order, index, array) => {
-                    const { id } = order
-
-                    return (
-                        <AdminOrdersTableBody
-                            key={id}
-                            order={order}
-                            openRows={openRows}
-                            index={index}
-                            array={array}
-                            onExpand={() => id && toggleRow(id)}
-                        />
-                    )
-                })}
+                {orders.map((order, index, array) => (
+                    <AdminOrdersTableBody
+                        key={order.id}
+                        order={order}
+                        openRows={openRows}
+                        index={index}
+                        array={array}
+                        onExpand={() => order.id && toggleRow(order.id)}
+                    />
+                ))}
             </Table>
         </TableContainer >
     )

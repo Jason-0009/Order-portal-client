@@ -54,16 +54,6 @@ const LanguageSelector: FC = () => {
             value={locale}
             onChange={handleLocaleChange}
             sx={{
-                '& .MuiSelect-select': {
-                    paddingRight: 4,
-                    paddingLeft: 2,
-                    paddingTop: 1,
-                    paddingBottom: 1
-                },
-                '&:hover': {
-                    backgroundColor: 'primary.main',
-                    borderRadius: '20px'
-                },
                 "& fieldset": {
                     border: 'none'
                 }
@@ -107,7 +97,8 @@ const LanguageSelector: FC = () => {
                                 height={isMobile ? 6 : isTablet ? 10 : 12}
                             />
 
-                            <Typography variant="body2" ml={1} sx={{
+                            <Typography variant='body2' sx={{
+                                ml: 1,
                                 fontSize: { xs: '0.8em', sm: '0.85em', lg: '0.9em' }
                             }}>
                                 {label}

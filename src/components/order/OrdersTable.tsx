@@ -81,7 +81,7 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
 
                         return (
                             <TableRow key={id}>
-                                <TableCell sx={{ ...tableCellStyle, pl: 4, overflowWrap: 'break-word' }}>
+                                <TableCell sx={{ ...tableCellStyle, pl: 4 }}>
                                     <Link
                                         component={NextLink}
                                         href={`/orders/${id}`}

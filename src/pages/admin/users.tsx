@@ -24,11 +24,14 @@ import useUsers from '@/hooks/useUsers'
 import { hideUsersSnackbar } from '@/slices/snackbar/usersSnackbarSlice'
 
 import BackButton from '@/components/common/button/BackButton'
-import CenteredLayout from '@/components/common/CenteredLayout'
+import CenteredLayout from '@/components/common/layout/CenteredLayout'
+import PageTitle from '@/components/common/page/PageTitle'
+import PageHeader from '@/components/common/page/PageHeader'
 import NoResultsFound from '@/components/common/NoResultsFound'
-import CenteredBox from '@/components/common/CenteredBox'
+import CenteredBox from '@/components/common/layout/CenteredBox'
 
 import UserListItem from '@/components/user/UserListItem'
+import PaginationComponent from '@/components/common/PaginationComponent'
 
 const AdminUsersPage: FC = () => {
     const { open, message } = useSelector((state: RootState) => state.usersSnackbar)
@@ -62,15 +65,8 @@ const AdminUsersPage: FC = () => {
             <CenteredLayout>
                 <BackButton location='/' />
 
-                <Box sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    mb: 2
-                }}>
-                    <Typography variant="h6" component="h1" fontWeight={600}>
-                        {translation('userManagement')}
-                    </Typography>
+                <PageHeader>
+                    <PageTitle text={translation('userManagement')} />
 
                     <TextField
                         value={searchTerm}
@@ -80,7 +76,7 @@ const AdminUsersPage: FC = () => {
                         size="small"
                         InputLabelProps={{
                             sx: {
-                                fontSize: '0.85em',
+                                fontSize: { xs: '0.7em', sm: '0.75em', md: '0.8em', lg: '0.85em' },
                                 color: 'text.primary',
                                 pl: 1,
                                 '&.Mui-focused': {
@@ -93,7 +89,7 @@ const AdminUsersPage: FC = () => {
                                 borderRadius: '20px',
                                 backgroundColor: 'secondary.main',
                                 color: 'text.secondary',
-                                fontSize: '0.85em',
+                                fontSize: { xs: '0.7em', sm: '0.75em', md: '0.8em', lg: '0.85em' },
                                 pb: 0.4
                             },
                             endAdornment: searchTerm && (
@@ -103,41 +99,42 @@ const AdminUsersPage: FC = () => {
                                         size="small"
                                         onClick={clearSearch}
                                     >
-                                        <Close sx={{ fontSize: '0.85em' }} />
+                                        <Close sx={{
+                                            fontSize: { xs: '0.7em', sm: '0.75em', md: '0.8em', lg: '0.85em' }
+                                        }} />
                                     </IconButton>
                                 </InputAdornment>
                             )
                         }}
                         sx={{
-                            width: '200px',
+                            mt: { xs: 1, sm: 0 },
+                            width: { xs: '160px', sm: '170px', md: '180px', lg: '200px' },
                             "& fieldset": {
                                 border: 'none'
                             }
                         }}
                     />
-                </Box>
+                </PageHeader>
 
                 <Divider sx={{ mb: 3 }} />
 
                 <List>
                     {currentUsers?.content && (
-                        currentUsers.content.length > 0 ? currentUsers.content.map(user => {
-                            const { id } = user
-
-                            return (
-                                <UserListItem key={id} user={user} />
-                            )
-                        }) : <NoResultsFound text={translation('noUsersFound')} />
+                        currentUsers.content.length > 0 ? currentUsers.content.map(user =>
+                            <UserListItem key={user.id} user={user} />
+                        ) : <NoResultsFound text={translation('noUsersFound')} />
                     )}
-
                 </List>
 
                 {Number(currentUsers?.totalPages) > 1 && (
-                    <Pagination
-                        color="secondary"
+                    <PaginationComponent
                         count={currentUsers?.totalPages}
                         page={currentPage}
                         onChange={handlePageChange}
+                        sx={{
+                            justifyContent: { xs: 'center', sm: 'start' },
+                            mt: 1
+                        }}
                     />
                 )}
 
