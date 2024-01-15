@@ -1,16 +1,18 @@
 import { useSelector, useDispatch } from 'react-redux'
 
-import { IconButton } from '@mui/material'
+import { IconButton, SxProps, Theme, useMediaQuery } from '@mui/material'
 
 import { Brightness7, Brightness4 } from '@mui/icons-material'
 
 import { RootState } from '@/store'
 
-import { ThemeState, setTheme } from '@/slices/themeSlice'
+import { setTheme } from '@/slices/themeSlice'
 
 export default function ThemeSelector() {
     const dispatch = useDispatch()
     const theme = useSelector((state: RootState) => state.theme)
+
+    const iconStyles: SxProps = { fontSize: { xs: '0.75em', sm: '0.8em', md: '0.85em', lg: '0.9em' } }
 
     const handleThemeChange = () => {
         if (theme === 'light') {
@@ -33,7 +35,8 @@ export default function ThemeSelector() {
             onClick={handleThemeChange}
             color='inherit'
         >
-            {theme === 'light' ? <Brightness7 /> : <Brightness4 />}
+            {theme === 'light' ? <Brightness7 sx={iconStyles} /> :
+                <Brightness4 sx={iconStyles} />}
         </IconButton>
     )
 }

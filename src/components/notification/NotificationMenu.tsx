@@ -49,13 +49,15 @@ const NotificationMenu: FC = () => {
                 <Badge
                     badgeContent={unreadNotificationCount}
                     sx={{
+   
                         '.MuiBadge-badge': {
                             backgroundColor: 'badgeBackground.main'
                         }
                     }}
                 >
                     <Notifications sx={{
-                        color: notificationMenuAnchorElement ? "text.secondary" : "text.primary"
+                        color: notificationMenuAnchorElement ? "text.secondary" : "text.primary",
+                        fontSize: { xs: '0.8em', sm: '0.9em', md: '1em' }
                     }} />
                 </Badge>
             </IconButton>

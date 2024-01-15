@@ -6,7 +6,7 @@ import Image from 'next/image'
 
 import {
     Box, Typography, Select, MenuItem,
-    SelectChangeEvent, IconButton, useTheme, useMediaQuery
+    SelectChangeEvent, IconButton, useMediaQuery, Theme
 } from '@mui/material'
 import { Delete } from '@mui/icons-material'
 
@@ -24,8 +24,7 @@ const CartItem: FC<CartItemProps> = ({ item }) => {
     const { locale } = useRouter()
     const dispatch = useDispatch()
 
-    const theme = useTheme()
-    const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'))
+    const isMobileOrTablet = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
 
     const handleRemoveFromCart = () => dispatch(removeFromCart(product.id))
 

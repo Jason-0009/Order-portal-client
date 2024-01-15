@@ -7,7 +7,7 @@ import { useTranslation } from 'next-i18next'
 
 import {
     Link, IconButton, Typography,
-    Divider, useTheme, useMediaQuery, SxProps, Box
+    Divider, useTheme, useMediaQuery, SxProps, Box, Theme
 } from '@mui/material'
 import { LocalShipping, ManageAccounts, ViewList } from '@mui/icons-material'
 
@@ -20,8 +20,7 @@ import Route from '@/types/Route.type'
 
 const Routes: FC = () => {
     const router = useRouter()
-    const theme = useTheme()
-    const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('lg'))
+    const isMobileOrTablet = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
 
     const { data: isAuthenticated } = useQuery('auth', checkAuth)
     const { data: userProfile } = useQuery('userProfile', fetchUserProfile,
@@ -31,7 +30,7 @@ const Routes: FC = () => {
 
     const isAdmin = userProfile?.role === UserRole.ADMIN
     const iconStyle: SxProps = {
-        fontSize: { xs: '0.7em', sm: '0.9em' },
+        fontSize: { xs: '0.7em', md: '0.85em', lg: '0.9em' },
         mr: 0.2
     }
 

@@ -1,15 +1,16 @@
 import React, { FC, useState } from 'react'
-import { useTheme } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
 
-import { Box, IconButton, Drawer, List } from '@mui/material'
+import {
+    Box, IconButton, Drawer,
+    useMediaQuery, useTheme, Theme
+} from '@mui/material'
 import { Menu } from '@mui/icons-material'
 
 import MenuItems from './MenuItems'
 
 const DrawerMenu: FC = () => {
     const theme = useTheme()
-    const isDesktop = useMediaQuery(theme.breakpoints.up('lg'))
+    const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'))
     const [isOpen, setIsOpen] = useState(false)
 
     const handleDrawerToggle = () => setIsOpen(!isOpen)

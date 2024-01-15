@@ -27,8 +27,8 @@ const NotificationPopoverContent: FC<NotificationPopoverContentProps> = ({
     return (
         <Box sx={{
             backgroundColor: 'secondary.main',
-            width: 250,
-            height: 250,
+            width: { xs: 150, sm: 200, lg: 250 },
+            height: { xs: 150, sm: 200, lg: 250 },
             overflow: 'auto'
         }}>
             <Box sx={{
@@ -37,7 +37,9 @@ const NotificationPopoverContent: FC<NotificationPopoverContentProps> = ({
                 pt: 2,
                 pb: 1
             }}>
-                <Typography variant="body1" fontWeight={600}>
+                <Typography variant="body1" fontWeight={600} sx={{
+                    fontSize: { xs: '0.8em', sm: '0.85em', lg: '0.9em' }
+                }}>
                     {translation('notifications')}
                 </Typography>
             </Box>
@@ -61,7 +63,7 @@ const NotificationPopoverContent: FC<NotificationPopoverContentProps> = ({
                                 color: 'red',
                                 textTransform: 'none',
                                 fontWeight: 600,
-                                fontSize: '0.75rem',
+                                fontSize: { xs: '0.65em', sm: '0.7em', lg: '0.75em' },
                                 ml: 1,
                                 py: 0.5,
                                 borderRadius: '20px',
@@ -92,11 +94,16 @@ const NotificationPopoverContent: FC<NotificationPopoverContentProps> = ({
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
-                        mt: 4
+                        mt: { xs: 1, sm: 2, md: 3, lg: 4 }
                     }}>
-                        <NotificationsActive sx={{ fontSize: '5em', mb: 0.5 }} />
+                        <NotificationsActive sx={{
+                            fontSize: { xs: '3em', sm: '4em', lg: '5em' },
+                            mb: 0.5
+                        }} />
 
-                        <Typography variant="body2">
+                        <Typography variant="body2" sx={{
+                            fontSize: { xs: '0.65em', sm: '0.8em', lg: '0.88em' }
+                        }}>
                             {translation('noNotifications')}
                         </Typography>
                     </Box>

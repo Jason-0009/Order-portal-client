@@ -21,6 +21,7 @@ const ConfirmButton: FC<ConfirmOrderButtonProps> = ({ text, size, onClick }) => 
             width: { sm: size === 'small' ? '30%' : '100%' },
             height: { sm: size === 'small' ? '35px' : size === 'medium' ? '40px' : '50px' },
             fontSize: { xs: '0.7em', sm: '0.85em', md: '0.94em' },
+            lineHeight: '1.5em',
             borderRadius: '20px',
             boxShadow: `0px 0px 15px 1px ${theme.palette.buttonBackground?.main}`,
             '&:hover': {

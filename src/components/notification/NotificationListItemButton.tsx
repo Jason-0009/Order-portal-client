@@ -24,9 +24,9 @@ const NotificationListItemButton: FC<NotificationListItemProps> = ({ notificatio
     const { t: translation } = useTranslation()
 
     useEffect(() => {
-        const currentRef = listItemButtonRef.current;
+        const currentRef = listItemButtonRef.current
 
-        if (!currentRef) return;
+        if (!currentRef) return
 
         const observer = new IntersectionObserver(
             ([entry]) => {
@@ -63,11 +63,15 @@ const NotificationListItemButton: FC<NotificationListItemProps> = ({ notificatio
                 }
             }}
         >
-            <Typography variant="body2" fontSize='0.85em'>
+            <Typography variant="body2" sx={{
+                fontSize: { xs: '0.7em', sm: '0.75em', md: '0.8em', lg: '0.85em' }
+            }}>
                 {translation(messageCode)}
             </Typography>
 
-            <Typography variant="caption" fontSize='0.75em' color="text.secondary">
+            <Typography variant="caption" color="text.secondary" sx={{
+                fontSize: { xs: '0.6em', sm: '0.65em', md: '0.7em', lg: '0.75em' }
+            }}>
                 {formattedDate}
             </Typography>
         </ListItemButton>

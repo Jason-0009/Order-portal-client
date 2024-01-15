@@ -2,7 +2,7 @@ import { FC } from 'react'
 
 import { useQuery } from 'react-query'
 
-import { Box, useMediaQuery, useTheme } from '@mui/material'
+import { Box, Theme, useMediaQuery, useTheme } from '@mui/material'
 
 import checkAuth from '@/api/checkAuth'
 
@@ -17,8 +17,7 @@ import ThemeSelector from '../selector/ThemeSelector'
 
 const MenuItems: FC = () => {
     const { data: isAuthenticated } = useQuery('auth', checkAuth)
-    const theme = useTheme()
-    const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('lg'))
+    const isMobileOrTablet = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
 
     return (
         <Box sx={{

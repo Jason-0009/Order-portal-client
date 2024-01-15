@@ -57,8 +57,6 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
     const { t: translation } = useTranslation()
     const { data: user } = useQuery(['user', customerId], () => fetchUser(customerId))
 
-    const text = translation(ORDER_STATUS_TEXT_CODES[status])
-
     const formattedDate = date && locale && formatDistanceToNowLocale(date, locale)
     const orderStatuses = Object.values(OrderStatus)
 
@@ -171,6 +169,8 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
 
                             const isFirstItem = index === 0
                             const isLastItem = index === array.length - 1
+
+                            const text = translation(ORDER_STATUS_TEXT_CODES[status])
 
                             return (
                                 <MenuItem
