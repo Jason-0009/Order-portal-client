@@ -36,7 +36,10 @@ const UserProfileMenu: FC = () => {
                     backgroundColor: 'primary.main'
                 }
             }}>
-                <Avatar src={userProfile?.imageUrl} />
+                <Avatar src={userProfile?.imageUrl} sx={{
+                    width: { xs: 24, sm: 28, md: 32, lg: 36 },
+                    height: { xs: 24, sm: 28, md: 32, lg: 36 }
+                }} />
             </IconButton>
 
             <Popover
@@ -53,15 +56,23 @@ const UserProfileMenu: FC = () => {
                 }}
             >
                 <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
                     padding: 2,
-                    width: 200,
-                    backgroundColor: 'secondary.main'
+                    width: { xs: 150, lg: 200 },
+                    backgroundColor: 'secondary.main',
+                    justifyContent: 'center',
                 }}>
-                    <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                    <Typography variant="h6" sx={{
+                        fontSize: { xs: '0.9em', sm: '1em', md: '1.1em', lg: '1.2em' },
+                        fontWeight: 600
+                    }}>
                         {userProfile?.name}
                     </Typography>
 
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="text.secondary" sx={{
+                        fontSize: { xs: '0.7em', sm: '0.8em', md: '0.85em', lg: '0.9em' },
+                    }}>
                         {userProfile?.email}
                     </Typography>
 
