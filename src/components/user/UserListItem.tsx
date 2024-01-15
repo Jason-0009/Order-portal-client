@@ -48,7 +48,6 @@ const UserListItem: FC<UserListItemProps> = ({ user }) => {
 
     return (
         <ListItem sx={theme => ({
-            display: 'flex',
             textAlign: { xs: 'center', sm: 'start' },
             maxWidth: '500px',
             mb: 3,
@@ -61,7 +60,8 @@ const UserListItem: FC<UserListItemProps> = ({ user }) => {
                 <Avatar alt={user.name} src={user.imageUrl} sx={{
                     width: { xs: 30, sm: 32, md: 35, lg: 40 },
                     height: { xs: 30, sm: 32, md: 35, lg: 40 },
-                    mt: { xs: 1, sm: 0 }
+                    mt: { xs: 1, sm: 0 },
+                    ml: { xs: 0.5, sm: 0 }
                 }} />
             </ListItemAvatar>
 
@@ -74,12 +74,13 @@ const UserListItem: FC<UserListItemProps> = ({ user }) => {
                 }}
                 secondaryTypographyProps={{
                     sx: {
-                        fontSize: { xs: '0.75em', sm: '0.8em', md: '0.85em', lg: '0.9em' }
+                        fontSize: { xs: '0.75em', sm: '0.8em', md: '0.85em', lg: '0.9em' },
+                        ml: { xs: 1, sm: 0 }
                     }
                 }}
                 sx={{
                     ml: { xs: '-0.8em', sm: '-0.6em', md: '-0.4em', lg: 0 },
-                    mb: 1
+                    mb: 1,
                 }}
             />
 
@@ -92,6 +93,7 @@ const UserListItem: FC<UserListItemProps> = ({ user }) => {
                     fontSize: { xs: '0.7em', sm: '0.75em', md: '0.8em', lg: '0.85em' },
                     backgroundColor: 'primary.main',
                     mb: { xs: 1, sm: 0 },
+                    mr: { xs: 1, sm: 0 },
                     "& fieldset": {
                         border: 'none'
                     }
@@ -109,8 +111,8 @@ const UserListItem: FC<UserListItemProps> = ({ user }) => {
                                 backgroundColor: 'primary.main',
                                 fontSize: { xs: '0.7em', sm: '0.75em', md: '0.8em', lg: '0.85em' },
                                 '&.MuiMenuItem-root': {
-                                    marginTop: isFirstItem ? { xs: '-0.7em', lg: '-0.6em' } : 'auto',
-                                    marginBottom: isLastItem ? { xs: '-0.75em', lg: '-0.6em' } : 'auto',
+                                    marginTop: isFirstItem ? { xs: '-0.7em', sm: '-0.65em', md: '-0.6em', lg: '-0.55em' } : 'auto',
+                                    marginBottom: isLastItem ? { xs: '-0.75em', sm: '-0.65em', md: '-0.6em', lg: '-0.55em' } : 'auto',
                                     '&.Mui-selected': {
                                         backgroundColor: 'primary.main'
                                     },
