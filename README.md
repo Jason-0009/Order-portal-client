@@ -2,7 +2,7 @@
 
 ## Overview
 
-This portal is a comprehensive platform designed to streamline the process of creating and managing orders. 
+This portal is a comprehensive platform designed to streamline the process of creating and managing orders.
 It offers a range of features including real-time order status updates, user management, and localization.
 
 ## Features
