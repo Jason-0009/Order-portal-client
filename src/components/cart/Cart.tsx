@@ -50,6 +50,8 @@ const Cart: FC = () => {
         window.scrollTo({ top: element.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' })
         
         dispatch(setScrollToCart(false))
+
+        setCurrentPage(totalPageCount)
     }, [scrollToCart, dispatch])
 
     const handleClick = () => dispatch(openDialog())
