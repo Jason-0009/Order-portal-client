@@ -61,7 +61,7 @@ const UserListItem: FC<UserListItemProps> = ({ user }) => {
                     width: { xs: 30, sm: 32, md: 35, lg: 40 },
                     height: { xs: 30, sm: 32, md: 35, lg: 40 },
                     mt: { xs: 1, sm: 0 },
-                    ml: { xs: 0.5, sm: 0 }
+                    ml: { xs: 1, sm: 0 }
                 }} />
             </ListItemAvatar>
 
