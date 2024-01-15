@@ -3,6 +3,8 @@ import { configureStore } from '@reduxjs/toolkit'
 import cartReducer from '@/slices/cartSlice'
 import themeReducer from '@/slices/themeSlice'
 
+import scrollReducer from '@/slices/scrollSlice'
+
 import alertDialogReducer from '@/slices/dialog/alertDialogSlice'
 import confirmationDialogReducer from '@/slices/dialog/confirmationDialogSlice'
 
@@ -13,6 +15,7 @@ export const store = configureStore({
     reducer: {
         theme: themeReducer,
         cart: cartReducer,
+        scroll: scrollReducer,
         alertDialog: alertDialogReducer,
         confirmationDialog: confirmationDialogReducer,
         ordersSnackbar: ordersSnackbarReducer,

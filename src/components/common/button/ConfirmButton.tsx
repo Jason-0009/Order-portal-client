@@ -27,7 +27,7 @@ const ConfirmButton: FC<ConfirmOrderButtonProps> = ({ text, size, onClick }) => 
             },
             fontSize: {
                 xs: size === 'small' ? '0.6em' : size === 'medium' ? '0.6em' : '0.7em',
-                sm: size === 'small' ? '0.75em' : size === 'medium' ? '0.65em' : '0.8emem',
+                sm: size === 'small' ? '0.75em' : size === 'medium' ? '0.65em' : '0.8em',
                 md: size === 'small' ? '0.8em' : size === 'medium' ? '0.7em' : '0.9em',
                 lg: size === 'small' ? '0.85em' : size === 'medium' ? '0.8em' : '1em'
             },

@@ -11,6 +11,7 @@ import {
 } from '@mui/material'
 
 import { addToCart } from '@/slices/cartSlice'
+import { setScrollToCart } from '@/slices/scrollSlice'
 
 import formatIngredients from '@/utils/formatIngredients'
 
@@ -28,7 +29,10 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
 
     const formattedIngredients = formatIngredients(ingredients, locale)
 
-    const handleAddToCart = () => dispatch(addToCart({ product, quantity: 1 }))
+    const handleAddToCart = () => {
+        dispatch(addToCart({ product, quantity: 1 }))
+        dispatch(setScrollToCart(true))
+    }
 
     return (
         <Card sx={{

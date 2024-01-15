@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react'
+import { ChangeEvent, FC, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { useTranslation } from 'next-i18next'
@@ -12,16 +12,18 @@ import { openDialog } from '@/slices/dialog/confirmationDialogSlice'
 import ConfirmButton from '../common/button/ConfirmButton'
 import ConfirmationDialog from '../dialog/ConfirmationDialog'
 import CartItem from './CartItem'
+import { setScrollToCart } from '@/slices/scrollSlice'
 
 const ITEMS_PER_PAGE = 3
 
 const Cart: FC = () => {
     const [currentPage, setCurrentPage] = useState(1)
+    const cartRef = useRef<HTMLElement | null>(null)
 
     const cart = useSelector((state: RootState) => state.cart)
+    const { scrollToCart } = useSelector((state: RootState) => state.scroll)
 
     const dispatch = useDispatch()
-
     const { t: translation } = useTranslation()
 
     const currentPageItems = cart.slice((currentPage - 1) * ITEMS_PER_PAGE,
@@ -36,10 +38,24 @@ const Cart: FC = () => {
         setCurrentPage(currentPage - 1)
     }, [currentPageItems, currentPage])
 
+    useEffect(() => {
+        if (!scrollToCart) return
+
+        const element = cartRef.current
+
+        if (!element) return
+
+        const offset = window.innerHeight / 2 - element.getBoundingClientRect().height / 2
+        
+        window.scrollTo({ top: element.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' })
+        
+        dispatch(setScrollToCart(false))
+    }, [scrollToCart, dispatch])
+
     const handleClick = () => dispatch(openDialog())
 
     return (
-        <Box sx={{
+        <Box ref={cartRef} sx={{
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
@@ -58,7 +74,7 @@ const Cart: FC = () => {
             <Divider sx={{ mb: 3 }} />
 
             {currentPageItems.map(item =>
-                <CartItem key={item.product.id} item={item}/>
+                <CartItem key={item.product.id} item={item} />
             )}
 
             {totalPageCount > 1 && (
