@@ -6,7 +6,7 @@ import { AxiosError } from 'axios'
 import { useTranslation } from 'next-i18next'
 
 import { Google, SyncProblem } from '@mui/icons-material'
-import { Button, CircularProgress, Typography } from '@mui/material'
+import { Button, CircularProgress, SxProps, Typography } from '@mui/material'
 
 import checkAuth from '@/api/checkAuth'
 
@@ -46,9 +46,15 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
                         {translation('title')} - {translation('networkError')}
                     </title>
                 </Head>
+
                 <CenteredBox>
-                    <SyncProblem color="error" />
-                    <Typography>
+                    <SyncProblem color="error" sx={{
+                        fontSize: { xs: '1.2em', sm: '1.4em', md: '1.45em', lg: '1.5em' }
+                    }} />
+
+                    <Typography sx={{
+                        fontSize: { xs: '0.85em', sm: '0.9em', md: '0.95em', lg: '1em' }
+                    }}>
                         {translation('connectionErrorMessage')}
                     </Typography>
                 </CenteredBox>
@@ -67,7 +73,7 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
                     <Button
                         onClick={handleAuth}
                         sx={{
-                            fontSize: { xs: '0.7em', sm: '0.75em', md: '0.8em', lg: '0.87em' },
+                            fontSize: { xs: '0.75em', sm: '0.8em', md: '0.85em', lg: '0.87em' },
                             backgroundColor: 'secondary.main',
                             color: 'text.primary',
                             borderRadius: '20px',

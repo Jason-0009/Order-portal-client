@@ -32,9 +32,13 @@ const withAdminAuth = <P extends object>(WrappedComponent: ComponentType<P>) => 
                 justifyContent: 'center',
                 height: '100vh'
             }}>
-                <Error color="error" />
+                <Error color="error" sx={{
+                    fontSize: { xs: '1.2em', sm: '1.4em', md: '1.45em', lg: '1.5em' }
+                }} />
 
-                <Typography variant="h6" color="error">
+                <Typography variant="h6" color="error" sx={{
+                    fontSize: { xs: '0.85em', sm: '0.9em', md: '0.95em', lg: '1.1em' }
+                }}>
                     {translation('permissionDenied')}
                 </Typography>
             </Box>
