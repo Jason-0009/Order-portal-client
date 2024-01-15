@@ -7,22 +7,22 @@ It offers a range of features including real-time order status updates, user man
 
 ## Features
 
-### Order Creation
+### Order creation
 
 Users can create orders with ingredients of their choice. 
 This feature provides flexibility and personalization to cater to individual preferences.
 
-### Order Management
+### Order management
 
 The platform allows users to manage their orders effectively. 
 Users can track the status of their orders in real time, providing transparency and enhancing user experience.
 
-### User Management
+### User management
 
 The portal includes a user management system that allows ranking of users. 
 This can be used to prioritize orders, offer rewards, or implement any other ranking-based features.
 
-### WebSockets and Notification System
+### WebSockets and notification system
 
 The platform uses WebSocket technology for real-time communication between the client and the server. 
 This enables instant updates, ensuring users are always informed about the status of their orders. 
@@ -33,12 +33,12 @@ The notification system further enhances this by alerting users of any important
 To cater to a global user base, the portal includes a localization feature. 
 This ensures that users from different regions can use the platform in their local language, enhancing accessibility and usability.
 
-### Google Authentication
+### Google authentication
 
 Users can authenticate using their Google accounts. 
 This provides a secure and convenient way for users to access the platform.
 
-## Installation and Setup
+## Installation and setup
 
 1. **Clone the repository**
 
@@ -82,7 +82,7 @@ This provides a secure and convenient way for users to access the platform.
 
     Your site is now running at `http://localhost:3000`!
    
-## Getting Started
+## Getting started
 
 To get started you may need to authenticate with your Google account. 
 Once authenticated, you can start creating orders with your preferred ingredients, manage your orders, and track them in real time.
