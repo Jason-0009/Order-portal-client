@@ -36,7 +36,8 @@ const withAdminAuth = <P extends object>(WrappedComponent: ComponentType<P>) => 
                     fontSize: { xs: '1.2em', sm: '1.4em', md: '1.45em', lg: '1.5em' }
                 }} />
 
-                <Typography variant="h6" color="error" sx={{
+                <Typography variant="h6" sx={{
+                    color: 'text.primary',
                     fontSize: { xs: '0.85em', sm: '0.9em', md: '0.95em', lg: '1.1em' }
                 }}>
                     {translation('permissionDenied')}
