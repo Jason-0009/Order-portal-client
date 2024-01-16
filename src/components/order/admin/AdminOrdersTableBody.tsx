@@ -102,7 +102,9 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
         }
 
         try {
-            id && await updateOrderStatus(id, newStatus)
+            if (!id) return
+            
+            await updateOrderStatus(id, newStatus)
 
             setSelectedStatus(newStatus)
 

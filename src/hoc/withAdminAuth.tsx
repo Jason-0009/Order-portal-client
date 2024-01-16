@@ -10,6 +10,8 @@ import { Box, Typography } from '@mui/material'
 import checkAuth from '@/api/checkAuth'
 import fetchUserProfile from '@/api/user/fetchUserProfile'
 
+import LoadingState from '@/components/common/layout/LoadingState'
+
 import getDisplayName from '@/utils/getDisplayName'
 
 import UserRole from '@/types/user/UserRole.enum'
@@ -24,7 +26,11 @@ const withAdminAuth = <P extends object>(WrappedComponent: ComponentType<P>) => 
 
         const isAdmin = userProfile?.role === UserRole.ADMIN
 
-        return isAdmin ? <WrappedComponent {...props} /> : !isLoading && (
+        if (isLoading) return (
+            <LoadingState />
+        )
+
+        return isAdmin ? <WrappedComponent {...props} /> : (
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',

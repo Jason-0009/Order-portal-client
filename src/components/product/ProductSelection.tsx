@@ -2,13 +2,15 @@ import { FC } from 'react'
 
 import { useTranslation } from 'next-i18next'
 
-import { CircularProgress, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 
 import useProducts from '@/hooks/useProducts'
 
 import PaginationComponent from '../common/PaginationComponent'
-import CenteredBox from '../common/layout/CenteredBox'
+
 import CenteredLayout from '../common/layout/CenteredLayout'
+import LoadingState from '../common/layout/LoadingState'
+
 import PageTitle from '../common/page/PageTitle'
 
 import ProductCard from './ProductCard'
@@ -19,9 +21,7 @@ const ProductSelection: FC = () => {
     const { t: translation } = useTranslation()
 
     if (isLoading) return (
-        <CenteredBox>
-            <CircularProgress color="error" />
-        </CenteredBox>
+        <LoadingState />
     )
 
     return (

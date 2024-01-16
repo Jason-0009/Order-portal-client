@@ -8,7 +8,6 @@ import Head from 'next/head'
 
 import {
     Alert,
-    CircularProgress,
     Divider,
     IconButton,
     InputAdornment,
@@ -29,13 +28,17 @@ import useUsers from '@/hooks/useUsers'
 import { hideUsersSnackbar } from '@/slices/snackbar/usersSnackbarSlice'
 
 import NoResultsFound from '@/components/common/NoResultsFound'
+
 import BackButton from '@/components/common/button/BackButton'
-import CenteredBox from '@/components/common/layout/CenteredBox'
+
 import CenteredLayout from '@/components/common/layout/CenteredLayout'
+import LoadingState from '@/components/common/layout/LoadingState'
+
 import PageHeader from '@/components/common/page/PageHeader'
 import PageTitle from '@/components/common/page/PageTitle'
 
 import PaginationComponent from '@/components/common/PaginationComponent'
+
 import UserListItem from '@/components/user/UserListItem'
 
 const AdminUsersPage: FC = () => {
@@ -54,9 +57,7 @@ const AdminUsersPage: FC = () => {
     const handleCloseSnackbar = () => dispatch(hideUsersSnackbar())
 
     if (isLoading) return (
-        <CenteredBox>
-            <CircularProgress color="error" />
-        </CenteredBox>
+        <LoadingState />
     )
 
     return (

@@ -6,7 +6,8 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import {
     Alert,
-    Box, CircularProgress, Divider,
+    Box,
+    Divider,
     Snackbar
 } from '@mui/material'
 
@@ -23,11 +24,15 @@ import useOrderStatistics from '@/hooks/order/useOrderStatistics'
 import { hideOrdersSnackbar } from '@/slices/snackbar/ordersSnackbarSlice'
 
 import BackButton from '@/components/common/button/BackButton'
-import CenteredBox from '@/components/common/layout/CenteredBox'
+
 import CenteredLayout from '@/components/common/layout/CenteredLayout'
+import LoadingState from '@/components/common/layout/LoadingState'
+
 import NoOrdersFound from '@/components/common/NoResultsFound'
+
 import PageHeader from '@/components/common/page/PageHeader'
 import PageTitle from '@/components/common/page/PageTitle'
+
 import PaginationComponent from '@/components/common/PaginationComponent'
 
 import AdminOrdersStatisticsDisplay from '@/components/order/admin/AdminOrdersStatisticsDisplay'
@@ -55,9 +60,7 @@ const AdminOrdersPage: FC = () => {
     const handleCloseSnackbar = () => dispatch(hideOrdersSnackbar())
 
     if (isLoading) return (
-        <CenteredBox>
-            <CircularProgress color="error" />
-        </CenteredBox>
+        <LoadingState />
     )
 
     return (

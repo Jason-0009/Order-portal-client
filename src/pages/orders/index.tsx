@@ -5,7 +5,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import Head from 'next/head'
 
-import { CircularProgress, Divider } from '@mui/material'
+import { Divider } from '@mui/material'
 
 import withAuth from '@/hoc/withAuth'
 
@@ -13,9 +13,12 @@ import useOrders from '@/hooks/order/useOrders'
 
 import NoOrdersFound from '@/components/common/NoResultsFound'
 import PaginationComponent from '@/components/common/PaginationComponent'
+
 import BackButton from '@/components/common/button/BackButton'
-import CenteredBox from '@/components/common/layout/CenteredBox'
+
 import CenteredLayout from '@/components/common/layout/CenteredLayout'
+import LoadingState from '@/components/common/layout/LoadingState'
+
 import PageHeader from '@/components/common/page/PageHeader'
 import PageTitle from '@/components/common/page/PageTitle'
 
@@ -37,9 +40,7 @@ const OrdersPage: FC = () => {
     } = useOrders('/orders/user')
 
     if (isLoading) return (
-        <CenteredBox>
-            <CircularProgress color="error" />
-        </CenteredBox>
+        <LoadingState />
     )
 
     return (

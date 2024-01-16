@@ -62,12 +62,12 @@ const ProductsTable: FC<ProductsTableProps> = ({ products, orderItems }) => {
                 </TableHead>
 
                 <TableBody>
-                    {products.content.map((product, index, array) => {
-                        const orderItem = orderItems.find(item => item.id === product.id)
+                    {products.content.map(({ id, imageUrl, name, ingredients, price }, index, array) => {
+                        const orderItem = orderItems.find(item => item.id === id)
 
-                        const { id, imageUrl, name, ingredients, price } = product
+                        if (!orderItem) return
 
-                        const total = orderItem && price * orderItem?.quantity
+                        const total = price * orderItem?.quantity
                         const formattedIngredients = formatIngredients(ingredients, locale)
 
                         const isFirstItem = index === 0

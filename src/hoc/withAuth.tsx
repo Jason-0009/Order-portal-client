@@ -5,15 +5,17 @@ import { AxiosError } from 'axios'
 
 import { useTranslation } from 'next-i18next'
 
+import Head from 'next/head'
+
 import { Google, SyncProblem } from '@mui/icons-material'
-import { Button, CircularProgress, SxProps, Typography } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 
 import checkAuth from '@/api/checkAuth'
 
 import CenteredBox from '@/components/common/layout/CenteredBox'
+import LoadingState from '@/components/common/layout/LoadingState'
 
 import getDisplayName from '@/utils/getDisplayName'
-import Head from 'next/head'
 
 const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
     const WithAuth = (props: P) => {
@@ -26,17 +28,7 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
             `${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization/google`
 
         if (isLoading) return (
-            <>
-                <Head>
-                    <title>
-                        {translation('title')} - {translation('loading')}
-                    </title>
-                </Head>
-
-                <CenteredBox>
-                    <CircularProgress color="error" />
-                </CenteredBox>
-            </>
+            <LoadingState />
         )
 
         if (axiosError?.code === 'ERR_NETWORK') return (

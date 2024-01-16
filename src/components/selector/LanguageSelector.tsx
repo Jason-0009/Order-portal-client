@@ -48,9 +48,9 @@ const LanguageSelector: FC = () => {
 
         setLocale(newLocale)
 
-        if (!isAuthenticated) return
+        if (!userProfile) return
 
-        userProfile && await updateUserPreferredLanguage(userProfile.id, newLocale)
+        await updateUserPreferredLanguage(userProfile.id, newLocale)
     }
 
     return (

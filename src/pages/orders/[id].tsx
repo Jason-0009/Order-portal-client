@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 
 import Head from 'next/head'
 
-import { Box, CircularProgress, Divider, SxProps, Typography } from '@mui/material'
+import { Box, Divider, SxProps, Typography } from '@mui/material'
 
 import withAuth from '@/hoc/withAuth'
 
@@ -16,9 +16,12 @@ import useProducts from '@/hooks/useProducts'
 import fetchOrderById from '@/api/order/fetchOrderById'
 
 import PaginationComponent from '@/components/common/PaginationComponent'
+
 import BackButton from '@/components/common/button/BackButton'
-import CenteredBox from '@/components/common/layout/CenteredBox'
+
 import CenteredLayout from '@/components/common/layout/CenteredLayout'
+import LoadingState from '@/components/common/layout/LoadingState'
+
 import PageTitle from '@/components/common/page/PageTitle'
 
 import OrderStatusIndicator from '@/components/order/OrderStatusIndicator'
@@ -50,9 +53,7 @@ const OrderPage: FC = () => {
     const formattedDate = order?.date && locale && formatDateLocale(order.date, locale)
 
     if (isLoading) return (
-        <CenteredBox>
-            <CircularProgress color="error" />
-        </CenteredBox>
+        <LoadingState />
     )
 
     return (
