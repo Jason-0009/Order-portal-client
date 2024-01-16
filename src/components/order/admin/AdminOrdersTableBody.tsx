@@ -68,10 +68,9 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
     const formattedDate = date && locale && formatDistanceToNowLocale(date, locale)
 
     const orderStatuses = Object.values(OrderStatus)
-    const isCurrentRowOpen = id && openRows[id]
-    
     const statusKey = toCamelCase(status)
-
+    
+    const isCurrentRowOpen = id && openRows[id]
     const isFirstItem = index === 0
     const isLastItem = index === array.length - 1
 
@@ -103,7 +102,7 @@ const AdminOrdersTableBody: FC<AdminOrdersTableBodyProps> = ({
 
         try {
             if (!id) return
-            
+
             await updateOrderStatus(id, newStatus)
 
             setSelectedStatus(newStatus)

@@ -70,6 +70,7 @@ const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
                         const isLastItem = index === array.length - 1
 
                         const formattedDate = date && locale && formatDateLocale(date, locale)
+                        
                         const tableCellStyle: SxProps = {
                             borderBottom: 'none',
                             color: 'text.secondary',
