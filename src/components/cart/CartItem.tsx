@@ -104,7 +104,7 @@ const CartItem: FC<CartItemProps> = ({ item }) => {
                         width: '40px',
                         height: '40px',
                         borderRadius: '10px',
-                        mt: { xs: 0.7, md: 0 },
+                        mt: { xs: 0.8, md: 0 },
                         "& .MuiInputBase-input": {
                             textAlign: 'center',
                             paddingTop: { xs: 1.4, sm: 1.2 },
