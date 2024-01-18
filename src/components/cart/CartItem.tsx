@@ -8,9 +8,6 @@ import { Delete } from '@mui/icons-material'
 import {
     Box,
     IconButton,
-    MenuItem,
-    Select,
-    SelectChangeEvent,
     TextField,
     Theme,
     Typography,
@@ -77,8 +74,9 @@ const CartItem: FC<CartItemProps> = ({ item }) => {
                 </Typography>
             </Box>
 
-            <Box display="flex" flexDirection="row" sx={{
-                mt: { xs: 0.5, sm: 0.7, md: 0.2, lg: 0 }
+            <Box sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', sm: 'row' }
             }}>
                 <IconButton
                     onClick={handleRemoveFromCart}
@@ -88,7 +86,8 @@ const CartItem: FC<CartItemProps> = ({ item }) => {
                         borderRadius: '10px',
                         width: '40px',
                         height: '40px',
-                        mr: 1
+                        mr: 1,
+                        mt: { xs: 0.5, sm: 0.7, md: 0.2, lg: 0 }
                     }}
                 >
                     <Delete fontSize="small" />
@@ -105,6 +104,7 @@ const CartItem: FC<CartItemProps> = ({ item }) => {
                         width: '40px',
                         height: '40px',
                         borderRadius: '10px',
+                        mt: { xs: 0.7, md: 0 },
                         "& .MuiInputBase-input": {
                             textAlign: 'center',
                             paddingTop: { xs: 1.4, sm: 1.2 },
