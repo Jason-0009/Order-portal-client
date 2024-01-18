@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { ChangeEvent, FC } from 'react'
 import { useDispatch } from 'react-redux'
 
 import Image from 'next/image'
@@ -11,6 +11,7 @@ import {
     MenuItem,
     Select,
     SelectChangeEvent,
+    TextField,
     Theme,
     Typography,
     useMediaQuery
@@ -34,13 +35,13 @@ const CartItem: FC<CartItemProps> = ({ item }) => {
 
     const handleRemoveFromCart = () => dispatch(removeFromCart(product.id))
 
-    const handleQuantityChange = (event: SelectChangeEvent<number>) =>
+    const handleQuantityChange = (event: ChangeEvent<HTMLInputElement>) =>
         dispatch(changeQuantity({ id: product.id, quantity: +event.target.value }))
 
     return (
         <Box sx={{
             display: 'flex',
-            flexDirection: isMobileOrTablet ? 'column' : 'row',
+            flexDirection: { xs: 'column', lg: 'row' },
             height: 'auto',
             mb: 4
         }}>
@@ -63,20 +64,22 @@ const CartItem: FC<CartItemProps> = ({ item }) => {
                 <Typography variant="body2" sx={{
                     fontWeight: 600,
                     fontSize: { xs: '0.75em', sm: '0.75em', md: '0.88em' },
-                    mb: isMobileOrTablet ? 0.5 : 0
+                    mb: { md: 0.5, xs: 0 }
                 }}>
                     {locale && product.name[locale]}
                 </Typography>
 
                 <Typography variant="body2" color="text.secondary" sx={{
                     fontSize: { xs: '0.75em', sm: '0.88em' },
-                    mb: isMobileOrTablet ? 1 : 0
+                    mb: { md: 1, xs: 0 }
                 }}>
                     €{product.price}
                 </Typography>
             </Box>
 
-            <Box display="flex" flexDirection="row">
+            <Box display="flex" flexDirection="row" sx={{
+                mt: { xs: 0.5, sm: 0.7, md: 0.2, lg: 0 }
+            }}>
                 <IconButton
                     onClick={handleRemoveFromCart}
                     sx={{
@@ -91,49 +94,29 @@ const CartItem: FC<CartItemProps> = ({ item }) => {
                     <Delete fontSize="small" />
                 </IconButton>
 
-                <Select
+                <TextField
+                    type="number"
+                    inputProps={{ min: 1 }}
                     value={quantity}
                     onChange={handleQuantityChange}
                     sx={{
+                        textAlign: 'center',
                         backgroundColor: 'primary.main',
-                        width: '50px',
+                        width: '60px',
                         height: '40px',
-                        pr: '5px',
-                        textAlign: 'left',
                         borderRadius: '10px',
+                        "& .MuiInputBase-input": {
+                            textAlign: 'center',
+
+                            paddingRight: 0,
+                            paddingTop: { xs: 1.4, sm: 1.2 },
+                            fontSize: { xs: '0.75em', sm: '0.8em', md: '0.85em', lg: '0.9em' }
+                        },
                         "& fieldset": {
                             border: 'none'
                         }
                     }}
-                    SelectDisplayProps={{
-                        style: {
-                            fontWeight: 600,
-                            fontSize: isMobileOrTablet ? '0.7em' : '0.8em'
-                        }
-                    }}
-                >
-                    {[...Array(9).keys()].map((value, index, array) => {
-                        const isFirstItem = index === 0
-                        const isLastItem = index === array.length - 1
-
-                        return (
-                            <MenuItem
-                                key={value}
-                                value={value + 1}
-                                sx={{
-                                    backgroundColor: 'secondary.main',
-                                    fontSize: { xs: '0.7em', sm: '0.8em' },
-                                    '&.MuiMenuItem-root': {
-                                        marginTop: isFirstItem ? '-0.6em' : 'auto',
-                                        marginBottom: isLastItem ? '-0.6em' : 'auto'
-                                    }
-                                }}
-                            >
-                                {value + 1}
-                            </MenuItem>
-                        )
-                    })}
-                </Select>
+                />
             </Box>
         </Box>
     )

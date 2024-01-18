@@ -5,14 +5,16 @@ import { Button, lighten } from '@mui/material'
 type ConfirmOrderButtonProps = {
     text: string,
     size: 'small' | 'medium' | 'large',
-    onClick: () => void
+    onClick: () => void,
+    disabled?: boolean
 }
 
-const ConfirmButton: FC<ConfirmOrderButtonProps> = ({ text, size, onClick }) => (
+const ConfirmButton: FC<ConfirmOrderButtonProps> = ({ text, size, onClick, disabled = false }) => (
     <Button
         variant="contained"
         size={size}
         onClick={onClick}
+        disabled={disabled}
         sx={theme => ({
             color: 'text.main',
             backgroundColor: 'buttonBackground.main',

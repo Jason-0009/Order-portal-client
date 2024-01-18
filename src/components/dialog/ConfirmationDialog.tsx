@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -37,6 +37,8 @@ const createOrder = (cart: CartItemType[], totalPrice: number): Order => ({
 })
 
 const ConfirmationDialog: FC = () => {
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    
     const isOpen = useSelector((state: RootState) => state.confirmationDialog.isOpen)
     const cart = useSelector((state: RootState) => state.cart)
 
@@ -52,6 +54,8 @@ const ConfirmationDialog: FC = () => {
     const handleClose = () => dispatch(closeDialog())
 
     const handleConfirm = async () => {
+        setIsSubmitting(true)
+
         handleClose()
 
         const order = createOrder(cart, totalPrice)
@@ -61,6 +65,8 @@ const ConfirmationDialog: FC = () => {
         dispatch(clearCart())
 
         router.push('/orders')
+
+        setIsSubmitting(false)
     }
 
     return (
@@ -120,6 +126,7 @@ const ConfirmationDialog: FC = () => {
                     text={translation('confirm')}
                     size='small'
                     onClick={handleConfirm}
+                    disabled={isSubmitting}
                 />
             </DialogActions>
         </Dialog>

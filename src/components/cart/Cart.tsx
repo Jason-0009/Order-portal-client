@@ -8,11 +8,13 @@ import { Box, Divider, Pagination, Typography } from '@mui/material'
 import { RootState } from '@/store'
 
 import { openDialog } from '@/slices/dialog/confirmationDialogSlice'
+import { setScrollToCart } from '@/slices/scrollSlice'
 
 import ConfirmButton from '../common/button/ConfirmButton'
-import ConfirmationDialog from '../dialog/ConfirmationDialog'
+
 import CartItem from './CartItem'
-import { setScrollToCart } from '@/slices/scrollSlice'
+
+import ConfirmationDialog from '../dialog/ConfirmationDialog'
 
 const ITEMS_PER_PAGE = 3
 
