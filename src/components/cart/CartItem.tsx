@@ -102,15 +102,20 @@ const CartItem: FC<CartItemProps> = ({ item }) => {
                     sx={{
                         textAlign: 'center',
                         backgroundColor: 'primary.main',
-                        width: '60px',
+                        width: '40px',
                         height: '40px',
                         borderRadius: '10px',
                         "& .MuiInputBase-input": {
                             textAlign: 'center',
-
-                            paddingRight: 0,
                             paddingTop: { xs: 1.4, sm: 1.2 },
                             fontSize: { xs: '0.75em', sm: '0.8em', md: '0.85em', lg: '0.9em' }
+                        },
+                        "& .MuiInputBase-input::-webkit-inner-spin-button, & .MuiInputBase-input::-webkit-outer-spin-button": {
+                            "-webkit-appearance": "none",
+                            margin: 0
+                        },
+                        "& .MuiInputBase-input[type=number]": {
+                            "-moz-appearance": "textfield"
                         },
                         "& fieldset": {
                             border: 'none'
