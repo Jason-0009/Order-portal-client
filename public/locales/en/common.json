@@ -57,7 +57,7 @@
     "admin": "Admin",
     "search": "Search",
     "noOrdersFound": "No orders found",
-    "noUsersFound": "No users found",
+    "noUserFound": "No user found",
     "statusUpdatedSuccessfully": "Status updated successfully!",
     "roleUpdatedSuccessfully": "Role updated successfully!",
     "permissionDenied": "You do not have permission to view this page."

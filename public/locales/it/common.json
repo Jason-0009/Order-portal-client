@@ -57,7 +57,7 @@
     "admin": "Amministratore",
     "search": "Cerca",
     "noOrdersFound": "Nessun ordine trovato",
-    "noUsersFound": "Nessun utente trovato",
+    "noUserFound": "Nessun utente trovato",
     "statusUpdatedSuccessfully": "Stato aggiornato con successo!",
     "roleUpdatedSuccessfully": "Ruolo aggiornato con successo!",
     "permissionDenied": "Non hai il permesso di visualizzare questa pagina."
