@@ -80,7 +80,7 @@ const OrdersPage: FC = () => {
                                 />
                             )}
                         </>
-                    ) : <NoOrdersFound text={translation('noOrdersFound')} />
+                    ) : <NoOrdersFound text={translation('noOrderFound')} />
                 )}
             </CenteredLayout>
         </>

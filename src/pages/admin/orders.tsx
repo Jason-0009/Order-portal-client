@@ -117,7 +117,7 @@ const AdminOrdersPage: FC = () => {
                                 />
                             )}
                         </>
-                    ) : <NoOrdersFound text={translation('noOrdersFound')} />
+                    ) : <NoOrdersFound text={translation('noOrderFound')} />
                 )}
 
                 <Snackbar

@@ -56,7 +56,7 @@
     "user": "Utente",
     "admin": "Amministratore",
     "search": "Cerca",
-    "noOrdersFound": "Nessun ordine trovato",
+    "noOrderFound": "Nessun ordine trovato",
     "noUserFound": "Nessun utente trovato",
     "statusUpdatedSuccessfully": "Stato aggiornato con successo!",
     "roleUpdatedSuccessfully": "Ruolo aggiornato con successo!",

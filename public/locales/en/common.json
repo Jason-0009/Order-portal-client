@@ -56,7 +56,7 @@
     "user": "User",
     "admin": "Admin",
     "search": "Search",
-    "noOrdersFound": "No orders found",
+    "noOrderFound": "No order found",
     "noUserFound": "No user found",
     "statusUpdatedSuccessfully": "Status updated successfully!",
     "roleUpdatedSuccessfully": "Role updated successfully!",
