@@ -150,13 +150,13 @@ const darkTheme = createTheme({
         MuiCssBaseline: {
             styleOverrides: {
                 body: {
-                    "& *::-webkit-scrollbar": {
+                    "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
                         width: '8px',
                         height: '8px',
                         borderRadius: '8px',
                         backgroundColor: "#171717",
                     },
-                    "& *::-webkit-scrollbar-thumb": {
+                    "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
                         borderRadius: '8px',
                         backgroundColor: '#BEBEBE',
                     }
