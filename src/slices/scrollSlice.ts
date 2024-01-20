@@ -1,10 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+
+type ScrollbarState = {
+    scrollToCart: boolean
+}
+
+const initialState: ScrollbarState = {
+    scrollToCart: false
+}
 
 const scrollSlice = createSlice({
     name: 'scroll',
-    initialState: { scrollToCart: false },
+    initialState,
     reducers: {
-        setScrollToCart: (state, action) => {
+        setScrollToCart: (state, action: PayloadAction<boolean>) => {
             state.scrollToCart = action.payload
         }
     }
