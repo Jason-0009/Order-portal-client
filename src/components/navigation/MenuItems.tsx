@@ -21,8 +21,8 @@ const MenuItems: FC = () => {
     return (
         <Box sx={{
             display: 'flex',
-            alignItems: { lg: 'flex-start', xs: 'center' },
-            flexDirection: { lg: 'column', xs: 'row' }
+            alignItems: { lg: 'center', xs: 'flex-start' },
+            flexDirection: { lg: 'row', xs: 'column' }
         }}>
             {isAuthenticated && <Routes />}
 
