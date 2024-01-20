@@ -27,7 +27,7 @@ import useUsers from '@/hooks/useUsers'
 
 import { hideUsersSnackbar } from '@/slices/snackbar/usersSnackbarSlice'
 
-import NoResultsFound from '@/components/common/NoResultsFound'
+import NoResultFound from '@/components/common/NoResultFound'
 
 import BackButton from '@/components/common/button/BackButton'
 
@@ -128,7 +128,7 @@ const AdminUsersPage: FC = () => {
                     {currentUsers?.content && (
                         currentUsers.content.length > 0 ? currentUsers.content.map(user =>
                             <UserListItem key={user.id} user={user} />
-                        ) : <NoResultsFound text={translation('noUserFound')} />
+                        ) : <NoResultFound text={translation('noUserFound')} />
                     )}
                 </List>
 

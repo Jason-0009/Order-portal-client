@@ -7,7 +7,7 @@ type NoResultsFoundProps = {
     text: string
 }
 
-const NoResultsFound: FC<NoResultsFoundProps> = ({ text }) => (
+const NoResultFound: FC<NoResultsFoundProps> = ({ text }) => (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 3 }}>
         <SentimentDissatisfied sx={{
             fontSize: { xs: 35, sm: 37, md: 38, lg: 40 }
@@ -22,4 +22,4 @@ const NoResultsFound: FC<NoResultsFoundProps> = ({ text }) => (
     </Box>
 )
 
-export default NoResultsFound
+export default NoResultFound

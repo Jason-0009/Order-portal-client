@@ -28,7 +28,7 @@ import BackButton from '@/components/common/button/BackButton'
 import CenteredLayout from '@/components/common/layout/CenteredLayout'
 import LoadingState from '@/components/common/layout/LoadingState'
 
-import NoOrdersFound from '@/components/common/NoResultsFound'
+import NoOrdersFound from '@/components/common/NoResultFound'
 
 import PageHeader from '@/components/common/page/PageHeader'
 import PageTitle from '@/components/common/page/PageTitle'
