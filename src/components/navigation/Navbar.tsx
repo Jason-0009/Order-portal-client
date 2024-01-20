@@ -4,7 +4,6 @@ import { FC } from 'react'
 import { useTranslation } from 'next-i18next'
 import NextLink from 'next/link'
 
-import { LocalPizza } from '@mui/icons-material'
 import {
     AppBar,
     IconButton,
@@ -14,6 +13,7 @@ import {
     Typography,
     useMediaQuery
 } from '@mui/material'
+import { LocalPizza } from '@mui/icons-material'
 
 import DrawerMenu from './DrawerMenu'
 import MenuItems from './MenuItems'
