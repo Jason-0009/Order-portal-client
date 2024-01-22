@@ -74,10 +74,10 @@ const ConfirmationDialog: FC = () => {
             sx: theme => ({
                 backgroundColor: 'secondary.main',
                 backgroundImage: 'none',
-                pt: 1,
-                pb: 3,
-                pl: 2,
-                pr: 3,
+                pt: { xs: 0, sm: 0.5, md: 0.8, lg: 1 },
+                pb: { xs: 1, sm: 2, md: 2.5, lg: 3 },
+                pl: { xs: 0, sm: 1, md: 1.5, lg: 2 },
+                pr: { xs: 2, sm: 2.5, md: 2.8, lg: 3 },
                 borderRadius: '20px',
                 boxShadow: `0px 0px 14.4px 0px ${theme.palette.secondary.main}`
             })

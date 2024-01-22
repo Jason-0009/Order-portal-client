@@ -97,12 +97,13 @@ const Cart: FC = () => {
                 />
             }
 
-            <ConfirmButton
-                text={translation('confirmOrder')}
-                size='large'
-                onClick={handleClick}
-                sx={{ mt: 1 }}
-            />
+            <Box sx={{ mt: 1 }}>
+                <ConfirmButton
+                    text={translation('confirmOrder')}
+                    size='large'
+                    onClick={handleClick}
+                />
+            </Box>
 
             <ConfirmationDialog />
         </Box >
