@@ -31,7 +31,7 @@ const CartItem: FC<CartItemProps> = ({ item }) => {
             display: 'flex',
             flexDirection: 'row',
             height: 'auto',
-            alignContent: 'center',
+            alignItems: 'center',
             mb: 2
         }}>
             <Image
