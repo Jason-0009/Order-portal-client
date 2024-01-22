@@ -15,6 +15,7 @@ import ConfirmButton from '../common/button/ConfirmButton'
 import CartItem from './CartItem'
 
 import ConfirmationDialog from '../dialog/ConfirmationDialog'
+import PaginationComponent from '../common/PaginationComponent'
 
 const ITEMS_PER_PAGE = 3
 
@@ -41,20 +42,23 @@ const Cart: FC = () => {
     }, [currentPageItems, currentPage])
 
     useEffect(() => {
-        if (!scrollToCart) return
+        if (!scrollToCart || !cartRef.current) return
 
         const element = cartRef.current
-
-        if (!element) return
-
         const offset = window.innerHeight / 2 - element.getBoundingClientRect().height / 2
-        
-        window.scrollTo({ top: element.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' })
-        
-        dispatch(setScrollToCart(false))
 
-        setCurrentPage(totalPageCount)
-    }, [scrollToCart, dispatch])
+        setTimeout(() => {
+            window.scrollTo({
+                top: element.getBoundingClientRect().top + window.scrollY - offset,
+                behavior: 'smooth'
+            })
+
+            dispatch(setScrollToCart(false))
+
+            setCurrentPage(totalPageCount)
+        }, 200)
+    }, [scrollToCart, dispatch, totalPageCount])
+
 
     const handleClick = () => dispatch(openDialog())
 
@@ -65,6 +69,8 @@ const Cart: FC = () => {
             justifyContent: 'center',
             backgroundColor: 'secondary.main',
             height: '100%',
+            borderRadius: { xs: '20px', lg: 'unset' },
+            mx: { xs: 6, lg: 0 },
             p: 3
         }}>
             <Typography variant="h6" sx={{
@@ -81,35 +87,22 @@ const Cart: FC = () => {
                 <CartItem key={item.product.id} item={item} />
             )}
 
-            {totalPageCount > 1 && (
-                <Box sx={{
-                    display: 'flex',
-                    justifyContent: { sm: 'start', md: 'center' }
-                }}>
-                    <Pagination
-                        count={totalPageCount}
-                        page={currentPage}
-                        onChange={handlePageChange}
-                        sx={{
-                            '& .MuiPaginationItem-root': {
-                                fontSize: { xs: '0.7em', sm: '0.8em' }
-                            },
-                            mb: 3
-                        }}
-                    />
-                </Box>
-            )}
-
-            <Box sx={{
-                display: 'flex',
-                justifyContent: 'center'
-            }}>
-                <ConfirmButton
-                    text={translation('confirmOrder')}
-                    size='large'
-                    onClick={handleClick}
+            {totalPageCount > 1 &&
+                <PaginationComponent
+                    count={totalPageCount}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                    color='primary'
+                    sx={{ mt: 0, mb: 2 }}
                 />
-            </Box>
+            }
+
+            <ConfirmButton
+                text={translation('confirmOrder')}
+                size='large'
+                onClick={handleClick}
+                sx={{ mt: 1 }}
+            />
 
             <ConfirmationDialog />
         </Box >

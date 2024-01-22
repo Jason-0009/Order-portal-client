@@ -5,16 +5,20 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import Head from 'next/head'
 
-import { Box } from '@mui/material'
+import { Grid } from '@mui/material'
+
+import { useTranslation } from 'next-i18next'
 
 import withAuth from '@/hoc/withAuth'
 
 import { RootState } from '@/store'
 
-import { useTranslation } from 'next-i18next'
+import CenteredLayout from '@/components/common/layout/CenteredLayout'
 
 import Cart from '@/components/cart/Cart'
+
 import ProductSelection from '@/components/product/ProductSelection'
+
 
 const IndexPage: FC = () => {
   const { t: translation } = useTranslation()
@@ -28,21 +32,19 @@ const IndexPage: FC = () => {
         </title>
       </Head>
 
-      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-        <Box sx={{
-          width: cart.length > 0 ? '63%' : '100%',
-          marginRight: cart.length > 0 ? '2%' : '0'
-        }}>
+      <Grid container spacing={4} sx={{
+        mb: { xs: 4, lg: 0 }
+      }}>
+        <Grid item xs={12} lg={cart.length > 0 ? 8 : 12}>
           <ProductSelection />
-        </Box>
+        </Grid>
 
         {cart.length > 0 && (
-          <Box sx={{ width: '35%' }}>
+          <Grid item xs={12} lg={4}>
             <Cart />
-          </Box>
+          </Grid>
         )}
-      </Box>
-
+      </Grid>
     </>
   )
 }

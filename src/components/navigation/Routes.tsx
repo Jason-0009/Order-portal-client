@@ -63,7 +63,7 @@ const Routes: FC = () => {
             pt: { xs: 2, lg: 0 },
             pl: { xs: 0.5, sm: 0.8, md: 0.5, lg: 0 }
         }}>
-            {routes.map(({ path, icon, text }, index) => router.pathname !== path && (
+            {routes.map(({ path, icon, text }, index) => (
                 <Link
                     key={path}
                     component={NextLink}

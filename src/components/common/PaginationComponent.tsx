@@ -6,14 +6,15 @@ type PaginationComponentProps = {
     count: number | undefined,
     page: number,
     onChange: (event: ChangeEvent<unknown>, page: number) => void,
+    color?: 'primary' | 'secondary',
     sx?: SxProps
 }
 
-const PaginationComponent: FC<PaginationComponentProps> = ({ count, page, onChange, sx }) => {
+const PaginationComponent: FC<PaginationComponentProps> = ({ count, page, onChange, color, sx }) => {
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4, ...sx }}>
             <Pagination
-                color='secondary'
+                color={color}
                 count={count}
                 page={page}
                 onChange={onChange}

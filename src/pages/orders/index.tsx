@@ -39,9 +39,7 @@ const OrdersPage: FC = () => {
         setFilteredStatusAndResetPage,
     } = useOrders('/orders/user')
 
-    if (isLoading) return (
-        <LoadingState />
-    )
+    if (isLoading) return <LoadingState />
 
     return (
         <>

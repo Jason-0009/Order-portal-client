@@ -59,9 +59,7 @@ const AdminOrdersPage: FC = () => {
 
     const handleCloseSnackbar = () => dispatch(hideOrdersSnackbar())
 
-    if (isLoading) return (
-        <LoadingState />
-    )
+    if (isLoading) return <LoadingState />
 
     return (
         <>

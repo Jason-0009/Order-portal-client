@@ -136,6 +136,7 @@ const AdminOrderDetailsTable: FC<AdminOrderDetailsTableProps> = ({ order }) => {
                     count={currentProducts?.totalPages}
                     page={currentPage}
                     onChange={handlePageChange}
+                    color='primary'
                     sx={{ mt: { xs: '-0.6em', sm: 1 }, mb: 2 }}
                 />
             )}

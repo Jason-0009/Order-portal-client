@@ -27,9 +27,7 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
         const handleAuth = () => window.location.href =
             `${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization/google`
 
-        if (isLoading) return (
-            <LoadingState />
-        )
+        if (isLoading) return <LoadingState />
 
         if (axiosError?.code === 'ERR_NETWORK') return (
             <>

@@ -1,18 +1,11 @@
-import { ChangeEvent, FC } from 'react'
+import { FC } from 'react'
 import { useDispatch } from 'react-redux'
 
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 
-import { Delete } from '@mui/icons-material'
-import {
-    Box,
-    IconButton,
-    TextField,
-    Theme,
-    Typography,
-    useMediaQuery
-} from '@mui/material'
+import { Box, IconButton, Typography } from '@mui/material'
+import { Delete, Add, Remove } from '@mui/icons-material'
 
 import { changeQuantity, removeFromCart } from '@/slices/cartSlice'
 
@@ -28,34 +21,30 @@ const CartItem: FC<CartItemProps> = ({ item }) => {
     const { locale } = useRouter()
     const dispatch = useDispatch()
 
-    const isMobileOrTablet = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
-
     const handleRemoveFromCart = () => dispatch(removeFromCart(product.id))
 
-    const handleQuantityChange = (event: ChangeEvent<HTMLInputElement>) =>
-        dispatch(changeQuantity({ id: product.id, quantity: +event.target.value }))
+    const handleQuantityChange = (quantity: number) =>
+        dispatch(changeQuantity({ id: product.id, quantity }))
 
     return (
         <Box sx={{
             display: 'flex',
-            flexDirection: { xs: 'column', lg: 'row' },
+            flexDirection: 'row',
             height: 'auto',
-            mb: 4
+            alignContent: 'center',
+            mb: 2
         }}>
             <Image
                 src={product.imageUrl}
                 alt="Cart item"
                 width={40}
                 height={40}
-                style={{
-                    marginRight: isMobileOrTablet ? 0 : '10px',
-                    marginBottom: isMobileOrTablet ? '5px' : 0
-                }}
             />
 
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
+                ml: 1,
                 flexGrow: 1,
             }}>
                 <Typography variant="body2" sx={{
@@ -76,7 +65,8 @@ const CartItem: FC<CartItemProps> = ({ item }) => {
 
             <Box sx={{
                 display: 'flex',
-                flexDirection: { xs: 'column', sm: 'row' }
+                flexDirection: 'row',
+                alignItems: 'center'
             }}>
                 <IconButton
                     onClick={handleRemoveFromCart}
@@ -84,44 +74,51 @@ const CartItem: FC<CartItemProps> = ({ item }) => {
                         color: 'red',
                         border: '1px solid red',
                         borderRadius: '10px',
-                        width: '40px',
-                        height: '40px',
-                        mr: 1,
-                        mt: { xs: 0.5, sm: 0.7, md: 0.2, lg: 0 }
+                        width: { xs: '30px', sm: '32px', md: '35px', lg: '40px' },
+                        height: { xs: '30px', sm: '32px', md: '35px', lg: '40px' },
+                        mr: 1
                     }}
                 >
                     <Delete fontSize="small" />
                 </IconButton>
 
-                <TextField
-                    type="number"
-                    inputProps={{ min: 1 }}
-                    value={quantity}
-                    onChange={handleQuantityChange}
-                    sx={{
-                        textAlign: 'center',
-                        backgroundColor: 'primary.main',
-                        width: '40px',
-                        height: '40px',
-                        borderRadius: '10px',
-                        mt: { xs: 0.8, md: 0 },
-                        "& .MuiInputBase-input": {
-                            textAlign: 'center',
-                            paddingTop: { xs: 1.4, sm: 1.2 },
-                            fontSize: { xs: '0.75em', sm: '0.8em', md: '0.85em', lg: '0.9em' }
-                        },
-                        "& .MuiInputBase-input::-webkit-inner-spin-button, & .MuiInputBase-input::-webkit-outer-spin-button": {
-                            "-webkit-appearance": "none",
-                            margin: 0
-                        },
-                        "& .MuiInputBase-input[type=number]": {
-                            "-moz-appearance": "textfield"
-                        },
-                        "& fieldset": {
-                            border: 'none'
-                        }
-                    }}
-                />
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: 'primary.main',
+                    width: 'auto',
+                    height: { xs: '30px', sm: '32px', md: '35px', lg: '40px' },
+                    borderRadius: '10px'
+                }}>
+                    <IconButton
+                        onClick={() => handleQuantityChange(quantity - 1)}
+                        disabled={quantity === 1}
+                        sx={{ padding: '5px' }}
+                    >
+                        <Remove fontSize="small" sx={{
+                            color: 'text.secondary',
+                            fontSize: { xs: '0.4em', sm: '0.5em', md: '0.55em', lg: '0.6em' }
+                        }} />
+                    </IconButton>
+
+                    <Typography color="text.primary" variant="body2" sx={{
+                        fontSize: { xs: '0.7em', sm: '0.75em', md: '0.8em', lg: '0.85em' }
+                    }}>
+                        {quantity}
+                    </Typography>
+
+                    <IconButton
+                        onClick={() => handleQuantityChange(quantity + 1)}
+                        sx={{ padding: '5px' }}
+                    >
+                        <Add fontSize="small" sx={{
+                            color: 'text.secondary',
+                            fontSize: { xs: '0.4em', sm: '0.5em', md: '0.55em', lg: '0.6em' }
+                        }} />
+                    </IconButton>
+                </Box>
             </Box>
         </Box>
     )

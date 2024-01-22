@@ -56,9 +56,7 @@ const AdminUsersPage: FC = () => {
 
     const handleCloseSnackbar = () => dispatch(hideUsersSnackbar())
 
-    if (isLoading) return (
-        <LoadingState />
-    )
+    if (isLoading) return <LoadingState />
 
     return (
         <>

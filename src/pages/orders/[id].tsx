@@ -52,9 +52,7 @@ const OrderPage: FC = () => {
 
     const formattedDate = order?.date && locale && formatDateLocale(order.date, locale)
 
-    if (isLoading) return (
-        <LoadingState />
-    )
+    if (isLoading) return <LoadingState />
 
     return (
         <>

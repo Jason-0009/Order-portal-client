@@ -26,9 +26,7 @@ const withAdminAuth = <P extends object>(WrappedComponent: ComponentType<P>) => 
 
         const isAdmin = userProfile?.role === UserRole.ADMIN
 
-        if (isLoading) return (
-            <LoadingState />
-        )
+        if (isLoading) return <LoadingState />
 
         return isAdmin ? <WrappedComponent {...props} /> : (
             <Box sx={{

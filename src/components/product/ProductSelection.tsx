@@ -20,12 +20,10 @@ const ProductSelection: FC = () => {
 
     const { t: translation } = useTranslation()
 
-    if (isLoading) return (
-        <LoadingState />
-    )
-
+    if (isLoading) return <LoadingState />
+    
     return (
-        <CenteredLayout>
+        <CenteredLayout sx={{ pb: { xs: 0, lg: 4 }}}>
             <PageTitle text={translation('selectProduct')} sx={{
                 textAlign: { xs: 'center', sm: 'start' }
             }} />
