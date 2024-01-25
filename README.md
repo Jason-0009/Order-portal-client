@@ -49,7 +49,7 @@ This provides a secure and convenient way for users to access the platform.
     git clone <repository-url>
     ```
 
-    Replace `<repository-url>` with the URL of your Order Portal Client repository.
+    Replace `<repository-url>` with the URL of the repository.
 
 3. **Install dependencies**
 
