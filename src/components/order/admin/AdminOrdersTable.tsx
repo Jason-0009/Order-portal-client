@@ -28,7 +28,7 @@ const AdminOrdersTable: FC<AdminOrdersTableProps> = ({ orders }) => {
         pt: 3
     }
 
-    const toggleRow = (id: string) => setOpenRows(previousOpenRows =>
+    const toggleRow = (id: number) => setOpenRows(previousOpenRows =>
         ({ ...previousOpenRows, [id]: !previousOpenRows[id] }))
 
     return (

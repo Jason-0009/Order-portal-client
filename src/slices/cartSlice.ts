@@ -15,8 +15,8 @@ const cartSlice = createSlice({
 
             state.push(action.payload)
         },
-        removeFromCart: (state, action: PayloadAction<string>) => state.filter(item => item.product.id !== action.payload),
-        changeQuantity: (state, action: PayloadAction<{ id: string; quantity: number }>) => {
+        removeFromCart: (state, action: PayloadAction<number>) => state.filter(item => item.product.id !== action.payload),
+        changeQuantity: (state, action: PayloadAction<{ id: number; quantity: number }>) => {
             const { id, quantity } = action.payload
 
             if (quantity < 1) return

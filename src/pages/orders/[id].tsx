@@ -39,9 +39,6 @@ const OrderPage: FC = () => {
 
     const idNumber = Number(id)
 
-    if (isNaN(idNumber)) 
-        return
-
     const { data: order, isLoading } = useQuery(['order', id],
         () => fetchOrderById(idNumber), { enabled: !!id, refetchOnWindowFocus: false })
 
@@ -50,6 +47,9 @@ const OrderPage: FC = () => {
     const { currentProducts, currentPage, handlePageChange } = useProducts(false, 5, itemIds)
 
     const { t: translation } = useTranslation()
+
+    if (isNaN(idNumber) || isLoading) 
+        return <LoadingState />
 
     const infoTextStyle: SxProps = {
         color: 'text.primary',
@@ -60,8 +60,6 @@ const OrderPage: FC = () => {
     const valueTextStyle: SxProps = { ...infoTextStyle, color: 'text.secondary' }
 
     const formattedDate = order?.date && locale && formatDateLocale(order.date, locale)
-
-    if (isLoading) return <LoadingState />
 
     return (
         <>

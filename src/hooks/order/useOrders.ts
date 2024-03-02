@@ -33,7 +33,7 @@ const useOrders = (url: string) => {
         if (!lastMessage) return
 
         refetch()
-    }, [fetchedOrders, lastMessage, currentPage])
+    }, [fetchedOrders, lastMessage, currentPage, refetch])
 
     const handlePageChange = (_: ChangeEvent<unknown>, page: number) => setCurrentPage(page)
 
