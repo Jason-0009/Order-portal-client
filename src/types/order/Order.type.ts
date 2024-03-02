@@ -2,7 +2,7 @@ import OrderItem from './OrderItem.type'
 import OrderStatus from './OrderStatus.enum'
 
 type Order = {
-    id?: string,
+    id?: number,
     customerId?: string,
     date?: string
     status: OrderStatus

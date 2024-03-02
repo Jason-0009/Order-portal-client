@@ -32,14 +32,23 @@ import { formatDateLocale } from '@/utils/dateUtils'
 
 const OrderPage: FC = () => {
     const { query, locale } = useRouter()
-    const { id } = query
+    let { id } = query
+
+    if (Array.isArray(id))
+        id = id[0]
+
+    const idNumber = Number(id)
+
+    if (isNaN(idNumber)) 
+        return
 
     const { data: order, isLoading } = useQuery(['order', id],
-        () => fetchOrderById(id as string), { enabled: !!id })
+        () => fetchOrderById(idNumber), { enabled: !!id, refetchOnWindowFocus: false })
 
     const itemIds = order?.items.map(item => item.id)
 
     const { currentProducts, currentPage, handlePageChange } = useProducts(false, 5, itemIds)
+
     const { t: translation } = useTranslation()
 
     const infoTextStyle: SxProps = {
@@ -65,7 +74,7 @@ const OrderPage: FC = () => {
             <CenteredLayout>
                 <BackButton location='/orders' />
 
-                <PageTitle text={translation('orderLabel')} id={order?.id} />
+                <PageTitle text={translation('orderLabel')} id={order?.id?.toString()} />
 
                 <Box display="flex" sx={{
                     mt: 1

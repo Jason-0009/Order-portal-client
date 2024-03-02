@@ -29,7 +29,7 @@ const UserListItem: FC<UserListItemProps> = ({ user }) => {
 
     const { data: isAuthenticated } = useQuery('auth', checkAuth)
     const { data: userProfile } = useQuery('userProfile', fetchUserProfile,
-        { enabled: !!isAuthenticated })
+        { enabled: !!isAuthenticated, refetchOnWindowFocus: false })
 
     const roleTexts: Record<UserRole, string> = {
         [UserRole.USER]: translation('user'),

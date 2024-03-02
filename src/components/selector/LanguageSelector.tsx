@@ -24,13 +24,13 @@ const LanguageSelector: FC = () => {
     const router = useRouter()
     const { i18n } = useTranslation()
     const [locale, setLocale] = useState(i18n.language)
-    
+
     const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'))
     const isTablet = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
 
     const { data: isAuthenticated } = useQuery('auth', checkAuth)
     const { data: userProfile } = useQuery('userProfile', fetchUserProfile,
-        { enabled: !!isAuthenticated })
+        { enabled: !!isAuthenticated, refetchOnWindowFocus: false })
 
     useEffect(() => {
         if (locale === router.locale) return

@@ -22,6 +22,7 @@ type ProductsTableProps = {
 }
 
 const ProductsTable: FC<ProductsTableProps> = ({ products, orderItems }) => {
+    console.log({ orderItems})
     const { locale } = useRouter()
     const { t: translation } = useTranslation()
 

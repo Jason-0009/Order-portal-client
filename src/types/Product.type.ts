@@ -1,5 +1,5 @@
 type Product = {
-    id: string,
+    id: number,
     imageUrl: string,
     name: Record<string, string>,
     ingredients: Record<string, string[]>,

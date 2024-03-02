@@ -3,12 +3,15 @@ import { useQuery } from 'react-query'
 
 import fetchProducts from '@/api/fetchProducts'
 
-const useProducts = (fetchAll = true, size: number, itemIds?: string[]) => {
+const useProducts = (fetchAll = true, size: number, itemIds?: number[]) => {
     const [currentPage, setCurrentPage] = useState(1)
 
     const { data: currentProducts, isLoading } = useQuery(
         ['products', currentPage], () => fetchProducts(currentPage - 1, size, itemIds),
-        { keepPreviousData: true, enabled: fetchAll || !!(itemIds && itemIds.length > 0) }
+        {
+            keepPreviousData: true, enabled: fetchAll || !!(itemIds && itemIds.length > 0),
+            refetchOnWindowFocus: false
+        }
     )
 
     const handlePageChange = (_: ChangeEvent<unknown>, page: number) => setCurrentPage(page)

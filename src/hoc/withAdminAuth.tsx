@@ -22,7 +22,7 @@ const withAdminAuth = <P extends object>(WrappedComponent: ComponentType<P>) => 
 
         const { data: isAuthenticated } = useQuery('auth', checkAuth)
         const { data: userProfile, isLoading } = useQuery('userProfile', fetchUserProfile,
-            { enabled: !!isAuthenticated })
+            { enabled: !!isAuthenticated, refetchOnWindowFocus: false })
 
         const isAdmin = userProfile?.role === UserRole.ADMIN
 

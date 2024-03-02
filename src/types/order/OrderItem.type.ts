@@ -1,5 +1,5 @@
 type OrderItem = {
-    id: string
+    id: number
     quantity: number
 }
 

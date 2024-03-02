@@ -22,7 +22,7 @@ const NotificationMenu: FC = () => {
 
     const { data: isAuthenticated } = useQuery('auth', checkAuth)
     const { data: userProfile } = useQuery('userProfile', fetchUserProfile,
-        { enabled: !!isAuthenticated })
+        { enabled: !!isAuthenticated, refetchOnWindowFocus: false })
 
     const { notifications, isLoading,
         handleNotificationRead, clearAllNotifications } = useNotifications(userProfile?.id)
@@ -51,7 +51,7 @@ const NotificationMenu: FC = () => {
                 <Badge
                     badgeContent={unreadNotificationCount}
                     sx={{
-   
+
                         '.MuiBadge-badge': {
                             backgroundColor: 'badgeBackground.main'
                         }

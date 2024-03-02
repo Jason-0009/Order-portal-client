@@ -14,7 +14,7 @@ const useUsers = (searchTerm: string) => {
 
     const { data: fetchedUsers, isLoading, refetch } = useQuery(
         ['users', currentPage, searchTerm], () => fetchUsers(currentPage - 1, searchTerm),
-        { keepPreviousData: true }
+        { keepPreviousData: true, refetchOnWindowFocus: false }
     )
 
     const [currentUsers, setCurrentUsers] = useState<PagedResponse<User> | null>(null)
@@ -22,14 +22,14 @@ const useUsers = (searchTerm: string) => {
 
     useEffect(() => {
         if (!fetchedUsers) return
-    
+
         setCurrentUsers(fetchedUsers)
-    
+
         if (!lastMessage) return
-    
+
         const { id }: User = JSON.parse(lastMessage.data)
         const existingUser = currentUsers?.content.find(user => user.id === id)
-    
+
         if (existingUser) refetch()
     }, [fetchedUsers, lastMessage, currentPage, currentUsers?.content, refetch])
 

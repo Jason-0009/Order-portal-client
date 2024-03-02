@@ -9,7 +9,9 @@ import OrderStatistics from '@/types/order/OrderStatistics.type'
 const SOCKET_URL = `${process.env.NEXT_PUBLIC_WS_URL}/statistics`
 
 const useOrderStatistics = () => {
-    const { data: fetchedStatistics } = useQuery('statistics', fetchOrderStatistics)
+    const { data: fetchedStatistics } = useQuery('statistics', fetchOrderStatistics, {
+        refetchOnWindowFocus: false
+    })
     const [statistics, setStatistics] = useState<OrderStatistics | null>(null)
     const { lastMessage, sendMessage } = useWebSocket(SOCKET_URL)
 

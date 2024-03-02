@@ -19,7 +19,7 @@ const useOrders = (url: string) => {
     const { data: fetchedOrders, isLoading, refetch } = useQuery(
         ['orders', currentPage, filteredDate, filteredStatus],
         () => fetchOrders(url, currentPage - 1, filteredDate, filteredStatus),
-        { keepPreviousData: true }
+        { keepPreviousData: true, refetchOnWindowFocus: false }
     )
 
     const [currentOrders, setCurrentOrders] = useState<PagedResponse<Order> | null>(null)

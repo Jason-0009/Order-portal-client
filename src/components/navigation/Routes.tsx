@@ -26,7 +26,7 @@ const Routes: FC = () => {
 
     const { data: isAuthenticated } = useQuery('auth', checkAuth)
     const { data: userProfile } = useQuery('userProfile', fetchUserProfile,
-        { enabled: !!isAuthenticated })
+        { enabled: !!isAuthenticated, refetchOnWindowFocus: false })
 
     const { t: translation } = useTranslation()
 

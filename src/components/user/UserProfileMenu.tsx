@@ -23,7 +23,7 @@ const UserProfileMenu: FC = () => {
 
     const { data: isAuthenticated } = useQuery('auth', checkAuth)
     const { data: userProfile } = useQuery('userProfile', fetchUserProfile,
-        { enabled: !!isAuthenticated })
+        { enabled: !!isAuthenticated, refetchOnWindowFocus: false })
     const { t: translation } = useTranslation()
 
     const handleProfileMenuOpen = (event: MouseEvent<HTMLElement>) =>
@@ -78,18 +78,18 @@ const UserProfileMenu: FC = () => {
                         fontSize: { xs: '0.7em', sm: '0.8em', md: '0.85em', lg: '0.9em' },
                         overflowWrap: 'break-word'
                     }}>
-                    {userProfile?.email}
-                </Typography>
+                        {userProfile?.email}
+                    </Typography>
 
-                <Divider sx={{ mt: 1, mb: 2 }} />
+                    <Divider sx={{ mt: 1, mb: 2 }} />
 
-                <ConfirmButton
-                    onClick={handleLogout}
-                    size='medium'
-                    text={translation('logout')}
-                />
-            </Box>
-        </Popover >
+                    <ConfirmButton
+                        onClick={handleLogout}
+                        size='medium'
+                        text={translation('logout')}
+                    />
+                </Box>
+            </Popover >
         </>
     )
 }
