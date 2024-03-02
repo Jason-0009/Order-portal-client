@@ -1,10 +1,10 @@
 import { FC } from 'react'
 
-import { useQuery } from 'react-query'
+import { useSelector } from 'react-redux'
 
 import { Box } from '@mui/material'
 
-import checkAuth from '@/api/checkAuth'
+import { RootState } from '@/store'
 
 import Routes from './Routes'
 
@@ -16,7 +16,7 @@ import LanguageSelector from '../selector/LanguageSelector'
 import ThemeSelector from '../selector/ThemeSelector'
 
 const MenuItems: FC = () => {
-    const { data: isAuthenticated } = useQuery('auth', checkAuth)
+    const { isAuthenticated } = useSelector((state: RootState) => state.auth)
 
     return (
         <Box sx={{
@@ -24,7 +24,7 @@ const MenuItems: FC = () => {
             alignItems: { lg: 'center', xs: 'flex-start' },
             flexDirection: { lg: 'row', xs: 'column' }
         }}>
-            {isAuthenticated && <Routes />}
+            { isAuthenticated && <Routes /> }
 
             <Box sx={{ mr: 1 }}>
                 <LanguageSelector />

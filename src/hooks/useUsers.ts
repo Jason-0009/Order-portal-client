@@ -12,9 +12,9 @@ const SOCKET_URL = `${process.env.NEXT_PUBLIC_WS_URL}/users`
 const useUsers = (searchTerm: string) => {
     const [currentPage, setCurrentPage] = useState(1)
 
-    const { data: fetchedUsers, isLoading, refetch } = useQuery(
+    const { data: fetchedUsers, isLoading, error, refetch } = useQuery(
         ['users', currentPage, searchTerm], () => fetchUsers(currentPage - 1, searchTerm),
-        { keepPreviousData: true, refetchOnWindowFocus: false }
+        { keepPreviousData: true, refetchOnWindowFocus: false, retry: 0 }
     )
 
     const [currentUsers, setCurrentUsers] = useState<PagedResponse<User> | null>(null)
@@ -38,6 +38,7 @@ const useUsers = (searchTerm: string) => {
     return {
         currentUsers,
         isLoading,
+        error,
         currentPage,
         handlePageChange
     }

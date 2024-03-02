@@ -13,11 +13,13 @@ const SOCKET_URL = `${process.env.NEXT_PUBLIC_WS_URL}/notifications`
 
 const useNotifications = (userId: string | undefined) => {
     const { data: fetchedNotifications, isLoading } = useQuery(['notifications', userId],
-        () => fetchNotifications(userId as string), { enabled: !!userId })
+        () => fetchNotifications(userId as string), {
+        enabled: !!userId, refetchOnWindowFocus: false
+    })
 
     const [notifications, setNotifications] = useState<AppNotification[] | null>(null)
 
-    const notificationIdsRef = useRef<Set<string>>(new Set())
+    const notificationIdsRef = useRef<Set<number>>(new Set())
 
     const { lastMessage } = useWebSocket(SOCKET_URL)
 
@@ -60,7 +62,7 @@ const useNotifications = (userId: string | undefined) => {
         handleFetchedNotifications(fetchedNotifications)
     }, [lastMessage, fetchedNotifications])
 
-    const handleNotificationRead = async (notificationId: string) => {
+    const handleNotificationRead = async (notificationId: number) => {
         await markNotificationAsRead(notificationId)
 
         setNotifications(currentNotifications =>

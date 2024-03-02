@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { useQuery } from 'react-query'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { useTranslation } from 'next-i18next'
 
@@ -9,9 +9,10 @@ import {
     ListItemText, MenuItem, Select, SelectChangeEvent
 } from '@mui/material'
 
+import { RootState } from '@/store'
+
 import { showUsersSnackbar } from '@/slices/snackbar/usersSnackbarSlice'
 
-import checkAuth from '@/api/checkAuth'
 import fetchUserProfile from '@/api/user/fetchUserProfile'
 import updateUserRole from '@/api/user/updateUserRole'
 
@@ -24,10 +25,10 @@ type UserListItemProps = {
 }
 
 const UserListItem: FC<UserListItemProps> = ({ user }) => {
+    const { isAuthenticated } = useSelector((state: RootState) => state.auth)
     const dispatch = useDispatch()
     const { t: translation } = useTranslation()
 
-    const { data: isAuthenticated } = useQuery('auth', checkAuth)
     const { data: userProfile } = useQuery('userProfile', fetchUserProfile,
         { enabled: !!isAuthenticated, refetchOnWindowFocus: false })
 

@@ -11,7 +11,7 @@ import withAuth from '@/hoc/withAuth'
 
 import useOrders from '@/hooks/order/useOrders'
 
-import NoOrdersFound from '@/components/common/NoResultFound'
+import NoOrdersFound from '@/components/common/errors/NoResultFound'
 import PaginationComponent from '@/components/common/PaginationComponent'
 
 import BackButton from '@/components/common/button/BackButton'

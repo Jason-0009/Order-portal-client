@@ -6,19 +6,15 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import Head from 'next/head'
 
+import { AxiosError } from 'axios'
+
 import {
-    Alert,
-    Divider,
-    IconButton,
-    InputAdornment,
-    List,
-    Snackbar,
-    TextField
+    Alert, Divider, IconButton,
+    InputAdornment, List, Snackbar, TextField
 } from '@mui/material'
 
 import { Close } from '@mui/icons-material'
 
-import withAdminAuth from '@/hoc/withAdminAuth'
 import withAuth from '@/hoc/withAuth'
 
 import { RootState } from '@/store'
@@ -27,7 +23,7 @@ import useUsers from '@/hooks/useUsers'
 
 import { hideUsersSnackbar } from '@/slices/snackbar/usersSnackbarSlice'
 
-import NoResultFound from '@/components/common/NoResultFound'
+import NoResultFound from '@/components/common/errors/NoResultFound'
 
 import BackButton from '@/components/common/button/BackButton'
 
@@ -36,6 +32,8 @@ import LoadingState from '@/components/common/layout/LoadingState'
 
 import PageHeader from '@/components/common/page/PageHeader'
 import PageTitle from '@/components/common/page/PageTitle'
+
+import PermissionDenied from '@/components/common/errors/PermissionDenied'
 
 import PaginationComponent from '@/components/common/PaginationComponent'
 
@@ -47,7 +45,16 @@ const AdminUsersPage: FC = () => {
     const [searchTerm, setSearchTerm] = useState('')
     const { t: translation } = useTranslation()
 
-    const { currentUsers, isLoading, currentPage, handlePageChange } = useUsers(searchTerm)
+    const { currentUsers, isLoading, error, currentPage, handlePageChange } = useUsers(searchTerm)
+
+    const axiosError = error as AxiosError | undefined
+
+    const UserList = () => {
+        if (!currentUsers?.content || currentUsers.content.length === 0)
+            return <NoResultFound text={translation('noUserFound')} />
+
+        return currentUsers.content.map(user => <UserListItem key={user.id} user={user} />)
+    }
 
     const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) =>
         setSearchTerm(event.target.value)
@@ -55,8 +62,10 @@ const AdminUsersPage: FC = () => {
     const clearSearch = () => setSearchTerm('')
 
     const handleCloseSnackbar = () => dispatch(hideUsersSnackbar())
-
+    
     if (isLoading) return <LoadingState />
+
+    if (axiosError?.response?.status === 403) return <PermissionDenied />
 
     return (
         <>
@@ -123,11 +132,7 @@ const AdminUsersPage: FC = () => {
                 <Divider sx={{ mb: 3 }} />
 
                 <List>
-                    {currentUsers?.content && (
-                        currentUsers.content.length > 0 ? currentUsers.content.map(user =>
-                            <UserListItem key={user.id} user={user} />
-                        ) : <NoResultFound text={translation('noUserFound')} />
-                    )}
+                    <UserList />
                 </List>
 
                 {Number(currentUsers?.totalPages) > 1 && (
@@ -166,4 +171,4 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => ({
     }
 })
 
-export default withAuth(withAdminAuth(AdminUsersPage))
+export default withAuth(AdminUsersPage)

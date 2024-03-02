@@ -3,6 +3,8 @@ import { useQuery } from 'react-query'
 
 import { useTranslation } from 'next-i18next'
 
+import { useDispatch, useSelector } from 'react-redux'
+
 import {
     Avatar,
     Box,
@@ -12,26 +14,34 @@ import {
     Typography
 } from '@mui/material'
 
-import checkAuth from '@/api/checkAuth'
+import { RootState } from '@/store'
+
+import { setAuthenticated } from '@/slices/authSlice'
 
 import fetchUserProfile from '@/api/user/fetchUserProfile'
 
 import ConfirmButton from '../common/button/ConfirmButton'
 
 const UserProfileMenu: FC = () => {
+    const { isAuthenticated } = useSelector((state: RootState) => state.auth)
+    
     const [profileMenuAnchorElement, setProfileMenuAnchorElement] = useState<HTMLElement | null>(null)
 
-    const { data: isAuthenticated } = useQuery('auth', checkAuth)
     const { data: userProfile } = useQuery('userProfile', fetchUserProfile,
         { enabled: !!isAuthenticated, refetchOnWindowFocus: false })
     const { t: translation } = useTranslation()
+    const dispatch = useDispatch()
 
     const handleProfileMenuOpen = (event: MouseEvent<HTMLElement>) =>
         setProfileMenuAnchorElement(event.currentTarget as HTMLElement)
 
     const handleProfileMenuClose = () => setProfileMenuAnchorElement(null)
 
-    const handleLogout = () => window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/logout`
+    const handleLogout = () => {
+        dispatch(setAuthenticated(false))
+
+        window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/logout`
+    }
 
     return (
         <>

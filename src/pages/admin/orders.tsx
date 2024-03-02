@@ -4,16 +4,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-import {
-    Alert,
-    Box,
-    Divider,
-    Snackbar
-} from '@mui/material'
+import { AxiosError } from 'axios'
+
+import { Alert, Box, Divider, Snackbar } from '@mui/material'
 
 import Head from 'next/head'
 
-import withAdminAuth from '@/hoc/withAdminAuth'
 import withAuth from '@/hoc/withAuth'
 
 import { RootState } from '@/store'
@@ -28,12 +24,14 @@ import BackButton from '@/components/common/button/BackButton'
 import CenteredLayout from '@/components/common/layout/CenteredLayout'
 import LoadingState from '@/components/common/layout/LoadingState'
 
-import NoOrdersFound from '@/components/common/NoResultFound'
+import NoOrdersFound from '@/components/common/errors/NoResultFound'
 
 import PageHeader from '@/components/common/page/PageHeader'
 import PageTitle from '@/components/common/page/PageTitle'
 
 import PaginationComponent from '@/components/common/PaginationComponent'
+
+import PermissionDenied from '@/components/common/errors/PermissionDenied'
 
 import AdminOrdersStatisticsDisplay from '@/components/order/admin/AdminOrdersStatisticsDisplay'
 import AdminOrdersTable from '@/components/order/admin/AdminOrdersTable'
@@ -45,21 +43,37 @@ const AdminOrdersPage: FC = () => {
     const { t: translation } = useTranslation()
 
     const {
-        currentOrders,
-        isLoading,
-        currentPage,
-        handlePageChange,
-        filteredDate,
-        setFilteredDateAndResetPage,
-        filteredStatus,
-        setFilteredStatusAndResetPage,
+        currentOrders, isLoading, error,
+        currentPage, handlePageChange,
+        filteredDate, setFilteredDateAndResetPage,
+        filteredStatus, setFilteredStatusAndResetPage,
     } = useOrders('/orders')
+
+    const axiosError = error as AxiosError | undefined
 
     const { statistics } = useOrderStatistics()
 
     const handleCloseSnackbar = () => dispatch(hideOrdersSnackbar())
 
+    const renderOrders = () => (
+        <>
+            {currentOrders && <AdminOrdersTable orders={currentOrders.content} />}
+
+            {(currentOrders?.totalPages ?? 0) > 1 && (
+                <PaginationComponent
+                    count={currentOrders?.totalPages ?? 0}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                />
+            )}
+        </>
+    )
+
+    const renderNoOrdersFound = () => <NoOrdersFound text={translation('noOrderFound')} />
+
     if (isLoading) return <LoadingState />
+
+    if (axiosError?.response?.status === 403) return <PermissionDenied />
 
     return (
         <>
@@ -103,19 +117,7 @@ const AdminOrdersPage: FC = () => {
                 </Box>
 
                 {currentOrders?.content && (
-                    currentOrders.content.length > 0 ? (
-                        <>
-                            <AdminOrdersTable orders={currentOrders.content} />
-
-                            {currentOrders.totalPages > 1 && (
-                                <PaginationComponent
-                                    count={currentOrders.totalPages}
-                                    page={currentPage}
-                                    onChange={handlePageChange}
-                                />
-                            )}
-                        </>
-                    ) : <NoOrdersFound text={translation('noOrderFound')} />
+                    currentOrders.content.length > 0 ? renderOrders() : renderNoOrdersFound()
                 )}
 
                 <Snackbar
@@ -142,4 +144,4 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => ({
     }
 })
 
-export default withAuth(withAdminAuth(AdminOrdersPage))
+export default withAuth(AdminOrdersPage)

@@ -1,6 +1,8 @@
 import { FC, MouseEvent, useState } from 'react'
 import { useQuery } from 'react-query'
 
+import { useSelector } from 'react-redux'
+
 import {
     Badge,
     IconButton,
@@ -9,18 +11,20 @@ import {
 
 import { Notifications } from '@mui/icons-material'
 
+import { RootState } from '@/store'
+
 import useNotifications from '@/hooks/useNotifications'
 
-import checkAuth from '@/api/checkAuth'
 import fetchUserProfile from '@/api/user/fetchUserProfile'
 
 import NotificationPopoverContent from './NotificationPopoverContent'
 
 const NotificationMenu: FC = () => {
+    const { isAuthenticated } = useSelector((state: RootState) => state.auth)
+    
     const [notificationMenuAnchorElement,
         setNotificationMenuAnchorElement] = useState<HTMLElement | null>(null)
 
-    const { data: isAuthenticated } = useQuery('auth', checkAuth)
     const { data: userProfile } = useQuery('userProfile', fetchUserProfile,
         { enabled: !!isAuthenticated, refetchOnWindowFocus: false })
 

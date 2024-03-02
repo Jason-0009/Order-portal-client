@@ -1,14 +1,12 @@
 import axios, { AxiosRequestConfig } from 'axios'
 
-const checkAuth = async (): Promise<boolean> => {
+const checkAuth = async (): Promise<void> => {
     const config: AxiosRequestConfig = {
         method: 'GET',
-        url: '/auth/is-authenticated',
+        url: '/auth/check',
     }
 
-    const { data: isAuthenticated } = await axios<boolean>(config)
-
-    return isAuthenticated
+    await axios<boolean>(config)
 }
 
 export default checkAuth

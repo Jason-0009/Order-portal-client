@@ -1,6 +1,8 @@
 import { FC, useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 
+import { useSelector } from 'react-redux'
+
 import { useTranslation } from 'next-i18next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -14,7 +16,7 @@ import {
     useMediaQuery
 } from '@mui/material'
 
-import checkAuth from '@/api/checkAuth'
+import { RootState } from '@/store'
 
 import fetchUserProfile from '@/api/user/fetchUserProfile'
 
@@ -28,7 +30,7 @@ const LanguageSelector: FC = () => {
     const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'))
     const isTablet = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
 
-    const { data: isAuthenticated } = useQuery('auth', checkAuth)
+    const { isAuthenticated } = useSelector((state: RootState) => state.auth)
     const { data: userProfile } = useQuery('userProfile', fetchUserProfile,
         { enabled: !!isAuthenticated, refetchOnWindowFocus: false })
 

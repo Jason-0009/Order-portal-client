@@ -3,7 +3,6 @@ import { useQuery } from 'react-query'
 
 import { useTranslation } from 'next-i18next'
 import NextLink from 'next/link'
-import { useRouter } from 'next/router'
 
 import { LocalShipping, ManageAccounts, ViewList } from '@mui/icons-material'
 import {
@@ -14,30 +13,23 @@ import {
     Typography
 } from '@mui/material'
 
-import checkAuth from '@/api/checkAuth'
-
-import fetchUserProfile from '@/api/user/fetchUserProfile'
-
 import Route from '@/types/Route.type'
-import UserRole from '@/types/user/UserRole.enum'
+import checkAdmin from '@/api/user/checkAdmin'
 
 const Routes: FC = () => {
-    const router = useRouter()
-
-    const { data: isAuthenticated } = useQuery('auth', checkAuth)
-    const { data: userProfile } = useQuery('userProfile', fetchUserProfile,
-        { enabled: !!isAuthenticated, refetchOnWindowFocus: false })
-
+    const { isSuccess, data: isAdmin } = useQuery('isAdmin', checkAdmin, {
+        refetchOnWindowFocus: false, retry: 0
+    })
+    
     const { t: translation } = useTranslation()
 
-    const isAdmin = userProfile?.role === UserRole.ADMIN
     const iconStyle: SxProps = {
         fontSize: { xs: '0.65em', sm: '0.75em', md: '0.85em', lg: '0.9em' },
         mr: 0.2
     }
 
     const routes: Route[] = [
-        ...(isAdmin ? [
+        ...(isSuccess && isAdmin ? [
             {
                 path: "/admin/orders",
                 icon: <ViewList sx={iconStyle} />,

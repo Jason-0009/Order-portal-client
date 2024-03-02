@@ -13,7 +13,7 @@ type NotificationPopoverContentProps = {
     notifications: AppNotification[] | null,
     isLoading: boolean,
     handleClearAllNotifications: () => void,
-    handleNotificationRead: (notificationId: string) => Promise<void>
+    handleNotificationRead: (notificationId: number) => Promise<void>
 }
 
 const NotificationPopoverContent: FC<NotificationPopoverContentProps> = ({

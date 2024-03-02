@@ -5,6 +5,8 @@ import { AxiosError } from 'axios'
 
 import { useTranslation } from 'next-i18next'
 
+import { useDispatch } from 'react-redux'
+
 import Head from 'next/head'
 
 import { Google, SyncProblem } from '@mui/icons-material'
@@ -15,13 +17,19 @@ import checkAuth from '@/api/checkAuth'
 import CenteredBox from '@/components/common/layout/CenteredBox'
 import LoadingState from '@/components/common/layout/LoadingState'
 
+import { setAuthenticated } from '@/slices/authSlice'
+
 import getDisplayName from '@/utils/getDisplayName'
 
 const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
     const WithAuth = (props: P) => {
         const { t: translation } = useTranslation()
+        const dispatch = useDispatch()
 
-        const { data: isAuthenticated, isLoading, error } = useQuery('auth', checkAuth)
+        const { isLoading, error } = useQuery('auth', checkAuth, {
+            refetchOnWindowFocus: false, retry: 0
+        })
+        
         const axiosError = error as AxiosError | undefined
 
         const handleAuth = () => window.location.href =
@@ -51,7 +59,7 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
             </>
         )
 
-        if (isAuthenticated === false) return (
+        if (axiosError?.response?.status === 401) return (
             <>
                 <Head>
                     <title>
@@ -78,6 +86,8 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
                 </CenteredBox>
             </>
         )
+
+        dispatch(setAuthenticated(true))
 
         return <WrappedComponent {...props} />
     }

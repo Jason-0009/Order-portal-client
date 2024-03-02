@@ -11,7 +11,7 @@ import AppNotification from '@/types/notification/AppNotification.type'
 
 type NotificationListItemProps = {
     notification: AppNotification,
-    handleNotificationRead: (notificationId: string) => Promise<void>
+    handleNotificationRead: (notificationId: number) => Promise<void>
 }
 
 const NotificationListItemButton: FC<NotificationListItemProps> = ({ notification, handleNotificationRead }) => {

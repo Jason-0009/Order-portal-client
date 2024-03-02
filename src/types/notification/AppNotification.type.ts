@@ -1,5 +1,5 @@
 type AppNotification = {
-    id: string,
+    id: number,
     userId: string,
     messageCode: string,
     date: string,
