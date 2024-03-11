@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 
-const checkAdmin = async (): Promise<boolean> => {
+const checkUserAdmin = async (): Promise<boolean> => {
     const config: AxiosRequestConfig = {
         method: 'GET',
         url: '/users/is-admin',
@@ -20,4 +20,4 @@ const checkAdmin = async (): Promise<boolean> => {
     }
 }
 
-export default checkAdmin
+export default checkUserAdmin

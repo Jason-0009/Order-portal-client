@@ -14,7 +14,7 @@ import {
 } from '@mui/material'
 
 import Route from '@/types/Route.type'
-import checkAdmin from '@/api/user/checkAdmin'
+import checkAdmin from '@/api/user/checkUserAdmin'
 
 const Routes: FC = () => {
     const { isSuccess, data: isAdmin } = useQuery('isAdmin', checkAdmin, {
