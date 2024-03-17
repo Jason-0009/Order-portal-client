@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { ChangeEvent, FC } from 'react'
 
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -24,6 +24,8 @@ import PageTitle from '@/components/common/page/PageTitle'
 
 import OrdersFilter from '@/components/order/OrdersFilter'
 import OrdersTable from '@/components/order/OrdersTable'
+import PagedResponse from '@/types/PagedResponse.type'
+import Order from '@/types/order/Order.type'
 
 const OrdersPage: FC = () => {
     const { t: translation } = useTranslation()
@@ -40,6 +42,26 @@ const OrdersPage: FC = () => {
     } = useOrders('/orders/user')
 
     if (isLoading) return <LoadingState />
+
+    const renderOrders = (currentOrders: PagedResponse<Order>,
+        currentPage: number, handlePageChange: (_: ChangeEvent<unknown>, page: number) => void) => {
+        if (currentOrders.content.length <= 0)
+            return <NoOrdersFound text={translation('noOrderFound')} />
+
+        return (
+            <>
+                <OrdersTable orders={currentOrders.content} />
+                {Number(currentOrders.totalPages) > 1 && (
+                    <PaginationComponent
+                        count={currentOrders.totalPages}
+                        page={currentPage}
+                        onChange={handlePageChange}
+                    />
+                )}
+            </>
+        )
+
+    }
 
     return (
         <>
@@ -65,21 +87,7 @@ const OrdersPage: FC = () => {
 
                 <Divider sx={{ mb: 5 }} />
 
-                {currentOrders?.content && (
-                    currentOrders.content.length > 0 ? (
-                        <>
-                            <OrdersTable orders={currentOrders.content} />
-
-                            {Number(currentOrders?.totalPages) > 1 && (
-                                <PaginationComponent
-                                    count={currentOrders?.totalPages}
-                                    page={currentPage}
-                                    onChange={handlePageChange}
-                                />
-                            )}
-                        </>
-                    ) : <NoOrdersFound text={translation('noOrderFound')} />
-                )}
+                {currentOrders?.content && renderOrders(currentOrders, currentPage, handlePageChange)}
             </CenteredLayout>
         </>
     )
