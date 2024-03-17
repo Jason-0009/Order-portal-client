@@ -51,6 +51,7 @@ const OrdersPage: FC = () => {
         return (
             <>
                 <OrdersTable orders={currentOrders.content} />
+                
                 {Number(currentOrders.totalPages) > 1 && (
                     <PaginationComponent
                         count={currentOrders.totalPages}
