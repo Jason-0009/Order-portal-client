@@ -22,7 +22,6 @@ type ProductsTableProps = {
 }
 
 const ProductsTable: FC<ProductsTableProps> = ({ products, orderItems }) => {
-    console.log({ orderItems})
     const { locale } = useRouter()
     const { t: translation } = useTranslation()
 
@@ -77,7 +76,7 @@ const ProductsTable: FC<ProductsTableProps> = ({ products, orderItems }) => {
                         const tableCellStyle: SxProps = {
                             borderBottom: 'none',
                             pt: isFirstItem ? 4 : 1,
-                            pb: isLastItem ? 4 : 'initial',
+                            pb: isLastItem ? 4 : 2,
                             color: 'text.secondary',
                             fontSize: { xs: '11px', sm: '12px', md: '13px', lg: '14px' }
                         }

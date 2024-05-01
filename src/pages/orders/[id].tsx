@@ -32,23 +32,20 @@ import { formatDateLocale } from '@/utils/dateUtils'
 
 const OrderPage: FC = () => {
     const { query, locale } = useRouter()
+    const { t: translation } = useTranslation()
     let { id } = query
 
     if (Array.isArray(id))
         id = id[0]
 
     const idNumber = Number(id)
-
     const { data: order, isLoading } = useQuery(['order', id],
-        () => fetchOrderById(idNumber), { enabled: !!id, refetchOnWindowFocus: false })
+        () => fetchOrderById(idNumber), { refetchOnWindowFocus: false })
 
     const itemIds = order?.items.map(item => item.id)
+    const { products, currentPage, handlePageChange } = useProducts(5, itemIds)
 
-    const { currentProducts, currentPage, handlePageChange } = useProducts(false, 5, itemIds)
-
-    const { t: translation } = useTranslation()
-
-    if (isNaN(idNumber) || isLoading) 
+    if (isNaN(idNumber) || isLoading)
         return <LoadingState />
 
     const infoTextStyle: SxProps = {
@@ -115,19 +112,16 @@ const OrderPage: FC = () => {
 
                 <Divider sx={{ mb: 5 }} />
 
-                {currentProducts && order &&
-                    <ProductsTable
-                        products={currentProducts}
-                        orderItems={order?.items}
-                    />}
+                {products && order && <ProductsTable
+                    products={products}
+                    orderItems={order?.items}
+                />}
 
-                {Number(currentProducts?.totalPages) > 1 && (
-                    <PaginationComponent
-                        count={currentProducts?.totalPages}
-                        page={currentPage}
-                        onChange={handlePageChange}
-                    />
-                )}
+                {Number(products?.totalPages) > 1 && <PaginationComponent
+                    count={products?.totalPages}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                />}
 
             </CenteredLayout>
         </>

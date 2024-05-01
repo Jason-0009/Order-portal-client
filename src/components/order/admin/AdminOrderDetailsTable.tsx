@@ -32,10 +32,10 @@ const AdminOrderDetailsTable: FC<AdminOrderDetailsTableProps> = ({ order }) => {
     const { t: translation } = useTranslation()
 
     const {
-        currentProducts,
+        products,
         currentPage,
         handlePageChange,
-    } = useProducts(false, 3, itemIds)
+    } = useProducts(3, itemIds)
 
     const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
     const isTablet = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
@@ -78,7 +78,7 @@ const AdminOrderDetailsTable: FC<AdminOrderDetailsTableProps> = ({ order }) => {
                 </TableHead>
 
                 <TableBody>
-                    {currentProducts?.content.map(product => {
+                    {products?.content.map((product, index) => {
                         const { id, imageUrl, name, price, ingredients } = product
                         const tableCellStyle: SxProps = {
                             border: 'none',
@@ -96,7 +96,7 @@ const AdminOrderDetailsTable: FC<AdminOrderDetailsTableProps> = ({ order }) => {
                         if (!quantity) return null
 
                         return (
-                            <TableRow key={id}>
+                            <TableRow key={`${id}-${index}`}>
                                 <TableCell sx={tableCellStyle}>
                                     {id}
                                 </TableCell>
@@ -131,9 +131,9 @@ const AdminOrderDetailsTable: FC<AdminOrderDetailsTableProps> = ({ order }) => {
                 </TableBody>
             </Table>
 
-            {Number(currentProducts?.totalPages) > 1 && (
+            {Number(products?.totalPages) > 1 && (
                 <PaginationComponent
-                    count={currentProducts?.totalPages}
+                    count={products?.totalPages}
                     page={currentPage}
                     onChange={handlePageChange}
                     color='primary'

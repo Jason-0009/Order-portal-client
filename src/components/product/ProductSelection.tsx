@@ -16,7 +16,7 @@ import PageTitle from '../common/page/PageTitle'
 import ProductCard from './ProductCard'
 
 const ProductSelection: FC = () => {
-    const { currentProducts, isLoading, currentPage, handlePageChange } = useProducts(true, 9)
+    const { products, isLoading, currentPage, handlePageChange } = useProducts(9)
 
     const { t: translation } = useTranslation()
 
@@ -29,15 +29,15 @@ const ProductSelection: FC = () => {
             }} />
 
             <Grid container spacing={4} alignItems="stretch">
-                {currentProducts?.content.map(product =>
-                    <Grid item xs={12} sm={6} md={4} key={product.id}>
+                {products?.content.map((product, index) =>
+                    <Grid item xs={12} sm={6} md={4} key={`${product.id}-${index}`}>
                         <ProductCard product={product} />
                     </Grid>
                 )}
             </Grid>
 
             <PaginationComponent
-                count={currentProducts?.totalPages}
+                count={products?.totalPages}
                 page={currentPage}
                 onChange={handlePageChange}
             />

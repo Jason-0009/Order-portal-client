@@ -6,7 +6,6 @@ import fetchOrders from '@/api/order/fetchOrders'
 
 import PagedResponse from '@/types/PagedResponse.type'
 import Order from '@/types/order/Order.type'
-import OrderData from '@/types/order/OrderData.type'
 import OrderStatus from '@/types/order/OrderStatus.enum'
 
 const SOCKET_URL = `${process.env.NEXT_PUBLIC_WS_URL}/orders`
