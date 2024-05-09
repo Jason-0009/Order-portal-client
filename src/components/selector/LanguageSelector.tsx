@@ -7,14 +7,7 @@ import { useTranslation } from 'next-i18next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 
-import {
-    Box, MenuItem,
-    Select,
-    SelectChangeEvent,
-    Theme,
-    Typography,
-    useMediaQuery
-} from '@mui/material'
+import { Box, MenuItem, Select, SelectChangeEvent, Theme, Typography, useMediaQuery } from '@mui/material'
 
 import { RootState } from '@/store'
 
