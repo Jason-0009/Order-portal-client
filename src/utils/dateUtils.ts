@@ -1,4 +1,4 @@
-import { format, formatDistanceToNow } from 'date-fns'
+import { Locale, format, formatDistanceToNow } from 'date-fns'
 import { enUS, it } from 'date-fns/locale'
 
 const locales: { [key: string]: Locale } = { en: enUS, it: it }

@@ -8,7 +8,7 @@ import { Clear, DateRange, ExpandMore, FilterList } from '@mui/icons-material'
 import { Box, IconButton, List, ListItemButton, Popover, Typography } from '@mui/material'
 
 import { DateCalendar, LocalizationProvider } from '@mui/x-date-pickers'
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
 
 import OrderStatus from '@/types/order/OrderStatus.enum'
 
@@ -38,7 +38,7 @@ const OrdersFilter: FC<OrderFilterProps> = ({
         it: it
     }
 
-    const handleCalendarOpen = (event: MouseEvent<HTMLElement>) => 
+    const handleCalendarOpen = (event: MouseEvent<HTMLElement>) =>
         setCalendarAnchorElement(event.currentTarget)
     const handleCalendarClose = () => setCalendarAnchorElement(null)
 
@@ -71,9 +71,7 @@ const OrdersFilter: FC<OrderFilterProps> = ({
             </Typography>
 
             <IconButton onClick={handleCalendarOpen} sx={{ p: 0.2 }}>
-                <ExpandMore sx={{
-                    fontSize: '0.7em'
-                }} />
+                <ExpandMore sx={{ fontSize: '0.7em' }} />
             </IconButton>
 
             <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={locales[i18n.language]}>
