@@ -17,12 +17,20 @@ const useProducts = (size: number, itemIds?: number[]) => {
 
     useEffect(() => {
         if (!currentProducts) return
-
-        setProducts(previousProducts => ({
-            ...currentProducts,
-            content: [...(previousProducts?.content || []), ...currentProducts.content]
-        }))
+    
+        setProducts(previousProducts => {
+            const combinedContent = [...(previousProducts?.content || []), ...currentProducts.content]
+            const uniqueContent = Array.from(new Set(combinedContent.map(product => product.id)))
+                .map(id => combinedContent.find(product => product.id === id))
+                .filter((product): product is Product => product !== undefined)
+    
+            return {
+                ...currentProducts,
+                content: uniqueContent
+            }
+        })
     }, [currentProducts])
+    
 
     const handlePageChange = (_: ChangeEvent<unknown>, page: number) => setCurrentPage(page)
 
