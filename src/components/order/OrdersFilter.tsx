@@ -15,7 +15,6 @@ import OrderStatus from '@/types/order/OrderStatus.enum'
 import ORDER_STATUS_STYLES from '@/constants/OrderStatusStyles'
 import ORDER_STATUS_TEXT_CODES from '@/constants/OrderStatusTextCodes'
 
-
 type OrderFilterProps = {
     filteredDate: Date | null,
     setFilteredDateAndResetPage: (date: Date | null) => void,
@@ -32,8 +31,6 @@ const OrdersFilter: FC<OrderFilterProps> = ({
     const [calendarAnchorElement, setCalendarAnchorElement] = useState<HTMLElement | null>(null)
     const [statusAnchorElement, setStatusAnchorElement] = useState<HTMLElement | null>(null)
 
-    const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
-
     const { i18n, t: translation } = useTranslation()
 
     const locales: { [key: string]: Locale } = {
@@ -41,7 +38,7 @@ const OrdersFilter: FC<OrderFilterProps> = ({
         it: it
     }
 
-    const handleCalendarOpen = (event: MouseEvent<HTMLElement>) =>
+    const handleCalendarOpen = (event: MouseEvent<HTMLElement>) => 
         setCalendarAnchorElement(event.currentTarget)
     const handleCalendarClose = () => setCalendarAnchorElement(null)
 
