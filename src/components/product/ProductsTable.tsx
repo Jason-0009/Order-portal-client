@@ -76,7 +76,7 @@ const ProductsTable: FC<ProductsTableProps> = ({ products, orderItems }) => {
                         const tableCellStyle: SxProps = {
                             borderBottom: 'none',
                             pt: isFirstItem ? 4 : 1,
-                            pb: isLastItem ? 4 : 1,
+                            pb: isLastItem ? 2 : 1,
                             color: 'text.secondary',
                             fontSize: { xs: '11px', sm: '12px', md: '13px', lg: '14px' }
                         }
