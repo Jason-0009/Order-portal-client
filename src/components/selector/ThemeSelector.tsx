@@ -14,15 +14,7 @@ export default function ThemeSelector() {
 
     const iconStyles: SxProps = { fontSize: { xs: '0.75em', sm: '0.8em', md: '0.85em', lg: '0.9em' } }
 
-    const handleThemeChange = () => {
-        if (theme === 'light') {
-            dispatch(setTheme('dark'))
-
-            return
-        }
-
-        dispatch(setTheme('light'))
-    }
+    const handleThemeChange = () => theme === 'light' ? dispatch(setTheme('dark')) : dispatch(setTheme('light'))
 
     return (
         <IconButton
@@ -35,8 +27,7 @@ export default function ThemeSelector() {
             onClick={handleThemeChange}
             color='inherit'
         >
-            {theme === 'light' ? <Brightness7 sx={iconStyles} /> :
-                <Brightness4 sx={iconStyles} />}
+            {theme === 'light' ? <Brightness7 sx={iconStyles} /> : <Brightness4 sx={iconStyles} />}
         </IconButton>
     )
 }

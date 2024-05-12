@@ -5,14 +5,7 @@ import { useTranslation } from 'next-i18next'
 
 import { useDispatch, useSelector } from 'react-redux'
 
-import {
-    Avatar,
-    Box,
-    Divider,
-    IconButton,
-    Popover,
-    Typography
-} from '@mui/material'
+import { Avatar, Box, Divider, IconButton, Popover, Typography } from '@mui/material'
 
 import { RootState } from '@/store'
 
@@ -24,7 +17,7 @@ import ConfirmButton from '../common/button/ConfirmButton'
 
 const UserProfileMenu: FC = () => {
     const { isAuthenticated } = useSelector((state: RootState) => state.auth)
-    
+
     const [profileMenuAnchorElement, setProfileMenuAnchorElement] = useState<HTMLElement | null>(null)
 
     const { data: userProfile } = useQuery('userProfile', fetchUserProfile,
