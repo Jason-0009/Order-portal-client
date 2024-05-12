@@ -2,7 +2,7 @@ import { FC, MouseEvent, useState } from 'react'
 
 import { useTranslation } from 'next-i18next'
 
-import { enUS, it } from 'date-fns/locale'
+import { Locale, enUS, it } from 'date-fns/locale'
 
 import { Clear, DateRange, ExpandMore, FilterList } from '@mui/icons-material'
 import { Box, IconButton, List, ListItemButton, Popover, Typography } from '@mui/material'
