@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next'
 import { enUS, it } from 'date-fns/locale'
 
 import { Clear, DateRange, ExpandMore, FilterList } from '@mui/icons-material'
-import { Box, IconButton, List, ListItemButton, Popover, Theme, Typography, useMediaQuery } from '@mui/material'
+import { Box, IconButton, List, ListItemButton, Popover, Typography } from '@mui/material'
 
 import { DateCalendar, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
