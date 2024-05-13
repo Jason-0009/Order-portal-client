@@ -1,13 +1,7 @@
 import { FC, useState } from 'react'
 
 import { Menu } from '@mui/icons-material'
-import {
-    Box,
-    Drawer,
-    IconButton,
-    Theme,
-    useMediaQuery, useTheme
-} from '@mui/material'
+import { Box, Drawer, IconButton, Theme, useMediaQuery, useTheme} from '@mui/material'
 
 import MenuItems from './MenuItems'
 

@@ -4,11 +4,8 @@ import { useTranslation } from 'next-i18next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 
-import {
-    SxProps, Table, TableBody,
-    TableCell, TableContainer,
-    TableHead, TableRow, Theme, useMediaQuery
-} from '@mui/material'
+import { SxProps, Table, TableBody, TableCell, TableContainer,
+    TableHead, TableRow, Theme, useMediaQuery } from '@mui/material'
 
 import formatIngredients from '@/utils/formatIngredients'
 

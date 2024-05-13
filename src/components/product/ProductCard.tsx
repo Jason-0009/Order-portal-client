@@ -3,12 +3,7 @@ import { useDispatch } from 'react-redux'
 
 import { useRouter } from 'next/router'
 
-import {
-    Card,
-    CardActionArea,
-    CardContent, CardMedia,
-    Typography
-} from '@mui/material'
+import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material'
 
 import { addToCart } from '@/slices/cartSlice'
 import { setScrollToCart } from '@/slices/scrollSlice'

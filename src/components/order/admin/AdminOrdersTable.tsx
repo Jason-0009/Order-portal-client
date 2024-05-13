@@ -2,11 +2,7 @@ import { FC, useState } from 'react'
 
 import { useTranslation } from 'next-i18next'
 
-import {
-    SxProps, Table,
-    TableCell, TableContainer,
-    TableHead, TableRow
-} from '@mui/material'
+import { SxProps, Table, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 
 import AdminOrdersTableBody from './AdminOrdersTableBody'
 

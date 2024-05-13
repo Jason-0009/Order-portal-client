@@ -4,10 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { useTranslation } from 'next-i18next'
 
-import {
-    Avatar, ListItem, ListItemAvatar,
-    ListItemText, MenuItem, Select, SelectChangeEvent
-} from '@mui/material'
+import { Avatar, ListItem, ListItemAvatar,
+    ListItemText, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 
 import { RootState } from '@/store'
 

@@ -3,11 +3,7 @@ import { useQuery } from 'react-query'
 
 import { useSelector } from 'react-redux'
 
-import {
-    Badge,
-    IconButton,
-    Popover
-} from '@mui/material'
+import { Badge, IconButton, Popover } from '@mui/material'
 
 import { Notifications } from '@mui/icons-material'
 
