@@ -5,13 +5,7 @@ import { useTranslation } from 'next-i18next'
 import NextLink from 'next/link'
 
 import { LocalShipping, ManageAccounts, ViewList } from '@mui/icons-material'
-import {
-    Box,
-    IconButton,
-    Link,
-    SxProps,
-    Typography
-} from '@mui/material'
+import { Box, IconButton, Link, SxProps, Typography } from '@mui/material'
 
 import Route from '@/types/Route.type'
 import checkAdmin from '@/api/user/checkUserAdmin'

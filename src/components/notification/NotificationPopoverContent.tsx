@@ -2,7 +2,9 @@ import { FC } from 'react'
 import { useTranslation } from 'next-i18next'
 import { NotificationsActive } from '@mui/icons-material'
 import { Box, Button, CircularProgress, List, Typography } from '@mui/material'
+
 import NotificationListItemButton from './NotificationListItemButton'
+
 import AppNotification from '@/types/notification/AppNotification.type'
 
 type NotificationPopoverContentProps = {

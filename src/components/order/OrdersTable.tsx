@@ -4,11 +4,8 @@ import { useTranslation } from 'next-i18next'
 import NextLink from 'next/link'
 import { useRouter } from 'next/router'
 
-import {
-    Link, SxProps, Table, TableBody,
-    TableCell, TableContainer,
-    TableHead, TableRow
-} from '@mui/material'
+import { Link, SxProps, Table, TableBody, TableCell, 
+    TableContainer, TableHead, TableRow } from '@mui/material'
 
 import OrderStatusIndicator from './OrderStatusIndicator'
 

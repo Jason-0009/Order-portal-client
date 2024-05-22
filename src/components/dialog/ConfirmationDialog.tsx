@@ -5,14 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 
-import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent, DialogContentText,
-    DialogTitle,
-    Typography
-} from '@mui/material'
+import { Button, Dialog, DialogActions, DialogContent, 
+    DialogContentText, DialogTitle, Typography } from '@mui/material'
 
 import { RootState } from '@/store'
 
@@ -43,7 +37,6 @@ const ConfirmationDialog: FC = () => {
     const cart = useSelector((state: RootState) => state.cart)
 
     const dispatch = useDispatch()
-
     const router = useRouter()
 
     const { t: translation } = useTranslation()
@@ -55,17 +48,14 @@ const ConfirmationDialog: FC = () => {
 
     const handleConfirm = async () => {
         setIsSubmitting(true)
-
         handleClose()
 
         const order = createOrder(cart, totalPrice)
-
         await postOrder(order)
 
         dispatch(clearCart())
 
         router.push('/orders')
-
         setIsSubmitting(false)
     }
 
