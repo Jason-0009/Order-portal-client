@@ -56,7 +56,6 @@ const OrderPage: FC = () => {
     }
     
     const valueTextStyle: SxProps = { ...infoTextStyle, color: 'text.secondary' }
-
     const formattedDate = order?.date && locale && formatDateLocale(order.date, locale)
 
     return (
